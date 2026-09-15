@@ -1,6 +1,6 @@
 ﻿# 5. Results
 
-This chapter answers the research question with evidence and explains the mechanisms. Unless marked **[Results Incoming]**, system-comparison counts are from the completed temperature-0 matched set. The study default temperature is **0.7**; those centred tables are still arriving. Every table keeps the locked system order.
+This chapter answers the research question with evidence and explains the mechanisms. Unless marked **[Results Incoming]**, system-comparison counts are from the completed temperature-0 matched set (live v2 R1). The study default temperature is **0.7**; those centred tables are still arriving. Every table keeps the locked system order.
 
 ---
 
@@ -8,19 +8,20 @@ This chapter answers the research question with evidence and explains the mechan
 
 | # | Finding |
 |---:|---|
-| 1 | Goal-first improves **official** intent writing (two-judge **113 / 120**) |
-| 2 | Goal-first routing is weaker than raw Qwen (secondary) |
-| 3 | Dissociation: forced intent summary versus refuse-first routing on miscalibrated fields |
-| 4 | Wording and CPC failures are **[FIXABLE]** on frozen predictions (not the GPU sweep) |
-| 5 | Temperature-0.7 scoreboard | **[Results Incoming]** |
+| 1 | Forced `intent_summary` reaches official two-judge intent **113 / 120** |
+| 2 | The same stack’s routing is weaker than raw Qwen (**54 / 120** vs **88 / 120**) |
+| 3 | Dissociation: the router never consults whether the intent box matched gold; it trusts capability / unauthorized bits |
+| 4 | On 62 automatic-overlap passes, routing still fails (46 refuse / 13 ask / 3 execute) |
+| 5 | Wording **0 / 23** and CPC F1 **0.045** are **[FIXABLE]** by a separate re-emit (not mega 54259) |
+| 6 | Temperature-0.7 scoreboard and H3/H4 | **[Results Incoming]** |
 
 ![Intent correctness by system.](figures/intent-primary-wide.png)
 
-*Figure 1. Intent writing exams. Automatic overlap on raw/fine-tune used written reasoning; goal-first uses `intent_summary`. Official intent for systems with an intent box is the two-judge protocol (Section 5.3).*
+*Figure 1. Intent writing exams. Automatic overlap screens different fields across systems (Section 5.3). Official intent for systems with an intent box is the two-judge protocol.*
 
 ![Intent versus routing for the main comparators.](figures/intent-vs-route-wide.png)
 
-*Figure 2. Official/primary intent beside secondary routing. The highlighted region marks 62 rows with correct intent and incorrect routing.*
+*Figure 2. Official/primary intent beside secondary routing. The highlighted region marks 62 rows with correct automatic-overlap intent and incorrect routing.*
 
 ![Routing correctness for all six live systems.](figures/routing-correct-wide.png)
 
@@ -34,7 +35,7 @@ This chapter answers the research question with evidence and explains the mechan
 flowchart LR
   F["Forced intent_summary\nshort job prose"] --> J["Automatic overlap screen\n+ official two-judge"]
   J --> HI["Official intent\n113 / 120"]
-  F --> B["Capability / risk / unsafe bits"]
+  F --> B["Capability / risk / unauthorized bits"]
   B --> R["_route_goal_first_v2\nrefuse-first"]
   R --> LO["Lower routing\n54 / 120"]
 ```
@@ -42,12 +43,12 @@ flowchart LR
 | Step | What happens | Effect on score |
 |---|---|---|
 | 1 | Prompt forces a dedicated job paragraph first | Writing is scored on a clean field |
-| 2 | Scene nouns land in that paragraph | Automatic overlap ≥ 0.18 often passes |
+| 2 | Scene nouns land in that paragraph | Automatic overlap ≥ 0.18 often passes (**112 / 120**) |
 | 3 | Two-judge check on the same box | **113 / 120** — official primary intent |
 | 4 | Router never asks “did the box match gold?” | Route uses capability / unauthorized / risk bits |
-| 5 | Those bits are often wrong (capability accuracy ≈ 0.425) | Intent stays high; routing collapses |
+| 5 | Those bits are often wrong (capability accuracy **0.425**) | Intent stays high; routing collapses |
 
-**Which intent number to trust?** Use **two-judge 113 / 120** as the official primary result for goal-first. Automatic overlap **112 / 120** is a corroborating screen on the same box. Raw Qwen’s automatic overlap **68 / 120** was scored on long reasoning before a dedicated intent box existed; once raw also has a short intent box, two-judge intent is **113 / 120**. The fixed field (intent box) is what makes the official protocol comparable.
+**Which intent number to trust?** Use **two-judge 113 / 120** as the official primary result for goal-first. Automatic overlap **112 / 120** is a corroborating screen on the same `intent_summary` box. Raw Qwen’s automatic overlap **68 / 120** was scored on long free-form reasoning (no dedicated job box on that earlier emit). Once raw also emits a short intent box, two-judge intent reaches **113 / 120**. The fixed field is what makes the official protocol comparable; the automatic-overlap columns are not interchangeable.
 
 ---
 
@@ -57,28 +58,34 @@ Completed temperature-0 matched set (interim head-to-head). Temperature **0.7** 
 
 | System | Automatic overlap *(screen)* | **Two-judge intent *(official)*** | Routing *(secondary)* |
 |---|---:|---:|---:|
-| Raw Qwen | 68 / 120 (T39 *reasoning*) | **113 / 120** (*new intent box*) | **88 / 120** |
-| Fine-tune | 60 / 120 (T39 reasoning) | **107 / 120** (new intent box) | 87 / 120 |
-| New goal-first | 112 / 120 (`intent_summary`) | **113 / 120** (same box) | **54 / 120** |
-| New degree | (same 112 box) | (same writing) | 59 / 120 |
-| New timid | (same 112 box) | (same writing) | 26 / 120 |
-| New context-blind | — | **108 / 120** (blind box) | 21 / 120 |
+| Raw Qwen | 68 / 120 (free-form reasoning field) | **113 / 120** (dedicated intent box) | **88 / 120** |
+| Fine-tune | 60 / 120 (free-form reasoning field) | **107 / 120** (dedicated intent box) | 87 / 120 |
+| New goal-first | 112 / 120 (`intent_summary`) | **113 / 120** (`intent_summary`) | **54 / 120** |
+| New degree | 112 / 120 (`intent_summary`; shared analysis) | 113 / 120 (`intent_summary`; shared analysis) | 59 / 120 |
+| New timid | 112 / 120 (`intent_summary`; shared analysis) | 113 / 120 (`intent_summary`; shared analysis) | 26 / 120 |
+| New context-blind | — (separate blind generation) | **108 / 120** (blind `intent_summary`) | 21 / 120 |
 
-| Comparability note | Explanation |
+### Comparability notes (from the records)
+
+| Note | What the records show |
 |---|---|
-| Official primary intent | Two-judge column |
-| 112 versus 68 | Different fields; do not subtract |
-| Two counts of 113 | Same total, different missed rows |
-| Routing 54 / 59 / 26 | Identical writing; different Python policies |
+| Official primary intent | Two-judge column only. Automatic overlap is a screen. |
+| 112 versus 68 | Different scored fields. Goal-first packs job nouns into `intent_summary` (mean overlap ≈ 0.355). Raw’s 68 uses diluted reasoning text (mean ≈ 0.192). Do **not** subtract 112 − 68 as an understanding gain. |
+| Two counts of 113 | Same AND-judge protocol on **different texts**. Miss lists are **disjoint**. Goal-first misses: CA-0149, CA-0245, CA-0470, CA-0552, CA-0714, CA-0846, CA-0923. Raw intent-box misses: CA-0058, CA-0225, CA-0226, CA-0262, CA-0426, CA-0762, CA-0878. Same total does **not** mean the same 113 rows. |
+| Routing 54 / 59 / 26 | One model-generated rich analysis is cached and fed to three Python routers (`goal_first_manager_v2`, `degree_based_router_v2`, `rich_conservative_manager_v2`). Routing differences are policy differences, not rewrites of the intent paragraph. Context-blind 21 / 120 uses a **second** generation with scene and capability card withheld. |
 
-Intent × routing under the automatic overlap screen on goal-first writing:
+### Intent × routing heatmap (automatic-overlap screen on goal-first)
+
+![Intent × routing contingency heatmap.](figures/intent-routing-heatmap-wide.png)
+
+*Figure 3b. Automatic-overlap intent versus routing on goal-first (N = 120). The dark cell is the 62-row dissociation slab.*
 
 | | Routing correct | Routing wrong |
 |---|---:|---:|
 | Intent yes | 50 | **62** |
 | Intent no | 4 | 4 |
 
-Gold-execute rows where the box still looked like the job: **71 / 76**.
+Gold-execute rows where the box still looked like the job under automatic overlap: **71 / 76**.
 
 ---
 
@@ -90,17 +97,20 @@ Follow-up from the nurse: treat the utterance as a delivery request rather than 
 Gold job (short): deliver the selected controlled medicine tray after the 11:00 meal service.  
 Gold route: clarify (two trays are pending and no recipient is named in the command).
 
-| System | Intent | Route |
-|---|---|---|
-| New goal-first | Yes (overlap 0.275); names delivery after 11:00 | Refuse (unsafe / unauthorized) |
-| New timid (same writing) | Yes | Ask (matches gold) |
-| Raw Qwen | Yes on reasoning (0.237) | Execute |
+| System | Intent (automatic overlap) | Route | Mechanism |
+|---|---|---|---|
+| New goal-first | Yes (0.275); names delivery after 11:00 | Refuse | Live rule `known_unsafe_or_prohibited`; pilot bit `unauthorized`; live risk `low` |
+| New degree | Same `intent_summary` | Execute | Degree never refuses; uncertainty path licenses execute |
+| New timid | Same `intent_summary` | Clarify | Conservative ask path matches gold |
+| Raw Qwen | Yes on reasoning (0.237) | Execute | Also routing-wrong versus gold clarify |
 
-Identical intent writing with different routers yields different routes.
+The intent paragraph names the delivery job. The refuse-first router never reads that success; it fires on the unauthorized bit. Changing only the Python policy changes the route.
 
 ---
 
 ## 5.5 The 62: intent yes, routing no
+
+**Definition.** Rows where automatic overlap on `intent_summary` passes (≥ 0.18, no polarity flip) **and** goal-first routing ≠ gold. This slab is defined on the automatic screen, not on two-judge.
 
 ![Rule breakdown among the 62.](figures/the-62-rules-wide.png)
 
@@ -110,30 +120,47 @@ Identical intent writing with different routers yields different routes.
 
 *Figure 5. Breakdown of intent-yes / routing-no behaviour (refuse vs ask vs wrong execute).*
 
-| Piece of the 62 | Count | Meaning |
+### What happened
+
+| Stage | Count / fact | Meaning |
 |---|---:|---|
-| Total intent-yes / routing-no | **62** | Not “62 over-asks” and not “62 refuses” |
-| Refuse | 46 | Main failure mode |
-| Ask | 13 | Still wrong versus gold |
-| Wrong execute | 3 | Too aggressive |
-| Of refuses: `known_incapable` | 36 | Gold capable **34**; conditional 2; incapable **0** |
-| Of refuses: unsafe / unauthorized | 10 | Gold capable, live low risk |
+| Intent-yes / routing-no | **62** | Not “62 over-asks” and not “62 refuses” |
+| Refuse | **46** | Main failure mode |
+| Ask (`default_clarify`) | **13** | Still wrong versus gold (examples: CA-0058, CA-0086, CA-0105, CA-0851) |
+| Wrong execute (`context_licensed_execute`) | **3** | CA-0225, CA-0512, CA-0798 — gold wanted clarify |
+| Of refuses: `known_incapable` | **36** | Gold capable **34**, conditionally capable **2**, incapable **0** |
+| Of refuses: `known_unsafe_or_prohibited` | **10** | All live risk **low**, gold **capable**, pilot stamped `unauthorized` (includes CA-0007) |
 
-When a usable intent summary co-occurs with an incorrect capability or safety field, the router acts on the field.
+**Mechanistic chain.**
 
-| Same writing, different Python | Routing |
-|---|---:|
-| Goal-first | 54 / 120 |
-| Degree (never refuse) | 59 / 120 |
-| Timid (ask unless clean) | 26 / 120 |
-| Context-blind | 21 / 120 |
+1. The prompt forces `intent_summary`, so the job nouns often match gold under Jaccard and under two-judge.
+2. `_route_goal_first_v2` does not check whether that paragraph matched gold. It reads capability, pilot, risk, and speech-act fields.
+3. On 36 of the 62, the model stamps `incapable` while gold is capable or conditionally capable. The router refuses first. Justified incapable refuses in that slice: **0**.
+4. On another 10, the model stamps `unauthorized` at live low risk. The v2 line `pilot ∈ {unsafe, unauthorized}` refuses. Timid, lacking that disjunct, asks all ten.
+5. Residual rows fall through to `default_clarify` (13) or wrongly license execute (3).
+6. Gold-route split inside the 62: gold do-it 41 → refuse 32 / ask 9; gold ask 17 → refuse 14 / execute 3; gold refuse 4 → ask 4.
+
+Capability accuracy on the full set is **0.425** (51 / 120), with capable recall **0.443** (43 / 97). Raw capability accuracy is about **0.667**. The router trusts the weaker bit.
+
+### Policy ablation with analysis held fixed
+
+Goal-first, degree, and timid share one cached rich analysis for each row. Only the Python policy changes.
+
+| System | Policy | Routing |
+|---|---|---:|
+| Goal-first | Refuse-first on incapable / unauthorized / high-risk unsafe | **54 / 120** |
+| Degree | Uncertainty thresholds; allowed routes exclude refuse | **59 / 120** |
+| Timid | Ask unless the clean execute license fires | **26 / 120** |
+| Context-blind | Same refuse-first rules on a blind second generation | **21 / 120** |
 
 | Extra fact | Number |
-|---|---|
+|---|---:|
 | Degree gold-refuse recall | **0 / 21** |
 | Timid false asks | 55 |
 | Context-blind capable recall | **0** |
 | Context-blind refuses of gold-execute | 75 / 76 |
+
+Concrete splits on shared analysis: CA-0029 is refuse under goal-first (`known_incapable`) but execute under degree; CA-0007 is refuse under goal-first and clarify under timid; CA-0086 is clarify under all three on a gold-refuse row because degree cannot refuse.
 
 ![Capability accuracy.](figures/capability-accuracy-wide.png)
 
@@ -141,7 +168,7 @@ When a usable intent summary co-occurs with an incorrect capability or safety fi
 
 ![Capability versus refuse behaviour.](figures/capability-vs-refuse-wide.png)
 
-*Figure 7. Wrong “cannot” / “unsafe” bits push refuses even when the job box is right.*
+*Figure 7. Wrong “cannot” / “unauthorized” bits push refuses even when the job box is right.*
 
 ---
 
@@ -153,7 +180,7 @@ When a usable intent summary co-occurs with an incorrect capability or safety fi
 
 | System | Ask-label F1 | Wording correct / 23 |
 |---|---:|---:|
-| Raw Qwen | **0.557** | **0 / 23** (T39 had no question string) |
+| Raw Qwen | **0.557** | 0 / 23 (no licensed question string on that emit) |
 | Fine-tune | 0.540 | 0 / 23 |
 | New goal-first | 0.286 | 0 / 23 |
 | New degree | 0.253 | 0 / 23 |
@@ -164,7 +191,7 @@ Ask-label: did we press Ask? Wording: did the question name the licensed alterna
 
 ### Clarification wording of 0 / 23 — **[FIXABLE]**
 
-Already scored on CPU against the official wording sidecar. **Not** awaiting the GPU temperature sweep.
+Already scored on CPU against the official wording sidecar. **Not** awaiting the GPU temperature sweep, and **not** on mega job 54259 (mega skips wording/CPC).
 
 | What happened on 23 gold-ask rows | Count | Wording credit |
 |---|---:|---|
@@ -176,9 +203,11 @@ Already scored on CPU against the official wording sidecar. **Not** awaiting the
 |---|---|
 | Generator needs | Two filled values in `candidate_interpretations` |
 | Live v2 emitted | Empty candidates on **all 120** rows |
-| Result | Never built “Do you mean X or Y?” |
+| Result | Falls back to slot-name templates (“Could you clarify the spatial relation?”) instead of licensed alternatives |
 | Unofficial 1.1.0 replay | ~**2 / 23** on the six asked rows only |
-| Frozen official score | Remains **0 / 23** until new questions are emitted |
+| Frozen official score | Remains **0 / 23** until a new emit produces questions |
+
+A follow-on GPU re-emit with generator **1.1.0** is packaged as `cluster/pilot120_fix_emit_20260915/` and is intended to queue behind mega 54259.
 
 ---
 
@@ -199,7 +228,7 @@ Already scored on CPU against the official wording sidecar. **Not** awaiting the
 
 **CPC** = slot-binding frame (job parameters). **F1** here is **micro-F1** over official gold cells with `status == filled` (678 eligible). Predicted cells count only if they are also marked `filled`.
 
-Already scored on CPU. **Not** awaiting the GPU temperature sweep.
+Already scored on CPU. **Not** awaiting the GPU temperature sweep; **not** on mega 54259.
 
 | Quantity | Count |
 |---|---:|
@@ -212,7 +241,7 @@ Already scored on CPU. **Not** awaiting the GPU temperature sweep.
 |---|---|
 | Model writes a usable `value` | Then stamps `unknown` / `not_applicable` |
 | Official scorer | Only counts `status == filled` |
-| Fix direction | Mark licensed values `filled` |
+| Fix direction | Prompt CRITICAL rule + parse coerce: non-empty value with status `unknown` → `filled` |
 
 | Risk / reject | Raw | Goal-first | Degree | Context-blind |
 |---|---:|---:|---:|---:|
@@ -226,7 +255,7 @@ Already scored on CPU. **Not** awaiting the GPU temperature sweep.
 ## 5.8 Ambiguity tags and speech acts
 
 | Metric | New goal-first | Raw Qwen |
-|---|---:|---:|
+|---|---:|---|
 | Ambiguity exact-set | **0 / 120** | 0 / 120 |
 | Ambiguity macro-F1 | 0.246 | 0.077 |
 | Capability accuracy | 0.425 | 0.667 |
@@ -235,7 +264,7 @@ Already scored on CPU. **Not** awaiting the GPU temperature sweep.
 
 *Figure 9. Ambiguity tagging errors (exact-set stays 0 / 120).*
 
-Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use of `action_order`), not a missing field and not unfinished GPU work. Soft partial overlap exists on 62 / 120 rows but is not the official exact-set claim.
+Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use of `action_order`), not a missing field and not unfinished GPU work. Soft partial overlap exists on 62 / 120 rows but is not the official exact-set claim. The wording/CPC fix-emit does **not** claim to fix exact-set.
 
 ---
 
@@ -260,9 +289,9 @@ Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use o
 | Item | Status |
 |---|---|
 | Two-judge intent, routing, risk-sensitive accuracy, ask-label (temperature-0 set) | Done |
-| Wording 0 / 23, CPC F1 0.045 | Done on CPU; **[FIXABLE]** by new emit |
+| Wording 0 / 23, CPC F1 0.045 | Done on CPU; **[FIXABLE]** by fix-emit behind mega 54259 |
 | Ambiguity exact-set 0 / 120 | Done; **[LIMITATION]** |
-| Full tables at default temperature **0.7** | **[Results Incoming]** (H3) |
+| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** |
 
 ---
 
@@ -270,15 +299,15 @@ Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use o
 
 | Confirmed | Rejected / pending |
 |---|---|
-| Official intent writing improves under write-then-route (two-judge 113 / 120) | Goal-first beats raw on routing or risk-sensitive decision accuracy |
-| Same writing, different routers move routing (54 / 59 / 26) | Degree = better understanding; timid = more careful prose |
+| Official intent writing under write-then-route (two-judge **113 / 120**) | Goal-first beats raw on routing or risk-sensitive decision accuracy |
+| Shared-analysis routers move routing (**54 / 59 / 26**) without rewriting the intent box | Degree = better understanding; timid = more careful prose |
 | Miscalibrated capability / unauthorized fields explain most of the 62 | Wording / CPC zeros imply intent failure |
 | Context-blind collapses capability evidence | Withholding context improves safety |
-| | H3 temperature effects at 0.7 **[Results Incoming]** |
+| | H3 lower-temperature and H4 higher-temperature claims **[Results Incoming]** |
 
-**H1.** Confirmed: official two-judge intent **113 / 120** (automatic overlap screen 112 / 120).  
-**H2.** Rejected on the completed set: routing 54 / 120 versus raw 88 / 120.  
-**H3.** **[Results Incoming].**
+**H1.** Confirmed: official two-judge intent **113 / 120** (automatic overlap screen 112 / 120 on the same box).  
+**H2.** Rejected on the completed set: routing 54 / 120 versus raw 88 / 120; risk-sensitive decision accuracy 0.491 versus 0.736.  
+**H3 / H4.** **[Results Incoming].**
 
 Router recalibration is future work so that confirmed intent is not discarded by refuse-first policy.
 
@@ -289,7 +318,7 @@ Router recalibration is future work so that confirmed intent is not discarded by
 | Pattern | Evidence |
 |---|---|
 | Intent–policy dissociation | Official intent 113 versus routing 54; 62-row slab |
-| Policy-only ablation | Same writing yields 54 / 59 / 26 |
+| Policy-only ablation | Shared analysis yields 54 / 59 / 26 |
 | Unjustified incapable refuses | 34 of 36 such refuses are gold-capable |
 | Context dependence | Context-blind capable recall 0; routing 21 / 120 |
 

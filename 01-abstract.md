@@ -22,8 +22,8 @@ Six systems are evaluated on **Pilot-120**, a fixed set of 120 compound commands
 | 1 | Raw Qwen | Base model selects the route |
 | 2 | Fine-tune | Same prompt with a parameter-efficient adapter; no manager |
 | 3 | New goal-first | Short intent summary; deterministic Python router |
-| 4 | New degree | Identical writing; uncertainty thresholds; never refuses |
-| 5 | New timid | Identical writing; ask-unless-clean policy |
+| 4 | New degree | Shared analysis with goal-first; uncertainty thresholds; never refuses |
+| 5 | New timid | Shared analysis with goal-first; ask-unless-clean policy |
 | 6 | New context-blind | Same router; scene and capability card withheld |
 
 **Primary outcome.** Intent correctness: whether the written job matches gold.  
@@ -34,7 +34,7 @@ Six systems are evaluated on **Pilot-120**, a fixed set of 120 compound commands
 | Exam | Raw Qwen | New goal-first |
 |---|---:|---:|
 | **Two-judge intent (official)** | **113 / 120** (new intent box) | **113 / 120** (`intent_summary`) |
-| Automatic overlap (screen) | 68 / 120 (written reasoning only) | 112 / 120 (`intent_summary`) |
+| Automatic overlap (screen) | 68 / 120 (free-form reasoning field) | 112 / 120 (`intent_summary`) |
 | Routing correctness | **88 / 120** | 54 / 120 |
 | Risk-sensitive decision **accuracy** (53 medium+high) | **0.736** | 0.491 |
 
@@ -42,15 +42,15 @@ The two-judge row is the primary intent result. The automatic overlap row explai
 
 Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 rows, 62 show correct intent with incorrect routing (46 refuse, 13 ask, 3 execute). The dominant mechanism is a refuse-first router that trusts miscalibrated capability and safety fields rather than the intent paragraph.
 
-| Supporting metric | Raw | Goal-first | Status |
-|---|---:|---:|---|
-| Ask-label F1 | **0.557** | 0.286 | Scored |
-| Clarification wording / 23 | 0 / 23 | 0 / 23 | **[FIXABLE]** (not awaiting the GPU sweep) |
-| Slot-binding CPC F1 | — | 0.045 | **[FIXABLE]** (not awaiting the GPU sweep) |
-| Ambiguity exact-set | 0 / 120 | 0 / 120 | **[LIMITATION]** |
+| Supporting metric          |       Raw | Goal-first | Status                                     |
+| -------------------------- | --------: | ---------: | ------------------------------------------ |
+| Ask-label F1               | **0.557** |      0.286 | Scored                                     |
+| Clarification wording / 23 |    0 / 23 |     0 / 23 | **[FIXABLE]** (not awaiting the GPU sweep) |
+| Slot-binding CPC F1        |         — |      0.045 | **[FIXABLE]** (not awaiting the GPU sweep) |
+| Ambiguity exact-set        |   0 / 120 |    0 / 120 | **[LIMITATION]**                           |
 
 Wording and CPC failures come from empty `candidate_interpretations` and incorrect CPC status stamps on **already frozen** predictions. They are CPU-scored sidecar defects, not unfinished GPU work, and they do not overturn the official intent result.
 
-**Contribution.** The study documents an intent–policy dissociation: write-then-route generation can produce strong official intent writing while a brittle capability- and safety-driven router still selects the wrong handling path. Improving that router, and completing the temperature-0.7-centred scoreboard, are listed as follow-on work.
+**Contribution.** The study documents an intent–policy dissociation: write-then-route generation can produce strong official intent writing while a brittle capability- and safety-driven router still selects the wrong handling path. Improving that router, completing the temperature-0.7-centred scoreboard (H3 lower temperature; H4 higher temperature), and re-emitting wording/CPC fields are listed as follow-on work.
 
 **Keywords:** robot command understanding; intent correctness; ambiguity management; clarification; risk-aware routing; Pilot-120.
