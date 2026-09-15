@@ -34,20 +34,20 @@ A system may succeed on intent and fail on routing. That combination isolates po
 
 | Hypothesis | Result | Evidence |
 |---|---|---|
-| **H1** | **Confirmed** | Goal-first two-judge intent **113 / 120** |
-| **H2** | **Rejected** | Goal-first routing **54 / 120** versus raw **88 / 120**; risk-sensitive decision accuracy **0.491** versus **0.736** |
+| **H1** | **Not confirmed** (tie / no gain vs raw) | Two-judge **113 = 113**; automatic overlap on `intent_summary` **112 < 120** |
+| **H2** | **Rejected** | Routing **54 / 120** vs **88 / 120**; risk-sensitive **0.491** vs **0.736**; low-risk routing **27 / 64** vs **46 / 64** |
 | **H3** | **[Results Incoming]** | Temperature 0.0 / 0.3 versus 0.7 |
 | **H4** | **[Results Incoming]** | Temperature 1.0 versus 0.7 |
 
-**Mechanism (H1/H2).** Intent–policy dissociation: the forced intent summary passes the official intent exam, while the refuse-first router trusts miscalibrated capability and safety fields. Recalibrating that router is future work. Wording and CPC defects are **[FIXABLE]** via a follow-on emit (packaged as `cluster/pilot120_fix_emit_20260915/`), not via mega job 54259.
+**Mechanism (H1/H2).** Write-then-route still produces strong official intent writing, but once raw also has an intent box it does not *beat* raw on the official protocol. The sharper result is intent–policy dissociation: a usable intent summary co-occurs with refuse-first routing on miscalibrated capability / unauthorized fields. Recalibrating that router is future work. Wording, CPC, and the ambiguity constrained-prompt repair are **[FIXABLE]** via fix-emit job **54774** (packaged as `cluster/pilot120_fix_emit_20260915/`), not via mega job 54259.
 
 ## 3.5 Claim boundary
 
 | Within scope | Outside scope |
 |---|---|
 | Intent and routing on Pilot-120 | Safe physical robot execution |
-| Mechanistic attribution to router and analysis fields | Treating automatic overlap 112−68 as “+44 understanding” |
-| Documented secondary metric failures | Claiming ambiguity exact-set is fixed by the wording/CPC emit |
+| Mechanistic attribution to router and analysis fields | Comparing box scores to the old reasoning-field 68 / 60 screen |
+| Documented secondary metric failures; low-risk routing as ordinary routing | Claiming the 53-row risk exam means low-stakes behaviour was ignored |
 
 ## 3.6 Feasibility
 

@@ -33,14 +33,15 @@ Six systems are evaluated on **Pilot-120**, a fixed set of 120 compound commands
 
 | Exam | Raw Qwen | New goal-first |
 |---|---:|---:|
-| **Two-judge intent (official)** | **113 / 120** (new intent box) | **113 / 120** (`intent_summary`) |
-| Automatic overlap (screen) | 68 / 120 (free-form reasoning field) | 112 / 120 (`intent_summary`) |
+| **Two-judge intent (official)** | **113 / 120** (`intent_summary` box) | **113 / 120** (`intent_summary`) |
+| Automatic overlap (screen, same field) | **120 / 120** (`intent_summary`) | 112 / 120 (`intent_summary`) |
 | Routing correctness | **88 / 120** | 54 / 120 |
 | Risk-sensitive decision **accuracy** (53 medium+high) | **0.736** | 0.491 |
+| Low-risk routing (64 low) | **46 / 64** | 27 / 64 |
 
-The two-judge row is the primary intent result. The automatic overlap row explains why an early screen looked lower for raw Qwen: that screen was applied to long free-form reasoning before a dedicated intent box existed. Once raw Qwen also emits a short intent box, two-judge intent reaches 113 / 120 — the same *count* as goal-first, not the same missed rows. Goal-first’s official intent result is therefore **113 / 120**, with automatic overlap 112 / 120 as a corroborating screen on the same box.
+The two-judge row is the primary intent result. Once every comparator emits a dedicated job box, automatic overlap is scored only on `intent_summary` (raw **120 / 120**, goal-first **112 / 120**). An older reasoning-field screen (68 / 60) is dropped: it was a temporary gauge before intent boxes existed and must not be compared to box scores. Official two-judge is **tied** at 113 / 120 (disjoint miss lists). H1’s claim that write-then-route names the job *more often* than raw is therefore **not supported** on the official protocol.
 
-Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 rows, 62 show correct intent with incorrect routing (46 refuse, 13 ask, 3 execute). The dominant mechanism is a refuse-first router that trusts miscalibrated capability and safety fields rather than the intent paragraph.
+Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 rows, 62 show correct automatic-overlap intent with incorrect routing (46 refuse, 13 ask, 3 execute). Low-stakes rows are not ignored: on the 64 gold-low rows, goal-first routing is only **27 / 64** versus raw **46 / 64**. The dominant mechanism is a refuse-first router that trusts miscalibrated capability and safety fields rather than the intent paragraph.
 
 | Supporting metric          |       Raw | Goal-first | Status                                     |
 | -------------------------- | --------: | ---------: | ------------------------------------------ |

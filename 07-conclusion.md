@@ -4,14 +4,14 @@
 
 | Question | Result on Pilot-120 |
 |---|---|
-| Does write-then-route improve intent (primary, official two-judge)? | **Yes — 113 / 120** (automatic overlap screen 112 / 120) |
-| Mechanism of the intent gain | Forced `intent_summary`; two-judge agreement on that box |
-| Does the manager improve routing versus raw Qwen (secondary)? | **No — 54 / 120 versus 88 / 120** (temperature-0 completed set) |
+| Does write-then-route beat raw on official two-judge intent? | **No — tied 113 / 113** (automatic screen on boxes: raw 120, goal-first 112) |
+| Does write-then-route still produce strong intent writing? | **Yes — 113 / 120** official |
+| Does the manager improve routing versus raw Qwen (secondary)? | **No — 54 / 120 versus 88 / 120** |
+| Low-stakes (64 gold-low) routing | Goal-first **27 / 64** vs raw **46 / 64** |
 | Dominant failure mode | Intent–policy dissociation on 62 rows (46 refuse, 13 ask, 3 execute) |
-| Policy ablations with shared analysis | Goal-first 54; degree 59; timid 26; context-blind 21 (blind is a second generation) |
-| Clarification wording / CPC micro-F1 | 0 / 23; 0.045 — **[FIXABLE]** via fix-emit (not mega 54259) |
-| Lower temperature (0.0 / 0.3 vs 0.7) | **[Results Incoming]** (H3) |
-| Higher temperature (1.0 vs 0.7) | **[Results Incoming]** (H4) |
+| Policy ablations with shared analysis | Goal-first 54; degree 59; timid 26; context-blind 21 |
+| Clarification wording / CPC / ambiguity prompt | **[FIXABLE]** on fix-emit **54774** |
+| Lower / higher temperature (H3 / H4) | **[Results Incoming]** |
 
 ## 6.2 Contribution
 
@@ -32,4 +32,4 @@
 | 5 | Re-emit ambiguity tags with Pilot-17 definitions on constrained path (job 54774) | **[FIXABLE]** / **[Results Incoming]** |
 | 6 | Optional embodied evaluation after the text layer is stable | Later |
 
-The central conclusion is that the manager frequently names the intended job correctly under the official two-judge protocol, while the current routing policy often fails to select the corresponding handling path.
+The central conclusion is that write-then-route produces strong official intent writing (**113 / 120**) but does not beat raw on the official protocol once both use intent boxes, while the current routing policy often fails to select the corresponding handling path — including on low-stakes rows.
