@@ -6,12 +6,14 @@ This chapter answers the research question with evidence, then explains *why* th
 
 ## 5.1 The story in one page
 
-| # | Finding |
-|---:|---|
-| 1 | Goal-first improves **intent** writing (primary outcome) |
-| 2 | Goal-first routing is weaker than raw Qwen (secondary outcome) |
-| 3 | The dissociation is explained by forced intent summaries versus refuse-first routing on miscalibrated fields |
-| 4 | Clarification wording and CPC failures have identified implementation causes |
+|   # | Finding                                                                                                      |
+| --: | ------------------------------------------------------------------------------------------------------------ |
+|   1 | Goal-first improves **intent** writing (primary outcome)                                                     |
+|   2 | Goal-first routing is weaker than raw Qwen (secondary outcome)                                               |
+|   3 | The dissociation is explained by forced intent summaries versus refuse-first routing on miscalibrated fields |
+|   4 | Clarification wording and CPC failures have identified implementation causes                                 |
+|     |                                                                                                              |
+|     |                                                                                                              |
 
 ![Intent correctness by system (cheap writing exams).](figures/intent-primary-wide.png)
 
@@ -254,15 +256,15 @@ Exact-set match of 0 / 120 reflects tagging errors (including over-use of `actio
 
 ## 5.11 Relation to the research question
 
-| Supported | Not supported |
+| Confirmed | Rejected |
 |---|---|
 | Intent-first writing improves primary intent outcomes on Pilot-120 | Goal-first beats raw Qwen on routing or risk-sensitive accuracy |
 | Holding writing fixed, alternate routers change routing (54 / 59 / 26) | Degree implies better understanding; timid implies more careful prose |
 | Miscalibrated capability and unauthorized fields explain most of the 62 | Wording 0 / 23 and CPC F1 0.045 imply intent failure |
 | Context-blind collapses capability evidence | Withholding context improves safety |
 
-**H1.** Supported: intent writing improves under write-then-route (112 / 120 cheap; 113 / 120 two-judge).  
-**H2.** Not supported: routing does not exceed raw Qwen; refuse-first policy on miscalibrated fields is the principal cause.
+**H1.** Confirmed on the completed Pilot-120 runs: intent writing improves under write-then-route (112 / 120 cheap; 113 / 120 two-judge).  
+**H2.** Rejected on those same runs: routing does not exceed raw Qwen; refuse-first policy on miscalibrated fields is the principal cause.
 
 Design choices adopted from Chapter 2 include an explicit policy layer, a context-blind control, separate ask-label and wording metrics, refusal as a competent path, fuzzy underspecification tags, and a Pilot-native risk-sensitive exam.
 
