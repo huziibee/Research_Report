@@ -1,22 +1,20 @@
 # 1. Introduction
 
-## 1.1 The everyday failure mode
+## 1.1 Motivation
 
-Imagine a hospital supply robot. A nurse types:
+Hospital and warehouse robots are increasingly expected to follow natural-language instructions. Consider a nurse request:
 
 > “Can the medicine tray go out after lunch?”
 
-A human fills in the blanks from the room: which tray, which lunch slot, who receives it. The robot may invent those blanks, ask the wrong question, or refuse a handoff the handbook already allows.
+A human listener recovers underspecified parameters from context. An automatic system may invent those parameters, issue an inappropriate clarification, or refuse a permitted handoff. The difficulty increases for **compound** commands, in which several slots are underspecified simultaneously and risk or capability constraints affect whether the system should execute, ask, or refuse.
 
-The hard case is a **compound** command: several slots underspecified at once, with risk and capability in play. The right next step may be **ask** or **refuse**, not always **act**.
-
-## 1.2 What this work is (and is not)
+## 1.2 Scope
 
 | In scope | Out of scope |
 |---|---|
-| Text NLU + routing (execute / clarify / refuse) | Physical robot motion |
-| Command + textual scene, dialogue, capability card | Vision / LVLM claims |
-| Honest Pilot-120 comparison | “Safe in the real warehouse” |
+| Text natural-language understanding and routing (execute / clarify / refuse) | Physical robot motion |
+| Command plus textual scene, dialogue, and capability card | Vision models and LVLM claims |
+| Controlled comparison on Pilot-120 | Claims of physical warehouse safety |
 
 ```mermaid
 flowchart LR
@@ -25,47 +23,40 @@ flowchart LR
   C --> D["Planner\n(out of scope)"]
 ```
 
-*Figure A. The layer under study sits in front of any planner.*
+*Figure A. Position of the ambiguity manager relative to planning.*
 
-## 1.3 What was built and measured
+## 1.3 Systems and outcomes
 
-**Locked system order:**
+Systems are reported in fixed order throughout:
 
 **Raw Qwen → Fine-tune → New goal-first → New degree → New timid → New context-blind.**
 
-| Fact | Detail |
+| Property | Detail |
 |---|---|
-| Shared brain (systems 3–6) | Frozen Qwen3-8B |
-| Shared writing (3–5) | One `intent_summary` paragraph |
-| What changes for 4–5 | Which **Python** router reads that paragraph |
-| Context-blind | Second generation with scene/card hidden |
-| Decoding | Temperature study at **0.0, 0.3, 0.7, 1.0**; comparison tables use the T=0 matched set |
+| Shared model (systems 3–6) | Frozen Qwen3-8B |
+| Shared writing (systems 3–5) | One `intent_summary` |
+| Degree and timid | Alternate Python routers on that shared writing |
+| Context-blind | Second generation with scene and capability card withheld |
+| Decoding | Temperatures 0.0, 0.3, 0.7, and 1.0; comparison tables use the temperature-0 matched set |
 
-| Exam | Role in this report | Plain question |
+| Outcome | Role | Definition |
 |---|---|---|
-| **Intent** | **Primary** | Did the writing name the gold job? |
-| **Routing** | Secondary | Did we press gold’s button? |
+| Intent correctness | Primary | Written job matches gold |
+| Routing correctness | Secondary | Predicted handling path matches gold |
 
-The May proposal treated routing as primary. This report inverts the spotlight because the result we can stand on is: the writing often names the job, and the button still misses.
+Intent is treated as primary because the strongest empirical result is improved job writing under write-then-route generation; routing is retained to explain how handling paths diverge after that writing.
 
 ## 1.4 Preview of results
 
-| Claim | Number |
+| Result | Value |
 |---|---|
-| Primary intent success (goal-first) | **112 / 120** cheap · **113 / 120** two-judge |
-| How it gets there | Forced short job box + scene nouns → overlap/judges pass |
-| Secondary routing | 54 / 120 (raw **88 / 120**) |
-| Intent–policy split | **62** (= 46 refuse + 13 ask + 3 execute) |
-| Risk-sensitive (53 rows) | raw **0.736** · goal-first 0.491 |
-| Wording / CPC | 0 / 23 · 0.045 — both **[FIXABLE]** |
+| Goal-first cheap intent | **112 / 120** |
+| Goal-first two-judge intent | **113 / 120** |
+| Goal-first routing | 54 / 120 (raw: **88 / 120**) |
+| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) |
+| Risk-sensitive accuracy (53 rows) | raw **0.736**; goal-first 0.491 |
+| Clarification wording / CPC F1 | 0 / 23; 0.045 |
 
-## 1.5 Document map
+## 1.5 Structure of the report
 
-| Chapter | Content |
-|---|---|
-| 2 | Prior work → what we actually built from it |
-| 3 | Research question and hypothesis |
-| 4 | Pilot-120, six systems, scoring |
-| 5 | Results, figures, the intent–policy pattern |
-| 6 | Conclusion and future work |
-| — | [[glossary]] |
+Chapter 2 reviews related work and states which design choices were adopted. Chapter 3 presents the research question and hypotheses. Chapter 4 describes Pilot-120, the six systems, and the scoring protocols. Chapter 5 reports results and analyses the intent–policy pattern. Chapter 6 concludes and outlines future work. A glossary defines recurring terms.

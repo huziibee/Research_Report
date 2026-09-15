@@ -6,25 +6,24 @@ This chapter answers the research question with evidence, then explains *why* th
 
 ## 5.1 The story in one page
 
-| # | Finding (intent first) |
+| # | Finding |
 |---:|---|
-| 1 | New manager **names the gold job** (primary win) |
-| 2 | Same manager often **presses the wrong button** (secondary) |
-| 3 | Raw Qwen still **routes** better under risk |
-| 4 | Pattern: forced job box ↑ intent; refuse-first bits ↓ routing |
-| 5 | Wording / CPC zeros are **[FIXABLE]** engineering, not “no science” |
+| 1 | Goal-first improves **intent** writing (primary outcome) |
+| 2 | Goal-first routing is weaker than raw Qwen (secondary outcome) |
+| 3 | The dissociation is explained by forced intent summaries versus refuse-first routing on miscalibrated fields |
+| 4 | Clarification wording and CPC failures have identified implementation causes |
 
 ![Intent correctness by system (cheap writing exams).](figures/intent-primary-wide.png)
 
-*Figure 1. **Primary metric.** Intent correctness. Raw / fine-tune cheap scores use T39 written reasoning; goal-first uses `intent_summary`. Do not subtract 112 from 68.*
+*Figure 1. Primary outcome: intent correctness. Raw and fine-tune cheap scores use T39 written reasoning; goal-first uses `intent_summary`. Field differences preclude subtracting 112 from 68.*
 
 ![Intent versus routing for the main comparators.](figures/intent-vs-route-wide.png)
 
-*Figure 2. Primary intent next to secondary routing. Orange slab = **62** intent-yes / routing-no.*
+*Figure 2. Primary intent beside secondary routing. The highlighted region marks 62 rows with correct intent and incorrect routing.*
 
 ![Routing correctness for all six live systems.](figures/routing-correct-wide.png)
 
-*Figure 3. Secondary metric — the button. Context-blind’s 21 / 120 is the always-refuse band, not smarter safety.*
+*Figure 3. Secondary outcome: routing correctness. Context-blind routing of 21 / 120 coincides with gold refuse support under a refuse-heavy policy.*
 
 ---
 
@@ -49,7 +48,7 @@ flowchart LR
 | 4 | Router **never reads** “did the box match gold?” | Button uses capability / unauthorized / risk bits |
 | 5 | Those bits are often wrong (capability acc. ≈ 0.425) | Intent stays high; routing collapses |
 
-So 112 is a **higher score on the primary exam** than raw’s **68 on reasoning**. It is not “+44 understanding” versus raw’s later **113 on a new intent box** — that is a different field. The scientific win is: **intent-first writing works**; the scientific cost is: **policy still fights the writing**.
+So 112 / 120 is a higher primary-outcome score than raw Qwen’s 68 / 120 on written reasoning. It is not an arithmetic improvement over raw Qwen’s later 113 / 120 on a newly collected intent box, which is a different field. The empirical claim is that intent-first writing succeeds on Pilot-120, while routing policy still diverges from gold after that writing.
 
 ---
 
@@ -66,11 +65,11 @@ So 112 is a **higher score on the primary exam** than raw’s **68 on reasoning*
 
 Two-judge protocol: two independent models, both must agree, blinded to the route.
 
-| Reading rule | Why |
+| Comparability note | Explanation |
 |---|---|
-| Do not subtract 112 − 68 | Different fields (box vs reasoning) |
-| Raw’s 113 ≠ goal-first’s 113 rows | Same count, seven disjoint misses |
-| Same writing → 54 / 59 / 26 | Proves routing is the Python rule |
+| 112 versus 68 | Different fields (`intent_summary` versus written reasoning) |
+| Two counts of 113 | Same total, different missed rows |
+| Routing 54 / 59 / 26 | Identical writing; different Python policies |
 
 | | Routing correct | Routing wrong |
 |---|---:|---:|
@@ -81,21 +80,21 @@ Gold-do-it rows where the box still looked like the job: **71 / 76**.
 
 ---
 
-## 5.4 A concrete case: named the job, wrong button
+## 5.4 Case study: correct intent, incorrect route
 
 **CA-0007.** Command: “Can the selected controlled medicine tray be delivered after a scheduled meal service?”  
-(Nurse follow-up: treat it as a delivery request, not a capability question.)
+Follow-up from the nurse: treat the utterance as a delivery request rather than a capability question.
 
-Gold job (short): deliver the selected controlled medicine tray after the **11:00** meal service.  
-Gold route: **clarify** (two trays / no recipient named in the command).
+Gold job (short): deliver the selected controlled medicine tray after the 11:00 meal service.  
+Gold route: clarify (two trays are pending and no recipient is named in the command).
 
-| System | Intent? | Route |
+| System | Intent | Route |
 |---|---|---|
-| New goal-first | Yes (overlap 0.275) — names the delivery after 11:00 | **Refuse** (unsafe / unauthorized) |
-| New timid *(same box)* | Yes | **Ask** — matches gold |
+| New goal-first | Yes (overlap 0.275); names delivery after 11:00 | Refuse (unsafe / unauthorized) |
+| New timid (same writing) | Yes | Ask (matches gold) |
 | Raw Qwen | Yes on reasoning (0.237) | Execute |
 
-Same paragraph, different Python → different science. Intent (primary) can pass while routing (secondary) still fails.
+Identical intent writing with different routers yields different routes. Primary intent can succeed while secondary routing fails.
 
 ---
 
@@ -118,7 +117,7 @@ Same paragraph, different Python → different science. Intent (primary) can pas
 | Of refuses: `known_incapable` | 36 | Gold capable **34** · conditional 2 · incapable **0** |
 | Of refuses: unsafe / unauthorized | 10 | Gold capable, live low risk |
 
-In plain terms: good job box + bad capability/safety stamp → router trusts the stamp.
+When a usable intent summary co-occurs with an incorrect capability or safety field, the router acts on the field. Intent remains high; routing falls.
 
 | Same writing, different Python | Routing |
 |---|---:|
@@ -160,7 +159,7 @@ In plain terms: good job box + bad capability/safety stamp → router trusts the
 
 Ask-label asks: “did we press Ask?” Wording asks: “did the question name the licensed alternatives?”
 
-### Why wording is 0 / 23 — **[FIXABLE]**
+### Clarification wording of 0 / 23
 
 | What happened on 23 gold-ask rows | Count | Wording credit |
 |---|---:|---|
@@ -188,7 +187,7 @@ Ask-label asks: “did we press Ask?” Wording asks: “did the question name t
 | New timid | 0.045 | 0.245 (13 / 53) |
 | New context-blind | — | 0.377 (20 / 53) |
 
-### Why CPC F1 is 0.045 — **[FIXABLE]**
+### CPC F1 of 0.045
 
 | Quantity | Count |
 |---|---:|
@@ -224,7 +223,7 @@ Ask-label asks: “did we press Ask?” Wording asks: “did the question name t
 
 *Figure 9. Ambiguity tagging errors are real (exact-set stays 0 / 120), not a missing column in the files.*
 
-**[LIMITATION]** Exact-set 0 / 120 is a real tagging failure (for example heavy `action_order` misuse), not a missing field in the files. Partial credit exists unofficially (at least one shared tag on 62 / 120) but is not the official exact-set claim. Speech-act exact on live goal-first is weak on indirect requests (**0 / 29** in the live lane) — a separate skill from naming the job in prose, and not a proposal headline.
+Exact-set match of 0 / 120 reflects tagging errors (including over-use of `action_order`), not a missing annotation field. Soft partial overlap exists on 62 / 120 rows but is not the official exact-set claim. Indirect speech-act exact match on live goal-first is 0 / 29 and is reported only as a supporting diagnostic.
 
 ---
 
@@ -244,42 +243,42 @@ Ask-label asks: “did we press Ask?” Wording asks: “did the question name t
 
 ---
 
-## 5.10 Open items that do **not** erase the pattern
+## 5.10 Secondary metric defects
 
-| Item | Marker | Why the pattern still stands |
+| Defect | Status | Relation to the main pattern |
 |---|---|---|
-| Wording / CPC generator fixes | **[FIXABLE]** | Need a new emit; mechanisms already named |
-| Ambiguity exact-set 0/120 | Tagging weakness | Intent–policy split does not need exact-set to be real |
+| Clarification wording and CPC emission | Implementation defects on frozen predictions | Do not reverse the intent result |
+| Ambiguity exact-set 0 / 120 | Weak tagging | Does not erase intent–policy dissociation |
 
 ---
 
-## 5.11 Relating results to the research question
+## 5.11 Relation to the research question
 
-| Claim the data support | Claim the data do **not** support |
+| Supported | Not supported |
 |---|---|
-| Intent-first writing raises the **primary** intent exams on Pilot-120 | The live manager beats raw on **routing** or risk-sensitive accuracy |
-| Same writing + different Python moves routing (54 / 59 / 26) | Degree = braver understanding; timid = more careful prose |
-| Wrong capability / unauthorized bits explain most of the 62 | Wording 0/23 and CPC 0.045 prove intent failed |
-| Context-blind collapses capable evidence | Hiding context improves safety |
+| Intent-first writing improves primary intent outcomes on Pilot-120 | Goal-first beats raw Qwen on routing or risk-sensitive accuracy |
+| Holding writing fixed, alternate routers change routing (54 / 59 / 26) | Degree implies better understanding; timid implies more careful prose |
+| Miscalibrated capability and unauthorized fields explain most of the 62 | Wording 0 / 23 and CPC F1 0.045 imply intent failure |
+| Context-blind collapses capability evidence | Withholding context improves safety |
 
-**Primary verdict.** Intent writing **improves** under write-then-route (112 / 113 on the job box).  
-**Secondary verdict.** Routing **does not** beat raw Qwen; refuse-first policy on bad bits is why.
+**H1.** Supported: intent writing improves under write-then-route (112 / 120 cheap; 113 / 120 two-judge).  
+**H2.** Not supported: routing does not exceed raw Qwen; refuse-first policy on miscalibrated fields is the principal cause.
 
-Literature we actually built from (Chapter 2): Sarathy-style policy layer, CLARA-style context ablation, Madureira-style ask vs wording split, Scheutz-style refuse-as-competence, Sucker-style fuzzy tags with no silent-resolve gold.
+Design choices adopted from Chapter 2 include an explicit policy layer, a context-blind control, separate ask-label and wording metrics, refusal as a competent path, fuzzy underspecification tags, and a Pilot-native risk-sensitive exam.
 
-**Code visibility.** `Documents\University\Research Project` (code, scripts, gold/sidecars). Case cards: `results\`.
+Implementation artefacts are available in the companion Research Project repository (source, scripts, gold and sidecars). Case-level notes are stored under `results/`.
 
 ---
 
-## 5.12 What N = 120 is for
+## 5.12 Sufficiency of Pilot-120 for the observed pattern
 
-N = 120 is not an apology. It is large enough to:
+N = 120 is sufficient to identify the following regularities:
 
 | Pattern | Evidence |
 |---|---|
-| Intent–policy dissociation | 112 intent vs 54 routing; 62-row slab |
-| Policy-only ablation | Same box → 54 / 59 / 26 |
-| False “cannot” refuses | 34 / 36 incapables are gold-capable |
-| Context necessity | Blind capable recall → 0; routing → 21 |
+| Intent–policy dissociation | 112 intent versus 54 routing; 62-row slab |
+| Policy-only ablation | Same writing yields 54 / 59 / 26 |
+| Unjustified incapable refuses | 34 of 36 such refuses are gold-capable |
+| Context dependence | Context-blind capable recall 0; routing 21 / 120 |
 
-That is the underlying pattern. Scaling later tests generality; it is not required to see the failure mode.
+Larger follow-on sets can test generality. They are not required to establish the pattern reported here.

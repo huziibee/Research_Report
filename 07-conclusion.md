@@ -1,37 +1,32 @@
 # 6. Conclusion
 
-## 6.1 Summary
+## 6.1 Summary of findings
 
-| Question | Answer on Pilot-120 |
+| Question | Result on Pilot-120 |
 |---|---|
-| Does write-then-route improve **intent** (primary)? | **Yes** — 112 / 120 cheap; 113 / 120 two-judge |
-| How? | Forced job box + scene nouns; judges agree |
-| Does it beat raw on **routing** (secondary)? | **No** — 54 / 120 vs **88 / 120** |
-| Underlying pattern | Intent–policy dissociation (good box, bad bits) |
-| The 62 | 46 refuse · 13 ask · 3 execute |
-| Same writing, different Python | 54 / 59 / 26 / 21 |
-| Wording / CPC | 0 / 23 · 0.045 — **[FIXABLE]** |
+| Does write-then-route improve intent correctness (primary)? | Yes: 112 / 120 cheap; 113 / 120 two-judge |
+| Mechanism of the intent gain | Forced intent summary containing scene-grounded job content; adjudicator agreement |
+| Does the manager improve routing versus raw Qwen (secondary)? | No: 54 / 120 versus 88 / 120 |
+| Dominant failure mode | Intent–policy dissociation on 62 rows (46 refuse, 13 ask, 3 execute) |
+| Policy ablations with shared writing | Goal-first 54; degree 59; timid 26; context-blind 21 |
+| Clarification wording / CPC F1 | 0 / 23; 0.045 (implementation defects on frozen outputs) |
 
-## 6.2 Author’s contribution
+## 6.2 Contribution
 
-| # | Contribution |
-|---:|---|
-| 1 | Intent-primary evaluation of a write-then-route manager + policy ablations |
-| 2 | Named the intent–policy pattern with cases (e.g. CA-0007) |
-| 3 | Built design choices from prior work into Pilot systems (policy layer, context-blind, ask vs wording, refuse path, fuzzy tags, risk sidecar) |
-| 4 | Official CPC / risk / wording sidecars without mutating core gold |
-| 5 | Temperature study at 0.0 / 0.3 / 0.7 / 1.0; head-to-head tables on the T=0 matched set |
+1. An intent-primary evaluation of a write-then-route ambiguity manager with controlled policy ablations.  
+2. Characterisation of intent–policy dissociation, including case evidence such as CA-0007.  
+3. Transfer of prior-work design requirements into Pilot-120 systems and metrics (explicit policy layer, context-blind control, ask-label versus wording, refuse as a gold path, fuzzy tags, risk-sensitive scoring).  
+4. Official CPC, risk, and wording sidecars without mutation of core gold.  
+5. A temperature study at 0.0, 0.3, 0.7, and 1.0, with head-to-head system tables on the temperature-0 matched set.
 
 ## 6.3 Future work
 
 | Priority | Work |
 |---|---|
-| 1 | Clarification generator + candidates; re-score wording **[FIXABLE]** |
-| 2 | CPC `filled` status; re-score CPC F1 **[FIXABLE]** |
-| 3 | Retune capability / unauthorized routing so intent wins are not burned |
-| 4 | Strengthen ambiguity tagging |
-| 5 | Embodied pilot only after the text layer stops fighting itself |
+| 1 | Populate clarification candidates and regenerate wording; re-score wording accuracy |
+| 2 | Emit CPC status `filled` for licensed values; re-score CPC F1 |
+| 3 | Recalibrate capability and unauthorized routing so correct intent summaries are not discarded |
+| 4 | Improve ambiguity-type prediction |
+| 5 | Optional embodied evaluation after the text layer is stable |
 
-**One-sentence verdict:**
-
-> The manager often **names** the compound command correctly; the live router often **does not yet deserve** that writing.
+The central conclusion is that the manager frequently names the intended job correctly, while the current routing policy often fails to select the corresponding handling path.

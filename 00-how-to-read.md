@@ -1,39 +1,26 @@
-# How to read this report
+# Title page and contents
 
-**Author:** Mohammed Bangie (2610990)  
-**Title:** A Risk-Aware Ambiguity Manager for Compound Ambiguous Robot Commands  
-**Supervisors:** Steven James & Benjamin Rosman  
-**Programme:** Honours, School of Computer Science and Applied Mathematics, University of the Witwatersrand  
-**Working draft:** 15 September 2026
-
-Open this folder as an **Obsidian vault** (mermaid diagrams render in Obsidian / GitHub-style markdown). Start here, then read chapters in order. Rubric: [[rubric]].
-
-## Status markers
-
-| Marker | Meaning |
+| Field | Details |
 |---|---|
-| **[FIXABLE]** | Known bug; **frozen score still stands** until a new emit. |
-| **[LIMITATION]** | Honest study limit — not a small patch. |
-| **[PENDING]** | Optional follow-on; **not required** for the main Pilot-120 verdict. |
+| Student name | Mohammed Bangie |
+| Student number | 2610990 |
+| Title | A Risk-Aware Ambiguity Manager for Compound Ambiguous Robot Commands |
+| Supervisors | Steven James and Benjamin Rosman |
+| Programme | Honours, School of Computer Science and Applied Mathematics, University of the Witwatersrand |
+| Date | September 2026 |
 
-## Chapter map (rubric)
+## Contents
 
-| Rubric section | File |
+| Chapter | File |
 |---|---|
 | Abstract | [[01-abstract]] |
-| Introduction | [[02-introduction]] |
-| Problem background | [[03-problem-background]] |
-| Research question | [[04-research-question]] |
-| Methodology | [[05-methodology]] |
-| Results | [[06-results]] |
-| Conclusion | [[07-conclusion]] |
+| 1. Introduction | [[02-introduction]] |
+| 2. Problem background | [[03-problem-background]] |
+| 3. Research question, hypothesis, and purpose | [[04-research-question]] |
+| 4. Research methodology | [[05-methodology]] |
+| 5. Results | [[06-results]] |
+| 6. Conclusion | [[07-conclusion]] |
 | References | [[08-references]] |
 | Glossary | [[glossary]] |
 
-**Evaluation set:** Pilot-120. Prior work is cited for **design lessons we implemented**, not as unused score tables.
-
-Primary metric: **intent**. Secondary: **routing**.
-
-Optional self-check: [[grade-estimate]].
-
-Companion code/data: `Documents\University\Research Project`.
+Figures are stored under `figures/`. Companion implementation and data reside in the Research Project repository referenced in Chapter 4.

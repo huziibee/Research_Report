@@ -1,25 +1,24 @@
 # Glossary
 
-| Term | Plain meaning |
+| Term | Definition |
 |---|---|
-| **Pilot-120** | Fixed 120 compound robot commands with gold labels. |
-| **Intent correctness** | **Primary metric** — did the writing name the gold job? |
-| **Routing correctness** | **Secondary metric** — did we press gold’s button? |
-| **Intent–policy dissociation** | High intent with low routing because the router trusts bad bits. |
-| **Intent summary** | Short job box the new manager must fill first. |
-| **SGC / two-judge** | Two models, blinded to the route, both say the text names the gold job. |
-| **Cheap rule / Jaccard** | Word-overlap pass; threshold 0.18. |
-| **Ask-label** | Whether we pressed Ask on gold-ask rows. |
-| **Wording** | Whether the clarification question names licensed alternatives. |
-| **CPC** | Slot-binding frame (parameters of the job). |
-| **Sidecar** | Extra official gold file; core gold stays frozen. |
-| **PEFT / adapter** | Small fine-tune add-on weights. |
-| **Goal-first** | Write the job; Python chooses the route. |
-| **Degree** | Same writing; uncertainty-only; never refuses. |
-| **Timid** | Same writing; ask-unless-clean. |
-| **Context-blind** | Scene/card hidden; same goal-first router. |
-| **The 62** | Intent yes, routing no (46 refuse / 13 ask / 3 execute). |
-| **Silent-resolve** | Act without asking; gold support = 0 on Pilot-120. |
-| **Salvage** | Broken GPU JSON rebuilt on CPU. |
-| **Temperature study** | Decoding at 0.0, 0.3, 0.7, 1.0; comparison tables use T=0 matched set. |
-| **[FIXABLE]** | Known bug; frozen scores stand until a new emit. |
+| **Pilot-120** | Fixed set of 120 compound robot commands with gold labels |
+| **Intent correctness** | Primary outcome: written job matches gold |
+| **Routing correctness** | Secondary outcome: predicted handling path matches gold |
+| **Intent–policy dissociation** | High intent with low routing because the router trusts miscalibrated analysis fields |
+| **Intent summary** | Short job paragraph required by the write-then-route manager |
+| **Two-judge protocol** | Two independent judges, blinded to the route, both affirm that the text names the gold job |
+| **Cheap overlap rule** | Content-word Jaccard overlap at threshold 0.18 without polarity flip |
+| **Ask-label F1** | Whether Ask was selected on gold-ask rows |
+| **Wording accuracy** | Whether the clarification question covers licensed alternatives |
+| **CPC** | Slot-binding parameter frame |
+| **Sidecar** | Official supplementary gold file; core gold remains frozen |
+| **PEFT adapter** | Parameter-efficient fine-tune weights |
+| **Goal-first** | Write the job; Python selects the route |
+| **Degree** | Shared writing; uncertainty-only router; never refuses |
+| **Timid** | Shared writing; ask-unless-clean router |
+| **Context-blind** | Scene and capability card withheld; goal-first router retained |
+| **The 62** | Rows with correct intent and incorrect routing (46 refuse, 13 ask, 3 execute) |
+| **Silent-resolve** | Act without asking; gold support on Pilot-120 is zero |
+| **Salvage** | Reconstruction of a small number of broken JSON rows on CPU |
+| **Temperature study** | Decoding at 0.0, 0.3, 0.7, and 1.0; comparison tables use the temperature-0 matched set |

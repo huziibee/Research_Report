@@ -2,44 +2,42 @@
 
 ## 2.1 From speech acts to robot instructions
 
-What a sentence *says* is not always what a hearer should *do* (Austin, 1962; Searle, 1969, 1975; Grice, 1975). In robotics that gap becomes operational: map messy language into a **plan**, a **question**, or a **refusal**.
+What a sentence says is not always what a hearer should do (Austin, 1962; Searle, 1969, 1975; Grice, 1975). In robotics the gap is operational: natural language must be mapped to execution, clarification, or refusal. Zhang et al. (2025) document underspecified collaborative requests; their physical setting motivates the problem but is not replicated here. The present study is restricted to text-level understanding and routing on Pilot-120.
 
-Zhang et al. (2025) motivate open slots in collaborative talk. We use that as **motivation only** — this study is text NLU on Pilot-120, not a physical tool-passing experiment.
+## 2.2 Ambiguity and clarification
 
-## 2.2 Ambiguity and clarification — what we took into the build
+Prior work supplies design requirements that were implemented on Pilot-120:
 
-We do **not** score AmbiK / CLARA / ClarifyVC as our main experiment. We **do** take specific design and measurement lessons into Pilot-120:
-
-| Prior work | Idea we needed | What we implemented on Pilot-120 |
+| Prior work | Design requirement | Implementation in this study |
 |---|---|---|
-| Ivanova et al., 2025 (AmbiK) | Compound ambiguity is a real task class | Pilot-120 authored as multi-slot underspecification with gold jobs + routes |
-| Park et al., 2024 (CLARA) | Context can change feasibility / disambiguation | **Context-blind** system: same router, card/scene hidden |
-| Madureira & Schlangen, 2023 | “Did you ask?” ≠ “did you ask well?” | Separate **ask-label F1** and **wording** exams (+ official wording sidecar) |
-| Mannekote et al., 2024 | Surface form ≠ true intent | `indirect_request` speech-act in schema; router treats it as actionable |
-| Zhou et al., 2026 (ClarifyVC) | Ask is a valid system action | Clarify is a first-class gold route (23 / 120) |
+| Ivanova et al., 2025 | Compound ambiguity as a task class | Pilot-120 commands with multi-slot underspecification, gold jobs, and gold routes |
+| Park et al., 2024 | Context affects feasibility and disambiguation | Context-blind system: identical router with scene and capability card withheld |
+| Madureira and Schlangen, 2023 | Asking is distinct from asking well | Separate ask-label F1 and wording accuracy metrics, with an official wording sidecar |
+| Mannekote et al., 2024 | Surface form need not equal intent | `indirect_request` speech-act label; router treats the act as actionable |
+| Zhou et al., 2026 | Clarification is a legitimate system action | Clarify is a gold route on 23 of 120 rows |
 
-| Typical prior focus | This report’s primary focus |
+| Focus in much prior work | Focus in this report |
 |---|---|
-| Ambiguity type or clarification quality alone | **Intent writing** first, routing second |
-| Embodied task success in simulation | Fixed Pilot-120 gold: 76 execute / 23 ask / 21 refuse |
+| Ambiguity typing or clarification quality alone | Intent writing as primary outcome; routing as secondary |
+| Embodied task success | Fixed Pilot-120 route mix: 76 execute, 23 clarify, 21 refuse |
 
-## 2.3 Risk, capability, and rejection — what we took into the build
+## 2.3 Risk, capability, and rejection
 
-| Prior work | Idea we needed | What we implemented |
+| Prior work | Design requirement | Implementation in this study |
 |---|---|---|
-| Sarathy et al., 2025 | Fluent generation ≠ sound architecture | **Write-then-route**: LLM writes; Python presses the button; ablations swap only the router |
-| Scheutz et al., 2022 | Refuse can be competence | Gold refuse path (21 / 120) + face-preserving rejection templates |
-| Sucker et al., 2024; Sucker & Henrich, 2025 | Fuzzy time/quantity; not everything silent-resolves | Pilot tags `fuzzy_temporal` / `fuzzy_quantity`; gold silent-resolve support = **0** |
-| Yin et al., 2024 (SafeAgentBench) | Risk should affect decisions | Official risk sidecar; risk-sensitive accuracy on 53 med+high rows |
+| Sarathy et al., 2025 | Fluent generation is not sound architecture | Write-then-route design: the language model writes analysis; Python selects the route; ablations change only the router |
+| Scheutz et al., 2022 | Refusal can be competent behaviour | Gold refuse path on 21 rows; face-preserving rejection templates |
+| Sucker et al., 2024; Sucker and Henrich, 2025 | Fuzzy time and quantity; silent resolution is not always appropriate | Pilot tags for fuzzy temporal and quantity phenomena; gold silent-resolve support is zero |
+| Yin et al., 2024 | Risk should influence decisions | Official risk sidecar; risk-sensitive accuracy on 53 medium- and high-risk rows |
 
-Yin et al. motivate the risk metric; we did **not** run SafeAgentBench as a corpus. The risk exam is Pilot-native.
+The risk-sensitive metric follows the proposal’s evaluation plan on Pilot-120. SafeAgentBench itself is not used as an evaluation corpus.
 
-## 2.4 Gap this project fills
+## 2.4 Gap addressed by this project
 
-| Common pattern | What we do instead |
+| Common evaluation pattern | Approach taken here |
 |---|---|
-| End-to-end simulation success | Hold the **model fixed**, swap only the router |
-| Clarification quality alone | Score **intent** (primary) and **routing** (secondary) side by side |
-| JSON fidelity alone | Official risk / CPC / wording sidecars |
+| End-to-end simulation success | Hold the model fixed and vary only the routing policy |
+| Clarification quality in isolation | Report intent correctness primarily and routing secondarily |
+| Structured-output fidelity alone | Add official risk, CPC, and wording sidecars |
 
-**Purpose:** show whether a risk-aware write-then-route manager improves **intent writing** on compound commands, and use routing to explain *how* the system got there. Chapter 3 states the question.
+The purpose of the work is to determine whether a risk-aware write-then-route manager improves intent writing on compound commands, and to use routing and supporting metrics to explain the observed handling paths. Chapter 3 states the research question formally.

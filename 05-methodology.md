@@ -118,7 +118,7 @@ flowchart TD
 | Cheap overlap | Jaccard on content words ≥ **0.18**, no polarity flip |
 | Two-judge | Two judges, blinded to the route, both say the text names the gold job |
 
-Overlap **0.368** ≈ 37% shared content words — **not** a probability. Raw/fine-tune cheap scores used **written reasoning**; managers use `intent_summary`. **Do not subtract** 112 from 68.
+Overlap of 0.368 indicates that about 37% of the combined content-word set is shared; it is not a probability. Raw and fine-tune cheap scores use written reasoning; manager scores use `intent_summary`. These fields are not interchangeable for arithmetic comparison.
 
 ### Routing correctness (**secondary**)
 
@@ -145,10 +145,10 @@ Predicted route = gold. Explains *how* we got there after intent.
 
 **Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54** includes three such rows (harsh **51**).
 
-## 4.6 Marked gaps
+## 4.6 Known secondary failures
 
-| Item | Marker |
+| Issue | Consequence |
 |---|---|
-| Empty clarification candidates → template questions | **[FIXABLE]** |
-| CPC value filled but status left `unknown` | **[FIXABLE]** |
-| Ambiguity exact-set still 0/120 | Tagging weakness (pattern still readable elsewhere) |
+| Empty `candidate_interpretations` | Clarification wording templates; wording accuracy 0 / 23 on frozen predictions |
+| CPC values stamped `unknown` / `not_applicable` despite usable values | Official CPC F1 remains 0.045 |
+| Ambiguity exact-set match of 0 / 120 | Tagging remains weak; does not negate the intent–policy pattern |
