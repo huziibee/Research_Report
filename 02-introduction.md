@@ -31,13 +31,13 @@ Systems are reported in fixed order throughout:
 
 **Raw Qwen → Fine-tune → New goal-first → New degree → New timid → New context-blind.**
 
-| Property | Detail |
-|---|---|
-| Shared model (systems 3–6) | Frozen Qwen3-8B |
-| Shared writing (systems 3–5) | One `intent_summary` |
-| Degree and timid | Alternate Python routers on that shared writing |
-| Context-blind | Second generation with scene and capability card withheld |
-| Decoding | Temperatures 0.0, 0.3, 0.7, and 1.0; comparison tables use the temperature-0 matched set |
+| Property                     | Detail                                                                                   |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| Shared model (systems 3–6)   | Frozen Qwen3-8B                                                                          |
+| Shared writing (systems 3–5) | One `intent_summary`                                                                     |
+| Degree and timid             | Alternate Python routers on that shared writing                                          |
+| Context-blind                | Second generation with scene and capability card withheld                                |
+| Decoding                     | Temperatures 0.0, 0.3, 0.7, and 1.0; comparison tables use the temperature-0 matched set |
 
 | Outcome | Role | Definition |
 |---|---|---|

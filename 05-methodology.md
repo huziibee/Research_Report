@@ -126,29 +126,29 @@ Predicted route = gold. Explains *how* we got there after intent.
 
 ### Clarification, CPC, risk, supporting
 
-| Metric | Definition |
-|---|---|
-| Ask-label F1 | Pressed Ask on the 23 gold-ask rows? |
-| Wording | Question covers licensed alternatives? |
-| CPC F1 | Micro-F1 on `status == filled` cells |
-| Risk-sensitive | Routing accuracy on 53 med+high rows |
-| Ambiguity / capability / safe-reject | Supporting diagnostics |
+| Metric                               | Definition                             |
+| ------------------------------------ | -------------------------------------- |
+| Ask-label F1                         | Pressed Ask on the 23 gold-ask rows?   |
+| Wording                              | Question covers licensed alternatives? |
+| CPC F1                               | Micro-F1 on `status == filled` cells   |
+| Risk-sensitive                       | Routing accuracy on 53 med+high rows   |
+| Ambiguity / capability / safe-reject | Supporting diagnostics                 |
 
 ## 4.5 Runs
 
-| Run | Temperatures | Role |
-|---|---|---|
-| Temperature study | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity |
-| System comparison tables | Temperature 0 matching set | Fair head-to-head |
-| CPU sidecar scoring | n/a | CPC / risk / wording / ask-label |
-| Final-close | Temperature 0 | Intent boxes + two-judge |
+| Run                      | Temperatures                          | Role                             |
+| ------------------------ | ------------------------------------- | -------------------------------- |
+| Temperature study        | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity                      |
+| System comparison tables | Temperature 0 matching set            | Fair head-to-head                |
+| CPU sidecar scoring      | n/a                                   | CPC / risk / wording / ask-label |
+| Final-close              | Temperature 0                         | Intent boxes + two-judge         |
 
 **Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54** includes three such rows (harsh **51**).
 
 ## 4.6 Known secondary failures
 
-| Issue | Consequence |
-|---|---|
-| Empty `candidate_interpretations` | Clarification wording templates; wording accuracy 0 / 23 on frozen predictions |
-| CPC values stamped `unknown` / `not_applicable` despite usable values | Official CPC F1 remains 0.045 |
-| Ambiguity exact-set match of 0 / 120 | Tagging remains weak; does not negate the intent–policy pattern |
+| Issue                                                                 | Consequence                                                                    |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Empty `candidate_interpretations`                                     | Clarification wording templates; wording accuracy 0 / 23 on frozen predictions |
+| CPC values stamped `unknown` / `not_applicable` despite usable values | Official CPC F1 remains 0.045                                                  |
+| Ambiguity exact-set match of 0 / 120                                  | Tagging remains weak; does not negate the intent–policy pattern                |

@@ -1,4 +1,4 @@
-﻿# Research_Report
+# Research_Report
 
 Honours research report: *A Risk-Aware Ambiguity Manager for Compound Ambiguous Robot Commands* (Mohammed Bangie, 2610990).
 
