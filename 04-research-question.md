@@ -2,9 +2,9 @@
 
 ## 3.1 Research question
 
-**Does a risk-aware write-then-route ambiguity manager improve intent writing on compound ambiguous robot commands compared with direct LLM interpretation, and how does routing behave under the same analysis?**
+**Does a risk-aware write-then-route ambiguity manager improve intent correctness for compound ambiguous robot commands compared with direct LLM interpretation and uniform / degree-based ambiguity-handling policies, when evaluated primarily on intent writing and secondarily on ambiguity, clarification, routing, and risk-sensitive correctness?**
 
-In plain language: force a short job box, then let Python press the button — do we **name the gold job** more often than raw Qwen, and what happens to the button when we do?
+That is the same *shape* as the May proposal question, with one deliberate change of spotlight: **intent writing is primary**; routing and the other proposal metrics remain in the evaluation, but as supporting / secondary outcomes. In plain language: force a short job box, then let Python press the button — do we **name the gold job** more often than raw Qwen and the degree / timid / context-blind controls, and what happens to the button, ask behaviour, and risk-sensitive decisions under the same analysis?
 
 | System | Role |
 |---|---|
