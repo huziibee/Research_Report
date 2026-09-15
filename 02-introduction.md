@@ -56,12 +56,12 @@ Systems are reported in fixed order throughout:
 
 | Result | Value | Note |
 |---|---|---|
-| Goal-first two-judge intent (official) | **113 / 120** | Primary intent result |
-| Goal-first automatic overlap | 112 / 120 | Screen on the same box |
+| Two-judge intent (official) | Goal-first **113 / 120**; raw **113 / 120** | Tied once both use intent boxes |
+| Automatic overlap on `intent_summary` | Raw **120 / 120**; goal-first 112 / 120 | Same-field screen only |
 | Goal-first routing | 54 / 120 (raw **88 / 120**) | Temperature-0 completed set |
-| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) | |
-| Risk-sensitive decision accuracy (53 medium+high) | raw **0.736**; goal-first 0.491 | Accuracy, not F1 |
-| Wording / CPC F1 | 0 / 23; 0.045 | **[FIXABLE]** on frozen preds |
+| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) | Automatic-screen slab |
+| Risk-sensitive accuracy (53 medium+high) | raw **0.736**; goal-first 0.491 | Low rows analysed separately (27 / 64) |
+| Wording / CPC / ambiguity | 0 / 23; 0.045; exact-set 0 | **[FIXABLE]** on fix-emit 54774 |
 | Temperature 0.7 system tables | — | **[Results Incoming]** |
 
 ## 1.5 Structure of the report
