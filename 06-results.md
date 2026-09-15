@@ -264,7 +264,15 @@ Already scored on CPU. **Not** awaiting the GPU temperature sweep; **not** on me
 
 *Figure 9. Ambiguity tagging errors (exact-set stays 0 / 120).*
 
-Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use of `action_order`), not a missing field and not unfinished GPU work. Soft partial overlap exists on 62 / 120 rows but is not the official exact-set claim. The wording/CPC fix-emit does **not** claim to fix exact-set.
+Exact-set **0 / 120** on the frozen temperature-0 emit is not a missing field and not unfinished GPU sweep work. Soft partial overlap already exists on **62 / 120** rows (micro-F1 ≈ 0.215). Two mechanisms:
+
+| Mechanism | Evidence |
+|---|---|
+| Tagging quality | Pred bags binge `action_order` (80 false positives) and miss gold-heavy classes (`pragmatic` 29 FN, `routine_reference` 26 FN). Contain-gold = **0 / 120**; CPU drop/normalize lifts exact-set by **0**. |
+| Constrained-prompt bug (now fixed in code) | **111 / 120** R1 rows tagged via `schema_constrained_final_emission…` whose prompt previously **omitted** the Pilot-17 names. Thinking listed them; constrained did not. |
+
+Fix-emit job **54774** (behind mega 54259) now carries the repaired constrained prompt (definitions + `action_order` discipline). Treat any later non-zero exact-set as a **new emit**, not a patch of the published 0 / 120. Honest soft metrics (macro/micro-F1, soft overlap) remain reportable today. Raw Qwen’s separate 0 / 120 was mostly empty scored bags (prompt never listed the 17 names); that vocab crash is also fixed in `evaluate_pilot_120_direct_base.py` for the next raw emit.
+
 
 ---
 
@@ -290,7 +298,7 @@ Exact-set 0 / 120 is a **[LIMITATION]** of tagging quality (including over-use o
 |---|---|
 | Two-judge intent, routing, risk-sensitive accuracy, ask-label (temperature-0 set) | Done |
 | Wording 0 / 23, CPC F1 0.045 | Done on CPU; **[FIXABLE]** by fix-emit behind mega 54259 |
-| Ambiguity exact-set 0 / 120 | Done; **[LIMITATION]** |
+| Ambiguity exact-set 0 / 120 | Frozen emit: tagging quality + constrained-prompt vocab omission; **fix in code on job 54774** |
 | Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** |
 
 ---

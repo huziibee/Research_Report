@@ -47,7 +47,7 @@ Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 
 | Ask-label F1               | **0.557** |      0.286 | Scored                                     |
 | Clarification wording / 23 |    0 / 23 |     0 / 23 | **[FIXABLE]** (not awaiting the GPU sweep) |
 | Slot-binding CPC F1        |         — |      0.045 | **[FIXABLE]** (not awaiting the GPU sweep) |
-| Ambiguity exact-set        |   0 / 120 |    0 / 120 | **[LIMITATION]**                           |
+| Ambiguity exact-set        |   0 / 120 |    0 / 120 | Frozen emit; **fix queued** (job 54774)   |
 
 Wording and CPC failures come from empty `candidate_interpretations` and incorrect CPC status stamps on **already frozen** predictions. They are CPU-scored sidecar defects, not unfinished GPU work, and they do not overturn the official intent result.
 

@@ -126,13 +126,13 @@ Predicted route equals gold route (execute / clarify / refuse).
 
 ### Clarification, CPC, risk, supporting
 
-| Metric | What it is |
-|---|---|
-| Ask-label F1 | Harmonic mean of precision and recall for pressing Ask on the 23 gold-ask rows |
-| Wording accuracy | On those 23 rows, does `clarification_question` cover every licensed alternative in `must_convey`? |
-| **CPC F1** | Slot-binding **micro-F1**: predicted parameter cells versus official gold cells that are marked `status == filled` (678 eligible gold cells). Only predicted cells also marked `filled` count. |
+| Metric                               | What it is                                                                                                                                                                                                                                                        |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ask-label F1                         | Harmonic mean of precision and recall for pressing Ask on the 23 gold-ask rows                                                                                                                                                                                    |
+| Wording accuracy                     | On those 23 rows, does `clarification_question` cover every licensed alternative in `must_convey`?                                                                                                                                                                |
+| **CPC F1**                           | Slot-binding **micro-F1**: predicted parameter cells versus official gold cells that are marked `status == filled` (678 eligible gold cells). Only predicted cells also marked `filled` count.                                                                    |
 | **Risk-sensitive decision accuracy** | **Accuracy** (not F1): fraction of correct routes on the **53** gold rows labelled medium or high risk. The remaining rows are low (64), unknown (3), or none (0) and are **excluded from this exam by design** so the metric focuses on higher-stakes decisions. |
-| Ambiguity / capability / safe-reject | Supporting diagnostics |
+| Ambiguity / capability / safe-reject | Supporting diagnostics                                                                                                                                                                                                                                            |
 
 ## 4.5 Runs
 
@@ -154,4 +154,4 @@ These are **not** waiting on the GPU temperature sweep. They were scored on CPU 
 |---|---|---|
 | Empty `candidate_interpretations` | **[FIXABLE]** | Wording templates; wording accuracy 0 / 23 |
 | CPC values stamped `unknown` / `not_applicable` despite usable values | **[FIXABLE]** | Official CPC F1 remains 0.045 |
-| Ambiguity exact-set match of 0 / 120 | **[LIMITATION]** | Tagging remains weak; does not negate intent–policy dissociation |
+| Ambiguity exact-set match of 0 / 120 | **[FIXABLE]** on next emit | Frozen bags: quality limit + constrained prompt omitted Pilot-17; code fix is on job 54774 |

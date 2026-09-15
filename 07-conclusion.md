@@ -29,7 +29,7 @@
 | 2 | Populate clarification candidates; re-score wording | **[FIXABLE]** (fix-emit job) |
 | 3 | Emit CPC `filled` for licensed values; re-score CPC micro-F1 | **[FIXABLE]** (fix-emit job) |
 | 4 | Complete and report H3 (lower temperature) and H4 (higher temperature) | **[Results Incoming]** |
-| 5 | Improve ambiguity-type prediction | **[LIMITATION]** today |
+| 5 | Re-emit ambiguity tags with Pilot-17 definitions on constrained path (job 54774) | **[FIXABLE]** / **[Results Incoming]** |
 | 6 | Optional embodied evaluation after the text layer is stable | Later |
 
 The central conclusion is that the manager frequently names the intended job correctly under the official two-judge protocol, while the current routing policy often fails to select the corresponding handling path.
