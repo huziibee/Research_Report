@@ -2,7 +2,7 @@
 
 ## 4.1 Overview
 
-We compare six text systems on **Pilot-120**. No physical robot. A temperature study ran decoding at **0.0, 0.3, 0.7, and 1.0** with matched replicas. System-comparison tables use the temperature-0 matching-replica set.
+We compare six text systems on **Pilot-120**. No physical robot. The study default decoding temperature is **0.7**. A temperature study also runs **0.0, 0.3, and 1.0** with matched replicas (**[Results Incoming]** for the full 0.7-centred system tables). Completed system-comparison counts currently reported in Chapter 5 use the finished temperature-0 matched set and are labelled as such.
 
 ```mermaid
 flowchart TD
@@ -113,42 +113,45 @@ flowchart TD
 
 ### Intent correctness (**primary**)
 
-| Protocol | Rule |
-|---|---|
-| Cheap overlap | Jaccard on content words ≥ **0.18**, no polarity flip |
-| Two-judge | Two judges, blinded to the route, both say the text names the gold job |
+| Protocol | Role | Rule |
+|---|---|---|
+| **Two-judge** | Official primary | Two judges, blinded to the route, both say the text names the gold job |
+| **Automatic overlap** | Screening check only | Jaccard on content words ≥ **0.18**, no polarity flip |
 
-Overlap of 0.368 indicates that about 37% of the combined content-word set is shared; it is not a probability. Raw and fine-tune cheap scores use written reasoning; manager scores use `intent_summary`. These fields are not interchangeable for arithmetic comparison.
+Overlap of 0.368 means about 37% of the combined content-word set is shared; it is not a probability. Automatic overlap on raw/fine-tune historically used written reasoning; manager scores use `intent_summary`. Those fields are not interchangeable. When both protocols exist for the same intent box, **two-judge is the final intent answer**.
 
 ### Routing correctness (**secondary**)
 
-Predicted route = gold. Explains *how* we got there after intent.
+Predicted route equals gold route (execute / clarify / refuse).
 
 ### Clarification, CPC, risk, supporting
 
-| Metric                               | Definition                             |
-| ------------------------------------ | -------------------------------------- |
-| Ask-label F1                         | Pressed Ask on the 23 gold-ask rows?   |
-| Wording                              | Question covers licensed alternatives? |
-| CPC F1                               | Micro-F1 on `status == filled` cells   |
-| Risk-sensitive                       | Routing accuracy on 53 med+high rows   |
-| Ambiguity / capability / safe-reject | Supporting diagnostics                 |
+| Metric | What it is |
+|---|---|
+| Ask-label F1 | Harmonic mean of precision and recall for pressing Ask on the 23 gold-ask rows |
+| Wording accuracy | On those 23 rows, does `clarification_question` cover every licensed alternative in `must_convey`? |
+| **CPC F1** | Slot-binding **micro-F1**: predicted parameter cells versus official gold cells that are marked `status == filled` (678 eligible gold cells). Only predicted cells also marked `filled` count. |
+| **Risk-sensitive decision accuracy** | **Accuracy** (not F1): fraction of correct routes on the **53** gold rows labelled medium or high risk. The remaining rows are low (64), unknown (3), or none (0) and are **excluded from this exam by design** so the metric focuses on higher-stakes decisions. |
+| Ambiguity / capability / safe-reject | Supporting diagnostics |
 
 ## 4.5 Runs
 
-| Run                      | Temperatures                          | Role                             |
-| ------------------------ | ------------------------------------- | -------------------------------- |
-| Temperature study        | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity                      |
-| System comparison tables | Temperature 0 matching set            | Fair head-to-head                |
-| CPU sidecar scoring      | n/a                                   | CPC / risk / wording / ask-label |
-| Final-close              | Temperature 0                         | Intent boxes + two-judge         |
+| Run | Temperatures | Role |
+|---|---|---|
+| Study default | **0.7** | Intended operating temperature **[Results Incoming]** for full tables |
+| Temperature study | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity (H3) |
+| Completed comparison set (interim) | 0.0 matched replicas | Head-to-head numbers available now in Chapter 5 |
+| CPU sidecar scoring | n/a | CPC / risk / wording / ask-label on **frozen** predictions (already done) |
+| Final-close | 0.0 | Intent boxes + official two-judge |
 
 **Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54** includes three such rows (harsh **51**).
 
 ## 4.6 Known secondary failures
 
-| Issue                                                                 | Consequence                                                                    |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Empty `candidate_interpretations`                                     | Clarification wording templates; wording accuracy 0 / 23 on frozen predictions |
-| CPC values stamped `unknown` / `not_applicable` despite usable values | Official CPC F1 remains 0.045                                                  |
-| Ambiguity exact-set match of 0 / 120                                  | Tagging remains weak; does not negate the intent–policy pattern                |
+These are **not** waiting on the GPU temperature sweep. They were scored on CPU against official sidecars using already frozen predictions.
+
+| Issue | Marker | Consequence |
+|---|---|---|
+| Empty `candidate_interpretations` | **[FIXABLE]** | Wording templates; wording accuracy 0 / 23 |
+| CPC values stamped `unknown` / `not_applicable` despite usable values | **[FIXABLE]** | Official CPC F1 remains 0.045 |
+| Ambiguity exact-set match of 0 / 120 | **[LIMITATION]** | Tagging remains weak; does not negate intent–policy dissociation |

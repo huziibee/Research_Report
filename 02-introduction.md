@@ -6,7 +6,13 @@ Hospital and warehouse robots are increasingly expected to follow natural-langua
 
 > “Can the medicine tray go out after lunch?”
 
-A human listener recovers underspecified parameters from context. An automatic system may invent those parameters, issue an inappropriate clarification, or refuse a permitted handoff. The difficulty increases for **compound** commands, in which several slots are underspecified simultaneously and risk or capability constraints affect whether the system should execute, ask, or refuse.
+A human listener recovers underspecified parameters from context. An automatic system may invent those parameters, issue an inappropriate clarification, or refuse a permitted handoff.
+
+This study focuses on **compound ambiguity**, where several unknowns co-occur in one command. For example:
+
+> “Add a small amount of liquid soap to the soap dispenser with the assigned dosing cup after the check.”
+
+Here quantity (“small amount”), object, tool, and timing can all be underspecified at once, and licensed alternatives may exist (for example 20 ml versus 60 ml). Risk and capability constraints then affect whether the system should **execute**, **ask**, or **refuse**.
 
 ## 1.2 Scope
 
@@ -31,32 +37,33 @@ Systems are reported in fixed order throughout:
 
 **Raw Qwen → Fine-tune → New goal-first → New degree → New timid → New context-blind.**
 
-| Property                     | Detail                                                                                   |
-| ---------------------------- | ---------------------------------------------------------------------------------------- |
-| Shared model (systems 3–6)   | Frozen Qwen3-8B                                                                          |
-| Shared writing (systems 3–5) | One `intent_summary`                                                                     |
-| Degree and timid             | Alternate Python routers on that shared writing                                          |
-| Context-blind                | Second generation with scene and capability card withheld                                |
-| Decoding                     | Temperatures 0.0, 0.3, 0.7, and 1.0; comparison tables use the temperature-0 matched set |
+| Property | Detail |
+|---|---|
+| Shared model (systems 3–6) | Frozen Qwen3-8B |
+| Shared writing (systems 3–5) | One `intent_summary` |
+| Degree and timid | Alternate Python routers on that shared writing |
+| Context-blind | Second generation with scene and capability card withheld |
+| Default temperature | **0.7** |
+| Temperature study | Also 0.0, 0.3, and 1.0 (**[Results Incoming]** for the full 0.7-centred tables) |
 
 | Outcome | Role | Definition |
 |---|---|---|
-| Intent correctness | Primary | Written job matches gold |
+| Intent correctness | Primary | Written job matches gold; **official** protocol is two-judge agreement |
+| Automatic overlap | Screening check | Lexical overlap ≥ 0.18; used when a fast automatic score is needed |
 | Routing correctness | Secondary | Predicted handling path matches gold |
-
-Intent is treated as primary because the strongest empirical result is improved job writing under write-then-route generation; routing is retained to explain how handling paths diverge after that writing.
 
 ## 1.4 Preview of results
 
-| Result | Value |
-|---|---|
-| Goal-first cheap intent | **112 / 120** |
-| Goal-first two-judge intent | **113 / 120** |
-| Goal-first routing | 54 / 120 (raw: **88 / 120**) |
-| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) |
-| Risk-sensitive accuracy (53 rows) | raw **0.736**; goal-first 0.491 |
-| Clarification wording / CPC F1 | 0 / 23; 0.045 |
+| Result | Value | Note |
+|---|---|---|
+| Goal-first two-judge intent (official) | **113 / 120** | Primary intent result |
+| Goal-first automatic overlap | 112 / 120 | Screen on the same box |
+| Goal-first routing | 54 / 120 (raw **88 / 120**) | Temperature-0 completed set |
+| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) | |
+| Risk-sensitive decision accuracy (53 medium+high) | raw **0.736**; goal-first 0.491 | Accuracy, not F1 |
+| Wording / CPC F1 | 0 / 23; 0.045 | **[FIXABLE]** on frozen preds |
+| Temperature 0.7 system tables | — | **[Results Incoming]** |
 
 ## 1.5 Structure of the report
 
-Chapter 2 reviews related work and states which design choices were adopted. Chapter 3 presents the research question and hypotheses. Chapter 4 describes Pilot-120, the six systems, and the scoring protocols. Chapter 5 reports results and analyses the intent–policy pattern. Chapter 6 concludes and outlines future work. A glossary defines recurring terms.
+Chapter 2 reviews related work and states which design choices were adopted. Chapter 3 presents the research question and hypotheses. Chapter 4 describes Pilot-120, the six systems, and the scoring protocols. Chapter 5 reports results and analyses the intent–policy pattern. Chapter 6 concludes and outlines future work, including router recalibration and the temperature-0.7-centred scoreboard. A glossary defines recurring terms.
