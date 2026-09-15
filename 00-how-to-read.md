@@ -30,7 +30,9 @@ Open this folder as an **Obsidian vault** (mermaid diagrams render in Obsidian /
 | References | [[08-references]] |
 | Glossary | [[glossary]] |
 
-**Evaluation set in this report:** Pilot-120 only. Prior work is cited for ideas; those papers are not used as score tables here.
+**Evaluation set:** Pilot-120. Prior work is cited for **design lessons we implemented**, not as unused score tables.
+
+Primary metric: **intent**. Secondary: **routing**.
 
 Optional self-check: [[grade-estimate]].
 

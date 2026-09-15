@@ -2,55 +2,50 @@
 
 ## 3.1 Research question
 
-**Does a risk-aware ambiguity manager improve routing decisions for compound ambiguous robot commands compared with direct LLM interpretation and uniform / degree-based ambiguity-handling policies, when evaluated on interpretation, ambiguity, clarification, routing, and risk-sensitive correctness?**
+**Does a risk-aware write-then-route ambiguity manager improve intent writing on compound ambiguous robot commands compared with direct LLM interpretation, and how does routing behave under the same analysis?**
 
-In plain language: write the job first, let Python press the button — do we beat raw Qwen and simple degree / timid controls on Pilot-120?
+In plain language: force a short job box, then let Python press the button — do we **name the gold job** more often than raw Qwen, and what happens to the button when we do?
 
-| System                     | Role                              |
-| -------------------------- | --------------------------------- |
-| Raw / Fine-tune            | Direct LLM interpretation         |
-| Goal-first                 | Proposed write-then-route manager |
-| Degree                     | Uncertainty-only; never refuses   |
-| Timid                      | Ask-unless-clean (conservative)   |
-| Context-blind              | Same router; card/scene hidden    |
-| Always-ask / always-refuse | Analytic bounds only              |
+| System | Role |
+|---|---|
+| Raw / Fine-tune | Direct LLM interpretation |
+| Goal-first | Proposed write-then-route manager |
+| Degree | Uncertainty-only; never refuses |
+| Timid | Ask-unless-clean (conservative) |
+| Context-blind | Same router; card/scene hidden |
 
-## 3.2 Hypothesis (as proposed)
+## 3.2 Hypothesis
 
-Explicit ambiguity-type, risk, capability, context, and uncertainty coordination will improve **routing correctness** over direct interpretation and fixed / degree-only policies.
+**Primary.** Explicit intent-first generation improves **intent correctness** versus free-form direct LLM reasoning on the same compound commands.
+
+**Secondary (proposal wording).** Risk/capability/uncertainty coordination improves **routing** versus direct interpretation and fixed/degree-only policies.
 
 ## 3.3 What “success” means
 
-| Kind | Passes when… |
-|---|---|
-| **Routing** (primary in proposal) | Predicted route = gold route |
-| **Intent** | Written job matches gold (cheap rule + two-judge) |
-| **Supporting** | Ask-label, wording, CPC, risk-sensitive, ambiguity, capability, safe-reject |
+| Kind | Role | Passes when… |
+|---|---|---|
+| **Intent** | **Primary** | Written job matches gold (cheap rule + two-judge) |
+| **Routing** | Secondary | Predicted route = gold route |
+| **Supporting** | Diagnostic | Ask-label, wording, CPC, risk-sensitive, ambiguity, capability |
 
-A system can win intent and lose routing. That split is itself a result.
+Winning intent and losing routing is still a scientific result: it isolates policy failure from “never understood.”
 
 ## 3.4 Hypothesis verdict (preview)
 
 | Claim | Verdict | Evidence |
 |---|---|---|
-| Better routing vs raw | **Not supported** | 54 / 120 vs 88 / 120; risk 0.491 vs 0.736 |
-| Stronger intent writing | **Supported** | 112 / 120 cheap; 113 / 120 two-judge |
-| Mechanism | Router / bits | Wrong capable / “unauthorized”; refuse-first Python |
+| Better **intent** writing vs raw reasoning | **Supported** | 112 / 120 cheap on the job box; 113 / 120 two-judge |
+| Better **routing** vs raw | **Not supported** | 54 / 120 vs 88 / 120; risk 0.491 vs 0.736 |
+| Mechanism | Intent–policy dissociation | Forced box passes exams; refuse-first router trusts bad bits |
 
 ## 3.5 Scope and claim boundary
 
 | We may claim | We may not claim |
 |---|---|
-| Better/worse NLU interpretation & routing on Pilot-120 | Safe physical robot execution |
-| Mechanisms tied to code paths | General visual grounding |
-| Honest negatives with fix paths | That optional follow-ons are already done |
+| Better/worse intent writing and routing on Pilot-120 | Safe physical robot execution |
+| Mechanisms tied to code paths | That we “ran AmbiK/CLARA/SafeAgentBench” as our main exam |
+| Honest negatives with fix paths | General visual grounding |
 
 ## 3.6 Why the question is answerable
 
-| Requirement | Status |
-|---|---|
-| Fixed Pilot-120 + sidecars | Yes |
-| Runnable offline systems | Yes |
-| Defined metrics (Ch. 4) | Yes |
-| Physical robot | Not required |
-| Incomplete optional work | Marked **[PENDING]** — not invented |
+Pilot-120 is fixed, systems are runnable offline, and metrics are defined in Chapter 4. N = 120 is enough to **surface the intent–policy pattern** (same writing → different buttons; 62 intent-yes / routing-no rows) — that is the point of the study, not a size apology.

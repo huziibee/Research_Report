@@ -4,46 +4,42 @@
 
 What a sentence *says* is not always what a hearer should *do* (Austin, 1962; Searle, 1969, 1975; Grice, 1975). In robotics that gap becomes operational: map messy language into a **plan**, a **question**, or a **refusal**.
 
-Zhang et al. (2025) show everyday collaboration often leaves slots open and expects the partner to notice — the same pressure a robot faces when object, place, or time is underspecified in a compound command.
+Zhang et al. (2025) motivate open slots in collaborative talk. We use that as **motivation only** — this study is text NLU on Pilot-120, not a physical tool-passing experiment.
 
-## 2.2 Ambiguity and clarification
+## 2.2 Ambiguity and clarification — what we took into the build
 
-The proposal situates this project in prior work on ambiguous instructions and clarification (not as evaluation sets used here):
+We do **not** score AmbiK / CLARA / ClarifyVC as our main experiment. We **do** take specific design and measurement lessons into Pilot-120:
 
-| Idea from prior work                              | Source                      | Relevance to this project            |
-| ------------------------------------------------- | --------------------------- | ------------------------------------ |
-| Recover the intended reading of an ambiguous task | Ivanova et al., 2025        | Motivation for compound ambiguity    |
-| Classify *and* disambiguate user commands         | Park et al., 2024           | Clarification as a first-class skill |
-| Clarifying ambiguous control commands             | Zhou et al., 2026           | Ask is a valid system action         |
-| Clarification as a measurable dialogue move       | Madureira & Schlangen, 2023 | Ask-label vs wording quality         |
-| Surface form (“Can you…?”) ≠ true intent          | Mannekote et al., 2024      | Speech-act caution                   |
+| Prior work | Idea we needed | What we implemented on Pilot-120 |
+|---|---|---|
+| Ivanova et al., 2025 (AmbiK) | Compound ambiguity is a real task class | Pilot-120 authored as multi-slot underspecification with gold jobs + routes |
+| Park et al., 2024 (CLARA) | Context can change feasibility / disambiguation | **Context-blind** system: same router, card/scene hidden |
+| Madureira & Schlangen, 2023 | “Did you ask?” ≠ “did you ask well?” | Separate **ask-label F1** and **wording** exams (+ official wording sidecar) |
+| Mannekote et al., 2024 | Surface form ≠ true intent | `indirect_request` speech-act in schema; router treats it as actionable |
+| Zhou et al., 2026 (ClarifyVC) | Ask is a valid system action | Clarify is a first-class gold route (23 / 120) |
 
-This project stays **text-only**. Evaluation is on **Pilot-120**, not on those external corpora.
-
-| Typical prior focus | This report’s focus |
+| Typical prior focus | This report’s primary focus |
 |---|---|
-| Ambiguity type or clarification quality alone | **Intent writing** and **route choice** together |
-| Embodied task success in simulation | Fixed Pilot-120 gold mix: 76 execute / 23 ask / 21 refuse |
+| Ambiguity type or clarification quality alone | **Intent writing** first, routing second |
+| Embodied task success in simulation | Fixed Pilot-120 gold: 76 execute / 23 ask / 21 refuse |
 
-That is why a **112-intent / 54-routing** split reads as a *manager* failure, not “the model never understood.”
+## 2.3 Risk, capability, and rejection — what we took into the build
 
-## 2.3 Risk, capability, and rejection
+| Prior work | Idea we needed | What we implemented |
+|---|---|---|
+| Sarathy et al., 2025 | Fluent generation ≠ sound architecture | **Write-then-route**: LLM writes; Python presses the button; ablations swap only the router |
+| Scheutz et al., 2022 | Refuse can be competence | Gold refuse path (21 / 120) + face-preserving rejection templates |
+| Sucker et al., 2024; Sucker & Henrich, 2025 | Fuzzy time/quantity; not everything silent-resolves | Pilot tags `fuzzy_temporal` / `fuzzy_quantity`; gold silent-resolve support = **0** |
+| Yin et al., 2024 (SafeAgentBench) | Risk should affect decisions | Official risk sidecar; risk-sensitive accuracy on 53 med+high rows |
 
-| Idea                                   | Source                                      | Lesson for routing                    |
-| -------------------------------------- | ------------------------------------------- | ------------------------------------- |
-| Safe task planning for LLM agents      | Yin et al., 2024                            | Risk must affect the button           |
-| Rejection with justification           | Scheutz et al., 2022                        | Refuse can be competence              |
-| Fluent generation ≠ sound architecture | Sarathy et al., 2025                        | Need an explicit policy layer         |
-| Fuzzy time / quantity                  | Sucker et al., 2024; Sucker & Henrich, 2025 | Not everything can be silent-resolved |
-
-**Practical lesson:** naming the job and choosing the path are different skills. A system can write the correct move and still refuse on a wrong capability bit.
+Yin et al. motivate the risk metric; we did **not** run SafeAgentBench as a corpus. The risk exam is Pilot-native.
 
 ## 2.4 Gap this project fills
 
-| Common pattern | Still rare — and what we do |
+| Common pattern | What we do instead |
 |---|---|
 | End-to-end simulation success | Hold the **model fixed**, swap only the router |
-| Clarification quality alone | Report **intent** and **routing** side by side |
-| JSON fidelity alone | Official risk / CPC / wording sidecars on Pilot-120 |
+| Clarification quality alone | Score **intent** (primary) and **routing** (secondary) side by side |
+| JSON fidelity alone | Official risk / CPC / wording sidecars |
 
-**Purpose:** build and evaluate a risk-aware write-then-route manager on Pilot-120, against the proposal’s direct, degree, conservative, and context-blind comparators. Chapter 3 states the testable question.
+**Purpose:** show whether a risk-aware write-then-route manager improves **intent writing** on compound commands, and use routing to explain *how* the system got there. Chapter 3 states the question.

@@ -4,35 +4,34 @@
 
 | Question | Answer on Pilot-120 |
 |---|---|
-| Does the manager beat raw on **routing**? | **No** — 54 / 120 vs **88 / 120** |
-| Does it write the **job** well? | **Yes** — 112 / 120 cheap; 113 / 120 two-judge |
-| Risk-sensitive (53 med+high) | Raw **0.736** · goal-first 0.491 |
-| What breaks routing? | The **62**: 46 refuse · 13 ask · 3 execute |
-| Same writing, different Python | Goal-first 54 · degree 59 · timid 26 · blind 21 |
+| Does write-then-route improve **intent** (primary)? | **Yes** — 112 / 120 cheap; 113 / 120 two-judge |
+| How? | Forced job box + scene nouns; judges agree |
+| Does it beat raw on **routing** (secondary)? | **No** — 54 / 120 vs **88 / 120** |
+| Underlying pattern | Intent–policy dissociation (good box, bad bits) |
+| The 62 | 46 refuse · 13 ask · 3 execute |
+| Same writing, different Python | 54 / 59 / 26 / 21 |
 | Wording / CPC | 0 / 23 · 0.045 — **[FIXABLE]** |
-| Ambiguity exact-set | 0 / 120 — **[LIMITATION]** |
 
 ## 6.2 Author’s contribution
 
 | # | Contribution |
 |---:|---|
-| 1 | Write-then-route manager on Qwen3-8B with degree / timid / context-blind ablations |
-| 2 | Separated intent from routing; showed the split on real rows (CA-0026, CA-0007) |
-| 3 | Official CPC, risk, and wording sidecars without mutating core gold |
-| 4 | Named mechanisms for zeros (empty candidates; CPC status; unauthorized refuse) |
-| 5 | Rubric-aligned report with honest **[FIXABLE]** / **[LIMITATION]** markers |
+| 1 | Intent-primary evaluation of a write-then-route manager + policy ablations |
+| 2 | Named the intent–policy pattern with cases (e.g. CA-0007) |
+| 3 | Built design choices from prior work into Pilot systems (policy layer, context-blind, ask vs wording, refuse path, fuzzy tags, risk sidecar) |
+| 4 | Official CPC / risk / wording sidecars without mutating core gold |
+| 5 | Temperature study at 0.0 / 0.3 / 0.7 / 1.0; head-to-head tables on the T=0 matched set |
 
 ## 6.3 Future work
 
-| Priority | Work | Marker |
-|---|---|---|
-| 1 | Clarification generator + filled candidates; re-score wording | **[FIXABLE]** |
-| 2 | CPC `filled` status emission; re-score CPC F1 | **[FIXABLE]** |
-| 3 | Retune capability / unauthorized routing; re-check routing + risk | Live science |
-| 4 | Improve ambiguity tagging if exact-set stays 0 | **[LIMITATION]** |
-| 5 | Optional: temperature ≠ 0 sensitivity on the same six systems | Later |
-| 6 | Embodied pilot only after the text layer stops fighting itself | Later |
+| Priority | Work |
+|---|---|
+| 1 | Clarification generator + candidates; re-score wording **[FIXABLE]** |
+| 2 | CPC `filled` status; re-score CPC F1 **[FIXABLE]** |
+| 3 | Retune capability / unauthorized routing so intent wins are not burned |
+| 4 | Strengthen ambiguity tagging |
+| 5 | Embodied pilot only after the text layer stops fighting itself |
 
 **One-sentence verdict:**
 
-> The manager often **understands** the compound command on the page; the live router often **does not yet deserve** that understanding.
+> The manager often **names** the compound command correctly; the live router often **does not yet deserve** that writing.

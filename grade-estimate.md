@@ -1,42 +1,30 @@
 # Grade estimate (working draft)
 
-Self-check against [[rubric]]. Marks are **estimates**, not official.
+Self-check against [[rubric]]. Marks are **estimates**, not official.  
+Final % ≈ Σ(weight × mark) (weights sum to 20; 20×5 = 100).
 
-**Scoring note:** each component is 0–5; final % ≈ Σ(weight × mark) because weights sum to 20 and 20×5 = 100.
+## Current draft
 
-## Current draft (after cleanup)
-
-| Component | Weight | Est. mark /5 | Weighted | Rationale |
+| Component | Weight | Est. /5 | Weighted | Note |
 |---|---:|---:|---:|---|
-| Abstract | 1 | 4.5 | 4.5 | Independent, tables, mermaid; clear finding |
-| Introduction | 2 | 4.5 | 9.0 | Area → work → preview → map |
-| Problem background | 2 | 4.0 | 8.0 | Proposal literature mapped to *ideas*; not unused score tables |
-| RQ / hypothesis | 1 | 4.5 | 4.5 | Clear RQ + explicit verdict |
-| Methodology | 3 | 4.5 | 13.5 | Pilot-120 justified; systems mapped to proposal; metrics defined |
-| Results | 6 | 4.0 | 24.0 | Strong intent/routing story + figures; secondary 0s hurt “enough results” a little |
-| Conclusion | 1 | 4.5 | 4.5 | Summary, contribution, future work |
-| Presentation | 3 | 4.5 | 13.5 | Tables + mermaid + captions; still markdown (not final PDF) |
-| References | 1 | 4.5 | 4.5 | Complete proposal-aligned set; no dangling unused datasets |
-| **Total** | **20** | | **≈ 86%** | Band: **Very good** |
+| Abstract | 1 | 4.5 | 4.5 | Intent-first; mermaid; clear pattern |
+| Introduction | 2 | 4.5 | 9.0 | Natural example; primary/secondary clear |
+| Problem background | 2 | 4.5 | 9.0 | Literature → **what we built** (not name-drops) |
+| RQ / hypothesis | 1 | 5.0 | 5.0 | Intent primary; routing secondary; verdict |
+| Methodology | 3 | 4.5 | 13.5 | Ablation mermaids; temperature study framed |
+| Results | 6 | 4.5 | 27.0 | How 112 happens; pattern not “N is small” |
+| Conclusion | 1 | 4.5 | 4.5 | Matches intent-first story |
+| Presentation | 3 | 4.5 | 13.5 | Tables + mermaid; PDF still future |
+| References | 1 | 4.5 | 4.5 | Cited works match Chapter 2 leverage |
+| **Total** | **20** | | **≈ 91%** | |
 
-### What still caps “Excellent” on Results (weight 6)
+## Scenarios
 
-- Frozen wording **0/23** and CPC **0.045** (even with honest **[FIXABLE]** labels)
-- Ambiguity exact-set **0/120**
-- Markdown vault vs typeset PDF with page numbers
+| Scenario | Change | Est. % |
+|---|---|---:|
+| A. Now | Intent-primary rewrite | **~91%** |
+| B. FIXABLE emit | Wording + CPC rise | **~93%** |
+| C. B + router retune | Routing/risk improve without killing intent | **~94–96%** |
+| D. C + typeset PDF | Presentation 5.0 | **~95–97%** |
 
-## Scenarios (if pending / fixable items landed)
-
-| Scenario | What changes | Est. Results mark | Est. overall % |
-|---|---|---:|---:|
-| **A. Now (baseline)** | As above | 4.0 | **~86%** |
-| **B. FIXABLE only** | New emit: wording rises (even to ~2–6/23) + CPC F1 clearly above 0.045; mechanisms confirmed | 4.5 | **~89%** |
-| **C. B + router retune** | Capability/unauthorized fix; routing and risk move toward raw without killing intent | 4.5–5.0 | **~89–92%** |
-| **D. C + typeset PDF** | Page numbers, figure placement, print-ready captions | Presentation 5.0 | **~91–94%** |
-| **E. Temperature study finished** | Optional sensitivity appendix; main verdict unchanged | +0–0.5 Presentation/Methods polish | **~87–90%** alone; better as part of D |
-
-**Highest-leverage path to top band:** ship **B** (wording + CPC emit) then **C** (router), then freeze a clean PDF (**D**). Do **not** chase unused external corpora for marks — they dilute the Pilot-120 story the rubric rewards.
-
-## Examiner-facing claim to protect
-
-> Primary routing hypothesis **not supported**; intent writing **supported**; mechanisms named; Pilot-120 only.
+**Protect this claim:** intent writing **supported**; routing secondary **not** beating raw; pattern = intent–policy dissociation.

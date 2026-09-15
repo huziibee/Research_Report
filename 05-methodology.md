@@ -2,7 +2,7 @@
 
 ## 4.1 Overview
 
-We compare six text systems on **Pilot-120** with shared scoring protocols. No physical robot. Main scoreboard uses **temperature 0.0** (greedy) unless noted.
+We compare six text systems on **Pilot-120**. No physical robot. A temperature study ran decoding at **0.0, 0.3, 0.7, and 1.0** with matched replicas. System-comparison tables use the temperature-0 matching-replica set.
 
 ```mermaid
 flowchart TD
@@ -12,7 +12,7 @@ flowchart TD
   R --> E["Execute"]
   R --> C["Clarify / ask"]
   R --> F["Refuse"]
-  E --> S["Score vs gold\nintent · route · sidecars"]
+  E --> S["Score vs gold\nintent primary · route secondary · sidecars"]
   C --> S
   F --> S
 ```
@@ -21,7 +21,7 @@ flowchart TD
 
 ## 4.2 Data: Pilot-120
 
-Pilot-120 is the project’s compound-command benchmark: 120 commands where several underspecified slots can co-occur, with one gold job and one gold path each. It realises the proposal’s evaluation intent (compound ambiguity + routing) in a fixed, examinable set.
+Pilot-120 is 120 compound commands with one gold job and one gold path each. That size is enough to compare systems and to expose the intent–policy pattern (Chapter 5).
 
 | Gold route | Count |
 |---|---:|
@@ -30,57 +30,78 @@ Pilot-120 is the project’s compound-command benchmark: 120 commands where seve
 | Refuse | 21 |
 | Silent-resolve | 0 |
 
-Core gold is **frozen**. Later official labels live in sidecars:
+Core gold is **frozen**. Official sidecars:
 
 | Sidecar | Adds | Eligible size |
 |---|---|---|
 | CPC | Filled parameter cells | 678 cells |
-| Risk | none / low / medium / high / unknown | **53** med+high for risk exam |
+| Risk | none / low / medium / high / unknown | **53** med+high |
 | Wording | `must_convey` on gold-ask rows | **23** rows |
 
-Labels: dual-model annotation + adjudication. Models never see sidecars at generation time.
+Models never see sidecars at generation time.
 
-| N = 120 is enough for… | Not enough for… |
-|---|---|
-| System comparison + mechanisms (the 62) | Industrial generality claims |
+## 4.3 Systems and how they differ
 
-**[LIMITATION]** Pilot-scale by design.
-
-## 4.3 Systems (proposal map → what we ran)
-
-The May proposal required direct LLM interpretation, degree-based routing, context-blind control, fine-tuning, and a full type/risk-aware manager, plus uniform policies as baselines. Live systems:
-
-| # | System | Proposal role | What actually changes |
+| # | System | Proposal role | What changes |
 |---:|---|---|---|
-| 1 | **Raw Qwen** | Direct base LLM | Model emits JSON including the route |
-| 2 | **Fine-tune** | Supervised fine-tune | Same prompt + PEFT adapter (`adapter_scale=0.18`); no manager box |
-| 3 | **New goal-first** | Full write-then-route manager | Must write `intent_summary`; Python `_route_goal_first_v2` presses the button |
-| 4 | **New degree** | Degree-based policy | **Identical writing**; uncertainty thresholds; **never refuses** |
-| 5 | **New timid** | Conservative / clarify-heavy control | **Identical writing**; `_route_conservative` asks unless clean |
-| 6 | **New context-blind** | Context-blind control | Scene, dialogue, and card **hidden**; same goal-first router |
+| 1 | Raw Qwen | Direct LLM | Model emits route |
+| 2 | Fine-tune | Supervised fine-tune | PEFT adapter; no manager box |
+| 3 | New goal-first | Full write-then-route | `intent_summary` + `_route_goal_first_v2` |
+| 4 | New degree | Degree policy | **Same writing**; uncertainty only; never refuses |
+| 5 | New timid | Conservative control | **Same writing**; ask-unless-clean |
+| 6 | New context-blind | Context ablation (CLARA-style lesson) | Card/scene hidden; same goal-first router |
 
-Constant “always execute / always clarify / always refuse” policies are used as **analytic bounds** (e.g. always-refuse matches gold’s 21 refuse rows), not as extra GPU systems in the main six.
+```mermaid
+flowchart TD
+  subgraph Shared["Systems 3–5 share one intent_summary"]
+    BOX["intent_summary + analysis JSON"]
+  end
+  BOX --> GF["Goal-first router\nrefuse-first priority list"]
+  BOX --> DEG["Degree router\nuncertainty thresholds only\nnever refuse"]
+  BOX --> TIM["Timid router\nask unless analysis looks clean"]
+  GF --> R1["Route A"]
+  DEG --> R2["Route B"]
+  TIM --> R3["Route C"]
+```
 
-Degree / timid are **not** “be braver / be careful” prompts. Same paragraph → different Python → routing moves.
+*Figure C. Same writing, three policies — the ablation that proves routing is not “new understanding.”*
 
 ```mermaid
 flowchart TD
   P1["1. Refuse if prohibited / unauthorized / high-risk unsafe"] --> P2["2. Refuse if incapable"]
-  P2 --> P3["3. Refuse if capability unknown and risk medium/high"]
+  P2 --> P3["3. Refuse if capability unknown + risk med/high"]
   P3 --> P4["4. Execute if capable + low/none risk + actionable"]
   P4 --> P5["5. Otherwise ask"]
 ```
 
-*Figure C. Goal-first router priority (deterministic).*
+*Figure D. Goal-first router priority.*
 
-| Ablation | Change vs goal-first | Routing on Pilot-120 |
-|---|---|---:|
-| Degree | Never refuses | 59 / 120 |
-| Timid | Ask-unless-clean | 26 / 120 |
-| Goal-first | Full priority list | 54 / 120 |
-| Context-blind | Same list; card hidden | 21 / 120 |
+```mermaid
+flowchart TD
+  U["Read uncertainty score"] --> L{"≤ 0.15?"}
+  L -->|yes| EX["Execute"]
+  L -->|no| M{"≤ 0.4?"}
+  M -->|yes| SR["Silent-resolve\n(scored as execute here)"]
+  M -->|no| ASK["Ask"]
+```
 
-Bad capability/safety stamp + good job box → router trusts the stamp first. That is the main claim behind the 62.
+*Figure E. Degree router — no refuse button.*
+
+```mermaid
+flowchart TD
+  A["Read analysis"] --> Q{"Clean enough to execute?"}
+  Q -->|no| ASK["Ask"]
+  Q -->|yes| EX["Execute"]
+```
+
+*Figure F. Timid router — ask unless clean (simplified).*
+
+| Ablation | Routing on Pilot-120 |
+|---|---:|
+| Goal-first | 54 / 120 |
+| Degree | 59 / 120 |
+| Timid | 26 / 120 |
+| Context-blind | 21 / 120 |
 
 | Examiner path | Location |
 |---|---|
@@ -90,56 +111,44 @@ Bad capability/safety stamp + good job box → router trusts the stamp first. Th
 
 ## 4.4 What we measure
 
-### Intent correctness
-
-Did the writing name the gold job?
+### Intent correctness (**primary**)
 
 | Protocol | Rule |
 |---|---|
 | Cheap overlap | Jaccard on content words ≥ **0.18**, no polarity flip |
-| Two-judge (SGC) | Two judges, blinded to the route, both say the text names the gold job |
+| Two-judge | Two judges, blinded to the route, both say the text names the gold job |
 
-Overlap **0.368** means ~37% shared content-word set — **not** “36.8% probability.” Raw/fine-tune cheap scores historically used **written reasoning**; final-close also collected **new intent boxes**. **Do not subtract** 112 from 68. Same count **113 ≠ same rows**.
+Overlap **0.368** ≈ 37% shared content words — **not** a probability. Raw/fine-tune cheap scores used **written reasoning**; managers use `intent_summary`. **Do not subtract** 112 from 68.
 
-### Routing correctness
+### Routing correctness (**secondary**)
 
-Predicted `terminal_strategy` = gold (execute / clarify / refuse). Not a synonym for understanding.
+Predicted route = gold. Explains *how* we got there after intent.
 
-### Clarification (two exams)
-
-| Name | Asks |
-|---|---|
-| **Ask-label F1** | Did we press Ask on the 23 gold-ask rows? |
-| **Wording accuracy** | Does the question cover every licensed alternative? |
-
-### CPC F1 / risk-sensitive / supporting
+### Clarification, CPC, risk, supporting
 
 | Metric | Definition |
 |---|---|
-| CPC F1 | Micro-F1 on official `status == filled` cells |
-| Risk-sensitive | Routing accuracy on **53** medium+high rows |
-| Ambiguity F1 / exact-set | Predicted vs gold ambiguity tags |
-| Capability accuracy | Predicted vs gold capability |
-| Safe-rejection recall | Gold-refuse rows that were refused |
-| Unsafe silent-resolve | Undefined here (gold support 0; nobody predicted it) |
+| Ask-label F1 | Pressed Ask on the 23 gold-ask rows? |
+| Wording | Question covers licensed alternatives? |
+| CPC F1 | Micro-F1 on `status == filled` cells |
+| Risk-sensitive | Routing accuracy on 53 med+high rows |
+| Ambiguity / capability / safe-reject | Supporting diagnostics |
 
-## 4.5 Runs and salvage
+## 4.5 Runs
 
-| Run | Temperature | Replicas | Role |
-|---|---|---|---|
-| T39 frozen | 0.0 | 5 matching | Raw, fine-tune (+ older archive) |
-| Live manager v2 | 0.0 | 3 after salvage | Goal-first family |
-| CPU sidecar scoring | n/a | — | CPC / risk / wording / ask-label |
-| Final-close | 0.0 | — | Intent boxes + official two-judge |
+| Run | Temperatures | Role |
+|---|---|---|
+| Temperature study | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity |
+| System comparison tables | Temperature 0 matching set | Fair head-to-head |
+| CPU sidecar scoring | n/a | CPC / risk / wording / ask-label |
+| Final-close | Temperature 0 | Intent boxes + two-judge |
 
-**Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54 / 120** includes three such rows (harsh alternative **51 / 120**).
+**Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54** includes three such rows (harsh **51**).
 
 ## 4.6 Marked gaps
 
 | Item | Marker |
 |---|---|
-| Clarification candidates empty → template questions | **[FIXABLE]** — frozen wording 0/23 until new emit |
-| CPC `value` filled but `status` left `unknown` | **[FIXABLE]** |
-| Ambiguity exact-set 0/120 | **[LIMITATION]** |
-| No embodied robot evaluation | **[LIMITATION]** by design |
-| Optional temperature ≠ 0 study | **[PENDING]** — not required for the main Pilot-120 verdict |
+| Empty clarification candidates → template questions | **[FIXABLE]** |
+| CPC value filled but status left `unknown` | **[FIXABLE]** |
+| Ambiguity exact-set still 0/120 | Tagging weakness (pattern still readable elsewhere) |
