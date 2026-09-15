@@ -295,7 +295,7 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 ![Temperature effects on intent and routing — placeholder.](figures/temperature-intent-routing-line.png)
 
-*Figure 13 (placeholder). Line graph of official/screen intent and routing versus decoding temperature (0.0, 0.3, **0.7**, 1.0). Replace this asset when mega / contingency finishes; until then treat as **[Results Incoming]**.*
+*Figure 13 (placeholder). Line graph of official/screen intent and routing versus decoding temperature (0.0, 0.3, **0.5**, **0.7**, 1.0). Replace this asset when mega / contingency finishes; until then treat as **[Results Incoming]**.*
 
 **Discussion (planned).** When filled, this figure is the visual form of H3/H4: whether lowering temperature stabilises capability bits (and routing) and whether raising it increases variance / hurts intent or routing. Do not invent points before the T0.7-centred tables exist.
 
