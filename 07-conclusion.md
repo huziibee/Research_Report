@@ -30,6 +30,7 @@
 | 3 | Emit CPC `filled` for licensed values; re-score CPC micro-F1 | **[FIXABLE]** (fix-emit job) |
 | 4 | Complete and report H3 (lower temperature) and H4 (higher temperature) | **[Results Incoming]** |
 | 5 | Re-emit ambiguity tags with Pilot-17 definitions on constrained path (job 54774) | **[FIXABLE]** / **[Results Incoming]** |
-| 6 | Optional embodied evaluation after the text layer is stable | Later |
+| 7 | After jobs: H1 improvement pass (Accept vs Reject; optional reformulation or new emit) | TODO — `context/pilot120-stable-checkpoint-20260915.md` |
+| 8 | Optional embodied evaluation after the text layer is stable | Later |
 
 The central conclusion is that write-then-route produces strong official intent writing (**113 / 120**) but does not beat raw on the official protocol once both use intent boxes, while the current routing policy often fails to select the corresponding handling path — including on low-stakes rows.

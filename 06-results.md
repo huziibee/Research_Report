@@ -293,6 +293,12 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 **Discussion.** Aggregate routing hides class imbalance. This panel shows which handling paths each system can actually hit. Degree’s zero gold-refuse recall and timid’s ask inflation appear here as class-level pathology, not just a lower total.
 
+![Temperature effects on intent and routing — placeholder.](figures/temperature-intent-routing-line.png)
+
+*Figure 13 (placeholder). Line graph of official/screen intent and routing versus decoding temperature (0.0, 0.3, **0.7**, 1.0). Replace this asset when mega / contingency finishes; until then treat as **[Results Incoming]**.*
+
+**Discussion (planned).** When filled, this figure is the visual form of H3/H4: whether lowering temperature stabilises capability bits (and routing) and whether raising it increases variance / hurts intent or routing. Do not invent points before the T0.7-centred tables exist.
+
 ---
 
 ## 5.10 What is finished versus incoming
@@ -301,8 +307,10 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 |---|---|
 | Two-judge intent, routing, risk-sensitive accuracy, ask-label, low-risk routing slice (temperature-0) | Done |
 | Intent scoreboard field alignment (intent boxes only; drop reasoning 68 / 60) | Done in this chapter |
-| Wording 0 / 23, CPC F1 0.045, ambiguity prompt repair | **[FIXABLE]** on fix-emit **54774** behind mega 54259 |
-| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** |
+| Wording 0 / 23, CPC F1 0.045, ambiguity prompt repair | **[FIXABLE]** — fix-emit chained **after** temp-priority contingency (not mega alone) |
+| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** (mega 54259 + contingency priority job) |
+| Temperature line graph (intent + routing vs T) | **Placeholder** — `figures/temperature-intent-routing-line.png` (generate after T0.7 / T1.0 land) |
+| H1 improvement pass (clear Accept/Reject after new emits) | **TODO after jobs** — see `context/pilot120-stable-checkpoint-20260915.md` |
 
 ---
 
@@ -316,7 +324,7 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 | Low-stakes routing is also weak for goal-first (**27 / 64**) | Withholding context improves safety |
 | | H3 / H4 **[Results Incoming]** |
 
-**H1.** **Not confirmed as an improvement over raw** once both systems use intent boxes: two-judge **113 = 113**; automatic overlap **112 < 120**.  
+**H1.** **Rejected** as superiority over raw (two-judge **113 = 113**; auto **112 < 120**). Absolute writing remains strong. **TODO after jobs:** improvement pass for a cleaner Accept/Reject narrative — see `context/pilot120-stable-checkpoint-20260915.md`.  
 **H2.** **Rejected**: routing 54 vs 88; risk-sensitive 0.491 vs 0.736; low-risk routing 27 / 64 vs 46 / 64.  
 **H3 / H4.** **[Results Incoming].**
 

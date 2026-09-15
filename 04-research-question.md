@@ -34,7 +34,7 @@ A system may succeed on intent and fail on routing. That combination isolates po
 
 | Hypothesis | Result | Evidence |
 |---|---|---|
-| **H1** | **Not confirmed** (tie / no gain vs raw) | Two-judge **113 = 113**; automatic overlap on `intent_summary` **112 < 120** |
+| **H1** | **Rejected** (no gain vs raw) | Two-judge **113 = 113**; automatic overlap on `intent_summary` **112 < 120**. Absolute writing still strong. **TODO after jobs:** improvement pass — `context/pilot120-stable-checkpoint-20260915.md` |
 | **H2** | **Rejected** | Routing **54 / 120** vs **88 / 120**; risk-sensitive **0.491** vs **0.736**; low-risk routing **27 / 64** vs **46 / 64** |
 | **H3** | **[Results Incoming]** | Temperature 0.0 / 0.3 versus 0.7 |
 | **H4** | **[Results Incoming]** | Temperature 1.0 versus 0.7 |
