@@ -14,9 +14,14 @@
 
 ## 3.2 Hypotheses
 
-**H1 (primary).** Explicit intent-first generation improves intent correctness relative to free-form direct LLM reasoning on the same compound commands.
+**H1 (primary).** Explicit intent-first generation improves intent correctness versus free-form direct LLM reasoning on the same compound commands.
 
-**H2 (secondary).** Coordination of risk, capability, and uncertainty signals improves routing correctness relative to direct interpretation and degree-only or conservative ask policies.
+**H2 (secondary).** Risk, capability, and uncertainty coordination improves routing correctness versus direct interpretation and fixed or degree-only policies.
+
+In full form:
+
+- **H1.** A write-then-route manager that forces a short intent summary will name the gold job more often than raw Qwen (and fine-tune) when both are scored for intent correctness on Pilot-120.
+- **H2.** The same manager’s risk-aware router will match gold handling paths more often than raw Qwen, and will improve on degree-only and conservative ask policies, including on medium- and high-risk rows.
 
 ## 3.3 Outcome definitions
 
@@ -28,21 +33,24 @@
 
 A system may succeed on intent and fail on routing. That combination isolates policy error from failure to name the job.
 
-## 3.4 Anticipated verdict
+## 3.4 Results against the hypotheses
 
-| Hypothesis | Verdict on Pilot-120       | Evidence                                                                                                          |
-| ---------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| H1         | Supported                  | 112 / 120 cheap intent; 113 / 120 two-judge intent on the goal-first box                                          |
-| H2         | Not supported              | Routing 54 / 120 versus raw 88 / 120; risk-sensitive 0.491 versus 0.736                                           |
-| Mechanism  | Intent–policy dissociation | Forced intent summary passes intent exams; refuse-first routing trusts miscalibrated capability and safety fields |
+Both hypotheses were evaluated on the completed Pilot-120 runs reported in Chapter 5. They are not waiting on a further job to be answered.
+
+| Hypothesis | Result | Evidence |
+|---|---|---|
+| **H1** | **Confirmed** | Goal-first cheap intent **112 / 120** on the job box; two-judge intent **113 / 120** |
+| **H2** | **Rejected** | Goal-first routing **54 / 120** versus raw **88 / 120**; risk-sensitive accuracy **0.491** versus **0.736** |
+
+**Mechanism.** Intent–policy dissociation: the forced intent summary passes the primary exams, while the refuse-first router trusts miscalibrated capability and safety fields and therefore misses gold routes.
 
 ## 3.5 Claim boundary
 
-| Within scope                                          | Outside scope                                            |
-| ----------------------------------------------------- | -------------------------------------------------------- |
-| Intent and routing performance on Pilot-120           | Safe physical robot execution                            |
+| Within scope | Outside scope |
+|---|---|
+| Intent and routing performance on Pilot-120 | Safe physical robot execution |
 | Mechanistic attribution to router and analysis fields | Claims that external corpora were the primary evaluation |
-| Documented secondary metric failures                  | General visual grounding                                 |
+| Documented secondary metric failures | General visual grounding |
 
 ## 3.6 Feasibility
 
