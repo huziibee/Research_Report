@@ -10,8 +10,8 @@
 | Low-stakes (64 gold-low) routing | Goal-first **27 / 64** vs raw **46 / 64** |
 | Dominant failure mode | Intent–policy dissociation on 62 rows (46 refuse, 13 ask, 3 execute) |
 | Policy ablations with shared analysis | Goal-first 54; degree 59; timid 26; context-blind 21 |
-| Clarification wording / CPC / ambiguity prompt | **[FIXABLE]** on fix-emit **54774** |
-| Lower / higher temperature (H3 / H4) | **[Results Incoming]** |
+| Clarification wording / CPC / ambiguity prompt | **[FIXABLE]** via unified job **55670** |
+| Lower / higher temperature (H3 / H4) | **[Results Incoming]** (mega T0.7/T1.0 incomplete; see [[10-cluster-results-status]]) |
 
 ## 6.2 Contribution
 
@@ -26,10 +26,11 @@
 | Priority | Work | Marker |
 |---|---|---|
 | 1 | Recalibrate capability / unauthorized routing so confirmed intent is not discarded | Future science |
-| 2 | Populate clarification candidates; re-score wording | **[FIXABLE]** (fix-emit job) |
-| 3 | Emit CPC `filled` for licensed values; re-score CPC micro-F1 | **[FIXABLE]** (fix-emit job) |
-| 4 | Complete and report H3 (lower temperature) and H4 (higher temperature) | **[Results Incoming]** |
-| 5 | Re-emit ambiguity tags with Pilot-17 definitions on constrained path (job 54774) | **[FIXABLE]** / **[Results Incoming]** |
+| 2 | Populate clarification candidates; re-score wording | **[FIXABLE]** (unified job **55670**) |
+| 3 | Emit CPC `filled` for licensed values; re-score CPC micro-F1 | **[FIXABLE]** (unified job **55670**) |
+| 4 | Complete and report H3 (lower temperature) and H4 (higher temperature) | **[Results Incoming]** — mega **54259** left T0.7/T1.0 **Incomplete**; await **55670** (see [[10-cluster-results-status]]) |
+| 5 | Re-emit ambiguity tags with Pilot-17 definitions on constrained path | **[FIXABLE]** / **[Results Incoming]** via **55670** (not failed 54833 / old 54774 alone) |
+| 6 | Pull / recompute when **55670** finishes (dig playbook + update §5.10 markers) | Cluster status — [[10-cluster-results-status]] |
 | 7 | After jobs: H1 improvement pass (Accept vs Reject; optional reformulation or new emit) | TODO — `context/pilot120-stable-checkpoint-20260915.md` |
 | 8 | Optional embodied evaluation after the text layer is stable | Later |
 

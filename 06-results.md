@@ -14,8 +14,8 @@ This chapter answers the research question with evidence and explains the mechan
 | 2 | Goal-first routing is weaker than raw (**54 / 120** vs **88 / 120**) |
 | 3 | Dissociation remains: the router does not check whether the intent box matched gold |
 | 4 | On 62 automatic-overlap passes, routing still fails (46 refuse / 13 ask / 3 execute) |
-| 5 | Wording **0 / 23**, CPC F1 **0.045**, and ambiguity tagging are **[FIXABLE]** on follow-on emit **54774** (not mega 54259) |
-| 6 | Temperature-0.7 scoreboard and H3/H4 | **[Results Incoming]** |
+| 5 | Wording **0 / 23**, CPC F1 **0.045**, and ambiguity tagging are **[FIXABLE]** via unified job **55670** (not mega **54259**; failed follow-ons **54832/54833**) |
+| 6 | Temperature-0.7 scoreboard and H3/H4 | **[Results Incoming]** (mega T0.7/T1.0 **Incomplete**; await **55670**) |
 
 ![Intent correctness by system.](figures/intent-primary-wide.png)
 
@@ -197,7 +197,7 @@ Gold route: clarify (two trays are pending and no recipient is named in the comm
 
 ### Clarification wording of 0 / 23 — **[FIXABLE]**
 
-Already scored on CPU. **Not** on mega 54259. Fix-emit **54774** carries generator **1.1.0**.
+Already scored on CPU. **Not** on mega 54259. Unified job **55670** carries generator **1.1.0** on re-emit (older fix-emit packaging **54774** / failed **54833** superseded).
 
 | What happened on 23 gold-ask rows | Count | Wording credit |
 |---|---:|---|
@@ -246,7 +246,7 @@ Low-risk rows remain inside ordinary routing. On the **64 low** rows alone:
 | True / false / false-neg | 17 / 61 / 661 |
 | Official micro-F1 | **0.045** |
 
-Usable values stamped `unknown` / `not_applicable` are ignored by the official scorer. Fix-emit **54774** includes prompt + parse coerce (`unknown` + non-empty value → `filled`).
+Usable values stamped `unknown` / `not_applicable` are ignored by the official scorer. Unified job **55670** includes prompt + parse coerce (`unknown` + non-empty value → `filled`).
 
 | Risk / reject | Raw | Goal-first | Degree | Context-blind |
 |---|---:|---:|---:|---:|
@@ -269,7 +269,7 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 *Figure 9. Ambiguity tagging errors on the frozen emit (exact-set 0 / 120).*
 
-**Discussion.** Soft overlap already exists on **62 / 120** rows (micro-F1 ≈ 0.215), so the system is not emitting empty bags. Exact-set fails because bags binge `action_order` and miss gold-heavy classes. Two layers: (1) tagging quality; (2) constrained-prompt vocab omission on **111 / 120** R1 rows — now fixed in code on job **54774**. Status: **[FIXABLE]** for the prompt bug; residual exact-set difficulty may remain a soft **limitation** even after re-emit (old manager ceiling ≈ 8 / 120).
+**Discussion.** Soft overlap already exists on **62 / 120** rows (micro-F1 ≈ 0.215), so the system is not emitting empty bags. Exact-set fails because bags binge `action_order` and miss gold-heavy classes. Two layers: (1) tagging quality; (2) constrained-prompt vocab omission on **111 / 120** R1 rows — fixed in code and scheduled on unified job **55670**. Status: **[FIXABLE]** for the prompt bug; residual exact-set difficulty may remain a soft **limitation** even after re-emit (old manager ceiling ≈ 8 / 120).
 
 ---
 
@@ -303,14 +303,32 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 ## 5.10 What is finished versus incoming
 
+Full cluster inventory (job timeline, kept paths, line counts): [[10-cluster-results-status]] (Research Project vault mirror: `latest results/10-cluster-results-status.md`).
+
 | Item | Status |
 |---|---|
-| Two-judge intent, routing, risk-sensitive accuracy, ask-label, low-risk routing slice (temperature-0) | Done |
-| Intent scoreboard field alignment (intent boxes only; drop reasoning 68 / 60) | Done in this chapter |
-| Wording 0 / 23, CPC F1 0.045, ambiguity prompt repair | **[FIXABLE]** — fix-emit chained **after** temp-priority contingency (not mega alone) |
-| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** (mega 54259 + contingency priority job) |
+| Two-judge intent, routing, risk-sensitive accuracy, ask-label, low-risk routing slice (temperature-0 matched / final-close) | **Done** |
+| Intent scoreboard field alignment (intent boxes only; drop reasoning 68 / 60) | **Done** in this chapter |
+| Mega **54259** final-close judges (`gfv2_intent_summary`, `intent_box_raw_ft`) + intent-box emits | **Done** (kept on cluster) |
+| Mega temp sweep **T0.0** R1–R3 and **T0.3** R1–R3 (goal-first family 120 lines each) | **Done** (kept; mega-era, pre-fix-stack) |
+| Mega temp sweep **T0.7** / **T1.0** | **Incomplete** — T0.7/R1 only ~7 rows; do not score |
+| Follow-ons **54832** / **54833** | **Failed** (stale eval missing `--temperature`); obsolete |
+| Unified job **55670** emit **0.5 → 0.7 → 1.0** with fix stack | **Incoming** (PENDING / Priority at last verify) |
+| Unified job **55670** fix-reemit **0.0 → 0.3** + sidecar scores | **Fix-reemit** |
+| Wording 0 / 23, CPC F1 0.045, ambiguity prompt repair | **[FIXABLE]** — repairs land via **55670**, not mega alone |
+| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** (await **55670**, not incomplete mega T0.7) |
 | Temperature line graph (intent + routing vs T) | **Placeholder** — `figures/temperature-intent-routing-line.png` (generate after T0.7 / T1.0 land) |
 | H1 improvement pass (clear Accept/Reject after new emits) | **TODO after jobs** — see `context/pilot120-stable-checkpoint-20260915.md` |
+
+**Per-temperature markers (honest):**
+
+| T | Marker |
+|---:|---|
+| 0.0 | **Done** (mega kept) · **Fix-reemit** via 55670 |
+| 0.3 | **Done** (mega kept) · **Fix-reemit** via 55670 |
+| 0.5 | **Incoming** (55670) |
+| 0.7 | **Incomplete** (mega) · **Incoming** (55670; study default) |
+| 1.0 | **Incoming** (55670) |
 
 ---
 

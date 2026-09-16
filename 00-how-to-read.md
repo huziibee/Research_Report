@@ -22,5 +22,6 @@
 | 6. Conclusion | [[07-conclusion]] |
 | References | [[08-references]] |
 | Glossary | [[glossary]] |
+| Cluster results status (Pilot-120 mega incomplete vs kept) | [[10-cluster-results-status]] |
 
 Figures are stored under `figures/`. Companion implementation and data reside in the Research Project repository referenced in Chapter 4.
