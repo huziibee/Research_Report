@@ -43,8 +43,8 @@ Systems are reported in fixed order throughout:
 | Shared writing (systems 3–5) | One `intent_summary` |
 | Degree and timid | Alternate Python routers on that shared writing |
 | Context-blind | Second generation with scene and capability card withheld |
-| Default temperature | **0.7** |
-| Temperature study | Also 0.0, 0.3, and 1.0 (**[Results Incoming]** for the full 0.7-centred tables) |
+| Default temperature | **0.7** (primary system comparison) |
+| Temperature study | Lower-T ablation **0.0 / 0.3 / 0.5** vs 0.7; higher-T **1.0** still **[Results Incoming]** |
 
 | Outcome | Role | Definition |
 |---|---|---|
@@ -56,13 +56,13 @@ Systems are reported in fixed order throughout:
 
 | Result | Value | Note |
 |---|---|---|
-| Two-judge intent (official) | Goal-first **113 / 120**; raw **113 / 120** | Tied once both use intent boxes |
-| Automatic overlap on `intent_summary` | Raw **120 / 120**; goal-first 112 / 120 | Same-field screen only |
-| Goal-first routing | 54 / 120 (raw **88 / 120**) | Temperature-0 completed set |
-| Intent correct, routing incorrect | **62** (46 refuse, 13 ask, 3 execute) | Automatic-screen slab |
-| Risk-sensitive accuracy (53 medium+high) | raw **0.736**; goal-first 0.491 | Low rows analysed separately (27 / 64) |
-| Wording / CPC / ambiguity | 0 / 23; 0.045; exact-set 0 | **[FIXABLE]** on fix-emit 54774 |
-| Temperature 0.7 system tables | — | **[Results Incoming]** |
+| Manager routing at **T0.7** (default) | GF **54**; degree **57**; timid **29**; blind **21** / 120 | Unified fix-stack job **55670** |
+| Intent auto screen at T0.7 | **117 / 120** (shared analysis) | Screen only — official two-judge at 0.7 **[Results Incoming]** |
+| Official two-judge (GF vs raw) | **113 = 113** / 120 | **T0 final-close** protocol evidence for H1 |
+| Historical raw routing (T0) | **88 / 120** | H2 comparator; GF 54 at T0.7 does not beat it |
+| Intent-yes / routing-no slab | **62** at T0 (46 refuse, 13 ask, 3 execute) | Mechanism measured on T0 matched set |
+| CPC / wording / ambiguity at T0.7 | ~0.113; **0 / 23**; exact-set ~2 / 120 | Wording **[FIXABLE]**; exact-set **[LIMITATION]** |
+| H3 / H4 | Lower-T ablation filled; T1.0 Incoming | Cooling does not rescue GF routing |
 
 ## 1.5 Structure of the report
 
