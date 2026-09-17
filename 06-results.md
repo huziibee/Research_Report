@@ -10,12 +10,12 @@ This chapter answers the research question with evidence and explains the mechan
 
 | # | Finding |
 |---:|---|
-| 1 | With intent boxes on every comparator, official two-judge intent is **tied** at **113 / 120** (goal-first vs raw); automatic overlap actually favours raw (**120 / 120** vs **112 / 120**) |
-| 2 | Goal-first routing is weaker than raw (**54 / 120** vs **88 / 120**) |
+| 1 | With intent boxes on every comparator, official two-judge intent is **tied** at **113 / 120** (goal-first vs raw); automatic overlap actually favours raw (**120 / 120** vs **112 / 120**) at T0 |
+| 2 | Goal-first routing is weaker than raw (**54 / 120** vs **88 / 120**) at T0; the gap persists at T0.3 / T0.5 / T0.7 |
 | 3 | Dissociation remains: the router does not check whether the intent box matched gold |
-| 4 | On 62 automatic-overlap passes, routing still fails (46 refuse / 13 ask / 3 execute) |
-| 5 | Wording **0 / 23**, CPC F1 **0.045**, and ambiguity tagging are **[FIXABLE]** via unified job **55670** (not mega **54259**; failed follow-ons **54832/54833**) |
-| 6 | Temperature-0.7 scoreboard and H3/H4 | **[Results Incoming]** (mega T0.7/T1.0 **Incomplete**; await **55670**) |
+| 4 | On 62 automatic-overlap passes (T0), routing still fails (46 refuse / 13 ask / 3 execute) |
+| 5 | Unified fix-stack emits improve the intent **screen** (T0.5 / T0.7: **117 / 120**) and CPC F1 (~**0.11–0.12** vs 0.045); wording still **0 / 23** |
+| 6 | Temperature does **not** rescue goal-first routing (flat ~47–54); degree peaks at T0.5 (**69 / 120**). T1.0 still **[Results Incoming]** |
 
 ![Intent correctness by system.](figures/intent-primary-wide.png)
 
@@ -63,7 +63,9 @@ flowchart LR
 
 ## 5.3 Intent and routing scoreboard
 
-Completed temperature-0 head-to-head. Temperature **0.7** tables: **[Results Incoming]**.
+### Temperature-0 matched set (official two-judge + salvage routing)
+
+Primary head-to-head. Official two-judge is T0 final-close only. Manager routing uses the local r1 salvage (VERIFY_PASSED).
 
 | System | Automatic overlap on `intent_summary` *(screen)* | **Two-judge intent *(official)*** | Routing *(secondary)* |
 |---|---:|---:|---:|
@@ -74,16 +76,41 @@ Completed temperature-0 head-to-head. Temperature **0.7** tables: **[Results Inc
 | New timid | 112 / 120 (shared analysis) | 113 / 120 (shared analysis) | 26 / 120 |
 | New context-blind | — (separate blind generation) | **108 / 120** (blind box) | 21 / 120 |
 
+### Temperature grid (routing + intent screen) — filled from kept + unified emits
+
+| Temp | Goal-first | Degree | Timid | Blind | Intent auto (shared) | Source / caveat |
+|---:|---:|---:|---:|---:|---:|---|
+| **0.0** | **54** | **59** | 26 | 21 | 112 | Local r1 salvage (official H1/H2 base) |
+| **0.3** | **47** | **56** | 25 | 21 | 108 | Mega R1 pre-fix; raw/FT routing 82 / 79 |
+| **0.5** | **51** | **69** | 23 | 21 | **117** | Unified **55670** fix stack |
+| **0.7** | **54** | **57** | 29 | 21 | **117** | Unified **55670** (study default) |
+| **1.0** | — | — | — | — | — | **[Results Incoming]** (~93/120) |
+
+**Reading.** Yes — we can and do use T0.0 and T0.3 for routing and the intent screen. Goal-first routing stays flat (~47–54): temperature does not fix refuse-first. Degree peaks at **T0.5 (69 / 120)**. Intent screen rises on unified temps (117 vs 112). Blind stays at **21**. CPC/wording on mega 0.0/0.3 still await fix-reemit; do not treat mega-era CPC as fix-stack.
+
+**Failed rows (repairable).** T0.5: CA-0070, CA-0211 (`bad_intent_summary`). T0.7: CA-0292 (`bad_intent_summary`), CA-0963 (`uncertainty_out_of_range`). Shared analysis → three systems fail per ID. Repair job **56191** queued `afterany:55670`.
+
+### Supporting metrics at T0.5 / T0.7 (unified)
+
+| Metric | T0 salvage | T0.5 unified | T0.7 unified |
+|---|---:|---:|---:|
+| Capability accuracy (GF) | 0.425 | 0.408 | **0.442** |
+| Ambiguity micro-F1 (GF) | ~0.20 | **0.420** | 0.411 |
+| Ambiguity exact-set (GF) | 0 / 120 | 0 / 120 | **2 / 120** |
+| CPC micro-F1 (GF) | 0.045 | **0.119** | **0.113** |
+| Clarification wording / 23 | 0 / 23 | **0 / 23** | **0 / 23** |
+| Risk-sensitive (GF, 53) | 26 / 53 | 30 / 53 | **32 / 53** |
+
 ### Comparability notes (from the records)
 
 | Note | What the records show |
 |---|---|
-| Official primary intent | Two-judge column only. |
-| Same-field automatic screen | Raw 120 / fine-tune 119 / goal-first 112 — all on `intent_summary`. Raw’s cheap screen is stronger; the official judge is the claim that matters. |
-| Historical 68 / 60 | Reasoning-field gauge before intent boxes existed. **Dropped from the scoreboard.** |
-| Two counts of 113 | Same AND-judge protocol on different texts; miss lists are **disjoint**. Goal-first misses: CA-0149, CA-0245, CA-0470, CA-0552, CA-0714, CA-0846, CA-0923. Raw misses: CA-0058, CA-0225, CA-0226, CA-0262, CA-0426, CA-0762, CA-0878. |
-| Routing 54 / 59 / 26 | Shared cached analysis for three Python routers. Context-blind 21 uses a second generation. |
-
+| Official primary intent | Two-judge column only (T0 final-close). |
+| Same-field automatic screen | Raw 120 / fine-tune 119 / goal-first 112 at T0. |
+| Historical 68 / 60 | Reasoning-field gauge. **Dropped.** |
+| Two counts of 113 | Disjoint miss lists. Goal-first: CA-0149, CA-0245, CA-0470, CA-0552, CA-0714, CA-0846, CA-0923. Raw: CA-0058, CA-0225, CA-0226, CA-0262, CA-0426, CA-0762, CA-0878. |
+| Routing 54 / 59 / 26 | Shared analysis; three Python routers. |
+| Mixing mega 0.3 with unified 0.5/0.7 | OK for routing / intent-screen trends. |
 ### Intent × routing heatmap (automatic-overlap screen on goal-first)
 
 ![Intent × routing contingency heatmap.](figures/intent-routing-heatmap-wide.png)
@@ -237,7 +264,9 @@ Low-risk rows remain inside ordinary routing. On the **64 low** rows alone:
 
 **Discussion.** Goal-first is already weak on low-stakes routing (**27 / 64**), not only on the 53-row risk exam. Several of the ten `unauthorized` refuses inside the 62 are live **low** risk (including CA-0007): the stack treats low-stakes capable jobs as prohibited. Context-blind’s **0 / 64** shows that withholding the card destroys low-stakes execute decisions entirely. So excluding low from the *restricted* risk accuracy is a focus choice; the low-stakes behaviour is still analysed here and still counts against H2.
 
-### CPC F1 of 0.045 — **[FIXABLE]**
+### CPC F1 — improved under fix stack, still weak
+
+Historical T0 salvage CPC micro-F1 was **0.045**. Unified T0.5 / T0.7 (local sidecar recompute) reach **0.119 / 0.113**. Wording remains **0 / 23** on those emits. Cluster `scores/` dirs were empty during 55670 (sidecar step under `|| true`); cite local recompute until cluster files land. Fix-reemit of T0.0 / T0.3 and repair job **56191** still Incoming.
 
 | Quantity | Count |
 |---|---:|
@@ -293,42 +322,40 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 **Discussion.** Aggregate routing hides class imbalance. This panel shows which handling paths each system can actually hit. Degree’s zero gold-refuse recall and timid’s ask inflation appear here as class-level pathology, not just a lower total.
 
-![Temperature effects on intent and routing — placeholder.](figures/temperature-intent-routing-line.png)
+![Temperature effects on intent and routing.](figures/temperature-intent-routing-line.png)
 
-*Figure 13 (placeholder). Line graph of official/screen intent and routing versus decoding temperature (0.0, 0.3, **0.5**, **0.7**, 1.0). Replace this asset when mega / contingency finishes; until then treat as **[Results Incoming]**.*
+*Figure 13. Intent automatic-overlap screen and routing versus decoding temperature (0.0, 0.3, 0.5, 0.7). T1.0 still Incoming.*
 
-**Discussion (planned).** When filled, this figure is the visual form of H3/H4: whether lowering temperature stabilises capability bits (and routing) and whether raising it increases variance / hurts intent or routing. Do not invent points before the T0.7-centred tables exist.
+**Discussion.** This is the visual form of the provisional H3/H4 table in Section 5.3. Goal-first routing is nearly flat; the intent screen lifts at unified 0.5/0.7; degree’s spike at 0.5 is the clearest temperature-sensitive routing movement so far. Fill T1.0 when job **55670** finishes.
 
 ---
 
 ## 5.10 What is finished versus incoming
 
-Full cluster inventory (job timeline, kept paths, line counts): [[10-cluster-results-status]] (Research Project vault mirror: `latest results/10-cluster-results-status.md`).
+Full cluster inventory: [[10-cluster-results-status]]. Cite pack for this fill-in: `outputs/cluster_pulls/unified_55670/EVIDENCE_BRIEF.md`.
 
 | Item | Status |
 |---|---|
-| Two-judge intent, routing, risk-sensitive accuracy, ask-label, low-risk routing slice (temperature-0 matched / final-close) | **Done** |
-| Intent scoreboard field alignment (intent boxes only; drop reasoning 68 / 60) | **Done** in this chapter |
-| Mega **54259** final-close judges (`gfv2_intent_summary`, `intent_box_raw_ft`) + intent-box emits | **Done** (kept on cluster) |
-| Mega temp sweep **T0.0** R1–R3 and **T0.3** R1–R3 (goal-first family 120 lines each) | **Done** (kept; mega-era, pre-fix-stack) |
-| Mega temp sweep **T0.7** / **T1.0** | **Incomplete** — T0.7/R1 only ~7 rows; do not score |
-| Follow-ons **54832** / **54833** | **Failed** (stale eval missing `--temperature`); obsolete |
-| Unified job **55670** emit **0.5 → 0.7 → 1.0** with fix stack | **Incoming** (PENDING / Priority at last verify) |
-| Unified job **55670** fix-reemit **0.0 → 0.3** + sidecar scores | **Fix-reemit** |
-| Wording 0 / 23, CPC F1 0.045, ambiguity prompt repair | **[FIXABLE]** — repairs land via **55670**, not mega alone |
-| Full tables at default temperature **0.7**; H3 / H4 | **[Results Incoming]** (await **55670**, not incomplete mega T0.7) |
-| Temperature line graph (intent + routing vs T) | **Placeholder** — `figures/temperature-intent-routing-line.png` (generate after T0.7 / T1.0 land) |
-| H1 improvement pass (clear Accept/Reject after new emits) | **TODO after jobs** — see `context/pilot120-stable-checkpoint-20260915.md` |
+| T0 two-judge + salvage routing / low-risk / capability | **Done** |
+| T0.3 mega routing + intent screen + raw/FT routing | **Done** (pre-fix; usable for temp trends) |
+| T0.5 / T0.7 unified routing, intent screen, capability, CPC, risk-sensitive | **Done** (2 failed IDs each; repair **56191** queued) |
+| T1.0 unified emit | **Incoming** (~93/120; job **55670** RUNNING) |
+| Fix-reemit T0.0 / T0.3 under fix stack | **Incoming** (still in **55670** queue after T1.0) |
+| Repair failed rows T0.5/T0.7/(T1.0)/0.0/0.3 | **Queued** — job **56191** `afterany:55670` |
+| Two-judge at non-T0 temps | **[Results Incoming]** |
+| Wording 0 / 23 | Still **0 / 23** on unified emits — unresolved |
+| Temperature line graph | **Filled** for 0.0–0.7; T1.0 open |
+| H1 improvement pass | **TODO after jobs** |
 
-**Per-temperature markers (honest):**
+**Per-temperature markers:**
 
 | T | Marker |
 |---:|---|
-| 0.0 | **Done** (mega kept) · **Fix-reemit** via 55670 |
-| 0.3 | **Done** (mega kept) · **Fix-reemit** via 55670 |
-| 0.5 | **Incoming** (55670) |
-| 0.7 | **Incomplete** (mega) · **Incoming** (55670; study default) |
-| 1.0 | **Incoming** (55670) |
+| 0.0 | **Done** (salvage cite) · fix-reemit still Incoming via 55670 |
+| 0.3 | **Done** (mega cite for routing/screen) · fix-reemit Incoming |
+| 0.5 | **Done** (unified; repair pending for CA-0070, CA-0211) |
+| 0.7 | **Done** (unified; repair pending for CA-0292, CA-0963) |
+| 1.0 | **Incoming** (~93/120 on **55670**) |
 
 ---
 
@@ -340,12 +367,11 @@ Full cluster inventory (job timeline, kept paths, line counts): [[10-cluster-res
 | Shared-analysis routers move routing (**54 / 59 / 26**) without rewriting the intent box | H2: goal-first beats raw on routing or risk-sensitive accuracy |
 | Miscalibrated capability / unauthorized fields explain most of the 62 | Wording / CPC zeros imply intent failure |
 | Low-stakes routing is also weak for goal-first (**27 / 64**) | Withholding context improves safety |
-| | H3 / H4 **[Results Incoming]** |
+| | H3 / H4 provisional: GF routing flat across T; degree peaks at 0.5; intent screen lifts at unified 0.5/0.7; T1.0 still Incoming |
 
-**H1.** **Rejected** as superiority over raw (two-judge **113 = 113**; auto **112 < 120**). Absolute writing remains strong. **TODO after jobs:** improvement pass for a cleaner Accept/Reject narrative — see `context/pilot120-stable-checkpoint-20260915.md`.  
-**H2.** **Rejected**: routing 54 vs 88; risk-sensitive 0.491 vs 0.736; low-risk routing 27 / 64 vs 46 / 64.  
-**H3 / H4.** **[Results Incoming].**
-
+**H1.** **Rejected** as superiority over raw (two-judge **113 = 113**; auto **112 < 120**). Absolute writing remains strong.  
+**H2.** **Rejected**: routing 54 vs 88; risk-sensitive 0.491 vs 0.736; low-risk 27 / 64 vs 46 / 64.  
+**H3 / H4.** **Partially filled** from T0.0–T0.7 routing + intent screen (Section 5.3). Official close still needs T1.0, fix-reemit 0.0/0.3, repairs **56191**, and non-T0 two-judge.
 Router recalibration remains future work so that strong intent writing is not discarded by refuse-first policy.
 
 ---

@@ -39,7 +39,7 @@ Six systems are evaluated on **Pilot-120**, a fixed set of 120 compound commands
 | Risk-sensitive decision **accuracy** (53 medium+high) | **0.736** | 0.491 |
 | Low-risk routing (64 low) | **46 / 64** | 27 / 64 |
 
-The two-judge row is the primary intent result. Once every comparator emits a dedicated job box, automatic overlap is scored only on `intent_summary` (raw **120 / 120**, goal-first **112 / 120**). An older reasoning-field screen (68 / 60) is dropped: it was a temporary gauge before intent boxes existed and must not be compared to box scores. Official two-judge is **tied** at 113 / 120 (disjoint miss lists). H1’s claim that write-then-route names the job *more often* than raw is therefore **not supported** on the official protocol.
+The two-judge row is the primary intent result. Once every comparator emits a dedicated job box, automatic overlap is scored only on `intent_summary` (raw **120 / 120**, goal-first **112 / 120**). Official two-judge is **tied** at 113 / 120 (disjoint miss lists). H1’s claim that write-then-route names the job *more often* than raw is therefore **not supported** on the official protocol.
 
 Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 rows, 62 show correct automatic-overlap intent with incorrect routing (46 refuse, 13 ask, 3 execute). Low-stakes rows are not ignored: on the 64 gold-low rows, goal-first routing is only **27 / 64** versus raw **46 / 64**. The dominant mechanism is a refuse-first router that trusts miscalibrated capability and safety fields rather than the intent paragraph.
 
@@ -48,7 +48,7 @@ Routing remains weaker than raw Qwen on the completed temperature-0 set. Of 120 
 | Ask-label F1               | **0.557** |      0.286 | Scored                                     |
 | Clarification wording / 23 |    0 / 23 |     0 / 23 | **[FIXABLE]** (not awaiting the GPU sweep) |
 | Slot-binding CPC F1        |         — |      0.045 | **[FIXABLE]** (not awaiting the GPU sweep) |
-| Ambiguity exact-set        |   0 / 120 |    0 / 120 | Frozen emit; **fix queued** (job 54774)   |
+| Ambiguity exact-set        |   0 / 120 |    0 / 120 | Frozen emit; **fix queued** (job 54774)    |
 
 Wording and CPC failures come from empty `candidate_interpretations` and incorrect CPC status stamps on **already frozen** predictions. They are CPU-scored sidecar defects, not unfinished GPU work, and they do not overturn the official intent result.
 

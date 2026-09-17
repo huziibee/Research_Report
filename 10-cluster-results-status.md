@@ -4,8 +4,6 @@
 **Audience:** Research Report writers and anyone resuming after the mega job ended  
 **Honesty rule:** This chapter inventories **jobs and artifacts**. It does **not** invent new metric numbers. Use **Done / Incomplete / Incoming / Fix-reemit / [Results Incoming] / [FIXABLE]** exactly as marked.
 
-**Vault mirror:** Research Project `latest results/10-cluster-results-status.md` (keep in sync).
-
 ---
 
 ## 10.1 Executive summary
@@ -151,20 +149,44 @@ Use Results chapter numbers already locked from final-close + live v2 R1 manager
 
 ## 10.8 Days of waiting were not lost — kept artifact checklist
 
+Copy this list into handoff notes if SSH is flaky later:
+
 1. **Final-close judges** — `…/final_close-20260913/judges/gfv2_intent_summary/` and `…/judges/intent_box_raw_ft/`.  
 2. **Final-close intent-box predictions** — 120 lines each for raw and FT under `…/final_close-20260913/intent_box/`.  
 3. **Temp sweep T0.0 R1–R3** — full 120-line goal-first family (and companions) under `…/temp_sweep-20260913/T0.0/`.  
 4. **Temp sweep T0.3 R1–R3** — full 120-line goal-first family (and companions) under `…/temp_sweep-20260913/T0.3/`.  
 5. **Ledger / prove** files under final-close (provenance that mega did not invent gold CPC/risk).  
 6. **Local report + vault prose** already written against the matched T0 set (Results §5.1–5.9 style claims).  
-7. **Dig playbook** in Research Project `context/pilot120-stable-checkpoint-20260915.md`.  
-8. **Partial T0.7 (~7 rows)** — forensic only; **not** a result.
+7. **Dig playbook** in `context/pilot120-stable-checkpoint-20260915.md` — scripts and field rules for recompute when new predictions land.  
+8. **Partial T0.7 (~7 rows)** — kept only as forensic evidence of where mega stopped; **not** a result.
 
 ---
 
 ## 10.9 How to pull and recompute when 55670 finishes
 
-Follow the **Dig playbook** in Research Project `context/pilot120-stable-checkpoint-20260915.md` (section “Dig playbook — how to redo this analysis when jobs finish”). Prefer recompute from jsonl; rebuild figures with `scripts/rebuild_report_intent_figures_20260915.py`; update §5.10 markers only when 120-line emits exist. Pull from `/home-mscluster/mbangie/t12-hpc/results/pilot120_temp_priority-20260915/`.
+Follow the **Dig playbook** in the Research Project checkpoint (do not invent a second procedure):
+
+- Primary playbook: `Research Project/context/pilot120-stable-checkpoint-20260915.md` → section **“Dig playbook — how to redo this analysis when jobs finish”**  
+- Vault mirror of the same checkpoint: `latest results/99-work-state-checkpoint.md` (if kept in sync)
+
+### Minimal pull path
+
+1. Confirm `sacct -j 55670` shows **COMPLETED** (or inspect stage completion markers under the priority out dir).  
+2. `scp` / copy overlays from  
+   `/home-mscluster/mbangie/t12-hpc/results/pilot120_temp_priority-20260915/`  
+   into a local `outputs/cluster_pulls/…` tree (Windows: prefer short `scp` chunks; avoid huge PowerShell heredocs over SSH).  
+3. Prefer **recompute from jsonl**, not copying old markdown numbers.  
+4. Rebuild intent figures / low-risk table via `scripts/rebuild_report_intent_figures_20260915.py`.  
+5. Re-run official sidecar follow-on scoring on new predictions (`scripts/score_official_sidecar_followon.py` pattern in the playbook).  
+6. Update `06-results.md` §5.10 markers from **[Results Incoming]** / **[FIXABLE]** to numbers **only** when 120-line emits and scores exist.  
+7. Replace the temperature line-graph placeholder only after T0.7-centred points exist.  
+8. Refresh this chapter’s per-temperature table to **Done** where appropriate.
+
+### Field rules (do not regress)
+
+- Score intent on `intent_summary` boxes only — never revive reasoning-field 68/60 in the main scoreboard.  
+- Two-judge miss lists at 113/113 are **disjoint** — never say “the same 113 rows.”  
+- Mega-era T0.0/T0.3 remain available for continuity, but wording/CPC/ambiguity claims should wait for fix-reemit outputs.
 
 ---
 
@@ -175,6 +197,8 @@ Follow the **Dig playbook** in Research Project `context/pilot120-stable-checkpo
 | `/home-mscluster/mbangie/t12-hpc/results/final_close-20260913/` | Final-close judges + intent boxes (kept) |
 | `/home-mscluster/mbangie/t12-hpc/results/temp_sweep-20260913/` | Mega temp sweep; **T0.0** and **T0.3** complete; **T0.7** partial |
 | `/home-mscluster/mbangie/t12-hpc/results/pilot120_temp_priority-20260915/` | Unified job **55670** output root |
+| `cluster/pilot120_timeout_contingency_20260915/` | Historical contingency packaging (superseded operationally by unified job) |
+| `cluster/pilot120_fix_emit_20260915/` | Fix-stack packaging notes (repairs now expected inside **55670**) |
 
 ---
 
@@ -195,3 +219,9 @@ Follow the **Dig playbook** in Research Project `context/pilot120-stable-checkpo
 ---
 
 *End of cluster inventory chapter. Update the dated stamp and markers when 55670 leaves PENDING and when each temperature reaches 120 lines.*
+
+---
+
+## 10.x Update 2026-09-17 evening � filled from kept + unified
+
+Job **55670** RUNNING (~17h); T0.5/T0.7 done; T1.0 ~93/120. Report now cites T0.0 salvage, T0.3 mega, T0.5/T0.7 unified for routing + intent screen. Repair job **56191** queued after 55670 for failed IDs (T0.5: CA-0070/0211; T0.7: CA-0292/0963). Full cite pack: [[11-temperature-evidence-brief]] / `outputs/cluster_pulls/unified_55670/EVIDENCE_BRIEF.md`.
