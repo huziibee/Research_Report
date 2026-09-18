@@ -1,4 +1,4 @@
-﻿# 5. Results
+# 5. Results
 
 This chapter answers the research question with evidence and explains the mechanisms. The study default temperature is **0.7**; primary manager comparisons use the unified fix-stack emit at that default (job **55670**). Official two-judge intent remains available only from the **temperature-0 final-close** protocol and is cited as T0 protocol evidence for H1 — not as a T0.7 two-judge result. Lower temperatures (**0.0, 0.3, 0.5**) are an ablation against 0.7; temperature **1.0** is **[Results Incoming]**. Mechanism deep-dives that were measured on the T0 matched set (the **62**, CA-0007, confusion heatmaps) are labelled as such. Every table keeps the locked system order.
 
@@ -67,13 +67,13 @@ flowchart LR
 
 Primary scoreboard at the study default. Source: unified job **55670** pulls (`outputs/cluster_pulls/unified_55670/`; see `EVIDENCE_BRIEF.md` / `report_numbers.json`). Two shared failed IDs (CA-0292, CA-0963) count as incorrect; repair **56191** is **[FIXABLE]**.
 
-| System | Automatic overlap on `intent_summary` *(screen)* | **Two-judge intent *(official)*** | Routing *(secondary)* |
-|---|---:|---:|---:|
-| New goal-first | **117 / 120** | **[Results Incoming]** | **54 / 120** |
-| New degree | **117 / 120** (shared analysis) | **[Results Incoming]** | **57 / 120** |
-| New timid | **117 / 120** (shared analysis) | **[Results Incoming]** | **29 / 120** |
-| New context-blind | 115 / 120 (blind generation) | **[Results Incoming]** | **21 / 120** |
-| Raw Qwen / Fine-tune at T0.7 | — | — | **[Results Incoming]** (no matched T0.7 raw/FT routing emit in this pack) |
+| System                       | Automatic overlap on `intent_summary` *(screen)* | **Two-judge intent *(official)*** |                                                     Routing *(secondary)* |
+| ---------------------------- | -----------------------------------------------: | --------------------------------: | ------------------------------------------------------------------------: |
+| New goal-first               |                                    **117 / 120** |            **[Results Incoming]** |                                                              **54 / 120** |
+| New degree                   |                  **117 / 120** (shared analysis) |            **[Results Incoming]** |                                                              **57 / 120** |
+| New timid                    |                  **117 / 120** (shared analysis) |            **[Results Incoming]** |                                                              **29 / 120** |
+| New context-blind            |                     115 / 120 (blind generation) |            **[Results Incoming]** |                                                              **21 / 120** |
+| Raw Qwen / Fine-tune at T0.7 |                                                — |                                 — | **[Results Incoming]** (no matched T0.7 raw/FT routing emit in this pack) |
 
 **Supporting metrics at T0.7 (goal-first).** CPC micro-F1 **~0.113**; wording **0 / 23** (**[FIXABLE]**); ambiguity exact-set **2 / 120** (**[LIMITATION]**; micro-F1 **~0.411**); risk-sensitive **32 / 53**; capability accuracy **0.442**.
 
