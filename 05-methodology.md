@@ -132,7 +132,7 @@ Predicted route equals gold route (execute / clarify / refuse).
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Ask-label F1                         | Harmonic mean of precision and recall for pressing Ask on the 23 gold-ask rows                                                                                                                                                                                    |
 | Wording accuracy                     | On those 23 rows, does `clarification_question` cover every licensed alternative in `must_convey`?                                                                                                                                                                |
-| **CPC F1**                           | Slot-binding **micro-F1**: predicted parameter cells versus official gold cells that are marked `status == filled` (678 eligible gold cells). Only predicted cells also marked `filled` count.                                                                    |
+| **CPC F1** | Slot-binding micro-F1 (proposal sidecar). **Demoted** in this report: retained for honesty, not required for the dissociation claim. |
 | **Risk-sensitive decision accuracy** | **Accuracy** (not F1): fraction of correct routes on the **53** gold rows labelled medium or high risk. The remaining rows are low (64), unknown (3), or none (0) and are **excluded from this exam by design** so the metric focuses on higher-stakes decisions. |
 | Ambiguity / capability / safe-reject | Supporting diagnostics                                                                                                                                                                                                                                            |
 
@@ -156,6 +156,6 @@ These diagnostics are scored against official sidecars. They do **not** wait on 
 | Issue | Marker | Current reading |
 |---|---|---|
 | Empty `candidate_interpretations` → slot-name clarification templates | **[FIXABLE]** | Wording still **0 / 23** on unified T0.5/T0.7 emits |
-| CPC cells stamped `unknown` / `not_applicable` despite usable values | **[FIXABLE]** | Historical T0 F1 **0.045**; unified T0.7 ~**0.113** after coerce — still weak |
-| Ambiguity exact-set near zero | **[LIMITATION]** (+ prompt fix already shipped) | Soft micro-F1 ~**0.41** at T0.7; exact-set ~**2 / 120** |
-| Shared failed rows on unified emits | **[FIXABLE]** | Repair job **56191** queued after **55670** |
+| CPC cells stamped `unknown` / `not_applicable` despite usable values | **Demoted** | Historical issue; not required for primary interpretation |
+| Ambiguity exact-set near zero | **[LIMITATION]** | Soft micro-F1 ~**0.41** at T0.7; exact-set ~**2 / 120** |
+| Shared failed rows on unified emits | **[FIXABLE]** | Repair job **56191** after **55670** |

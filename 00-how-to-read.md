@@ -17,7 +17,7 @@ Read chapters **1–6 in order**. The intellectual centre is **compound ambiguit
 |---|---|
 | Primary | Intent writing — does the system name the gold job? |
 | Secondary | Routing — execute / clarify / refuse |
-| Diagnostic | Ambiguity tags, wording, CPC, risk, capability bits |
+| Diagnostic | Ambiguity tags, wording, risk, capability bits (CPC demoted) |
 
 **Evidence hierarchy (do not mix these):**
 

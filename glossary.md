@@ -12,8 +12,8 @@
 | **Intent summary** | Short job paragraph required by the write-then-route manager |
 | **Ask-label F1** | F1 for pressing Ask on the 23 gold-ask rows |
 | **Wording accuracy** | Whether the clarification question covers licensed alternatives |
-| **CPC** | Slot-binding parameter frame |
-| **CPC F1** | Micro-F1 over gold cells with `status == filled` |
+| **CPC** | Slot-binding parameter frame (proposal sidecar; **demoted** — not required for primary interpretation) |
+| **CPC F1** | Micro-F1 over gold cells with `status == filled` (diagnostic only) |
 | **Risk-sensitive decision accuracy** | Routing accuracy on the 53 medium+high gold-risk rows only |
 | **Gold execute / clarify / refuse** | Gold handling paths |
 | **Sidecar** | Official supplementary gold file; core gold remains frozen |
