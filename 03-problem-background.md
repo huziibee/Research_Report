@@ -42,4 +42,4 @@ The risk-sensitive metric follows the proposal’s evaluation plan on Pilot-120.
 | Clarification quality in isolation | Report intent correctness primarily and routing secondarily |
 | Structured-output fidelity alone | Add official risk, CPC, and wording sidecars |
 
-The purpose of the work is to determine whether a risk-aware write-then-route manager improves **intent writing under compound ambiguity**, and to use routing and supporting metrics only as diagnostics of handling failure. Chapter 3 states the research question formally.
+The gap is not “can a language model produce fluent robot talk?” It is whether a **risk-aware write-then-route** manager improves **naming the compound job**, and whether routing failures under that load are failures of understanding or failures of policy. Chapter 3 states the research question formally.

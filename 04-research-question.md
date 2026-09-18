@@ -41,14 +41,14 @@ A system may succeed on intent and fail on routing. That combination isolates po
 | **H3** | **Provisional: not supported** | Ablation vs 0.7: GF routing does not improve under cooling (unified fix-reemit T0.0 **49**; mega T0.3 **47**; unified T0.5 **51**; default T0.7 **54**). Degree peaks at T0.5 (**69**). Stack-mix caveat on pre-fix mega 0.3. Unified T0.3 fix-reemit still **[Results Incoming]**. |
 | **H4** | **Provisional: supported** (routing degrades) | At T1.0, GF routing falls to **42 / 120** (degree **54**, timid **26**, blind **24**), with higher failure/schema-error rate (**[LIMITATION]** of noisy decode). Official intent at 1.0 still **[Results Incoming]**. |
 
-**Mechanism (H1/H2).** Under compound ambiguity, write-then-route produces strong intent writing (T0 two-judge **113 / 120**; T0.7 auto screen **117 / 120**), but once raw also has an intent box it does not *beat* raw on the official T0 protocol, and at T0.7 routing (**54**) does not beat historically raw (**88**). The sharper result is intent–policy dissociation: a usable intent summary co-occurs with refuse-first routing on miscalibrated capability / unauthorized fields. Recalibrating that router is future work. Failed-row repair is **[FIXABLE]** via job **56191**; wording **0 / 23** remains **[FIXABLE]** / unresolved.
+**Mechanism (H1/H2).** Under compound ambiguity the stack often *names* the job (T0 two-judge **113 / 120**; T0.7 auto screen **117 / 120**) and still *handles* it badly (T0.7 routing **54 / 120** vs historically raw **88**). Once raw also has an intent box, write-then-route does not beat raw on official intent. The sharper result is intent–policy dissociation: refuse-first routing on miscalibrated capability / unauthorized fields discards usable writing. Recalibrating that router is future work. Wording **0 / 23** and shared failed rows remain **[FIXABLE]**; ambiguity exact-set remains a **[LIMITATION]**.
 
 ## 3.5 Claim boundary
 
 | Within scope | Outside scope |
 |---|---|
 | Intent and routing on Pilot-120 under compound ambiguity | Safe physical robot execution |
-| Mechanistic attribution to router and analysis fields | Comparing box scores to the old reasoning-field 68 / 60 screen |
+| Mechanistic attribution to router and analysis fields | Treating secondary zeros as proof that intent writing failed |
 | Documented secondary metric failures; low-risk routing as ordinary routing | Claiming the 53-row risk exam means low-stakes behaviour was ignored |
 | Marking unresolved items as **[FIXABLE]**, **[LIMITATION]**, or **[Results Incoming]** | Treating automatic overlap as official two-judge |
 

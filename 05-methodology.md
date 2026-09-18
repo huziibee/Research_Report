@@ -103,9 +103,11 @@ flowchart TD
 | Timid | **29 / 120** |
 | Context-blind | **21 / 120** |
 
+These default counts belong in Chapter 5’s scoreboard. Chapter 4 states them here so the reader sees that the three shared-analysis routers can diverge without rewriting the intent box — the methodological point of the ablation.
+
 | Examiner path | Location |
 |---|---|
-| Repo | `Documents\University\Research Project` |
+| Repository | `Documents/University/Research Project` |
 | Manager code | `src/ambiguity_manager/systems/` |
 | Scripts / gold | `scripts/` · `data/annotations/pilot_120_v1/` |
 
@@ -134,24 +136,26 @@ Predicted route equals gold route (execute / clarify / refuse).
 | **Risk-sensitive decision accuracy** | **Accuracy** (not F1): fraction of correct routes on the **53** gold rows labelled medium or high risk. The remaining rows are low (64), unknown (3), or none (0) and are **excluded from this exam by design** so the metric focuses on higher-stakes decisions. |
 | Ambiguity / capability / safe-reject | Supporting diagnostics                                                                                                                                                                                                                                            |
 
-## 4.5 Runs
+## 4.5 Runs and evidence hierarchy
 
-| Run | Temperatures | Role |
+| Run | Temperatures | Role in this report |
 |---|---|---|
-| Study default | **0.7** | Intended operating temperature **[Results Incoming]** for full tables |
-| Temperature study | 0.0, 0.3, 0.7, 1.0 × matched replicas | Sensitivity (H3) |
-| Completed comparison set (interim) | 0.0 matched replicas | Head-to-head numbers available now in Chapter 5 |
-| CPU sidecar scoring | n/a | CPC / risk / wording / ask-label on **frozen** predictions (already done) |
-| Final-close | 0.0 | Intent boxes + official two-judge |
+| **Study default** | **0.7** (unified fix-stack, job **55670**) | Primary manager scoreboard (routing, auto intent screen, capability, CPC/risk/wording sidecars) |
+| **Official two-judge** | **0.0** final-close only | H1 protocol; do not treat as a T0.7 two-judge result |
+| **Temperature ablation** | 0.0, 0.3, 0.5 vs **0.7** | H3 (cooling); unified fix-reemit preferred where available |
+| **Higher-T probe** | **1.0** (unified) | H4 (routing degradation) |
+| **Mechanism digs** | T0 matched set | The **62**, CA-0007, confusion / capability figures — labelled whenever cited |
+| **CPU sidecar scoring** | on frozen / unified predictions | CPC, risk, wording, ask-label |
 
-**Salvage:** a few broken JSON rows rebuilt on CPU. Headline routing **54** includes three such rows (harsh **51**).
+**Salvage note.** A few broken JSON rows were rebuilt on CPU for the T0 matched set. When both a harsh incomplete count and a salvage count exist, the report states which is used.
 
-## 4.6 Known secondary failures
+## 4.6 Known secondary failures (and their status)
 
-These are **not** waiting on the GPU temperature sweep. They were scored on CPU against official sidecars using already frozen predictions.
+These diagnostics are scored against official sidecars. They do **not** wait on a new temperature hypothesis; they wait on emit quality or on scientific limits of the current stack.
 
-| Issue | Marker | Consequence |
+| Issue | Marker | Current reading |
 |---|---|---|
-| Empty `candidate_interpretations` | **[FIXABLE]** | Wording templates; wording accuracy 0 / 23 |
-| CPC values stamped `unknown` / `not_applicable` despite usable values | **[FIXABLE]** | Official CPC F1 remains 0.045 |
-| Ambiguity exact-set match of 0 / 120 | **[FIXABLE]** on next emit | Frozen bags: quality limit + constrained prompt omitted Pilot-17; code fix is on job 54774 |
+| Empty `candidate_interpretations` → slot-name clarification templates | **[FIXABLE]** | Wording still **0 / 23** on unified T0.5/T0.7 emits |
+| CPC cells stamped `unknown` / `not_applicable` despite usable values | **[FIXABLE]** | Historical T0 F1 **0.045**; unified T0.7 ~**0.113** after coerce — still weak |
+| Ambiguity exact-set near zero | **[LIMITATION]** (+ prompt fix already shipped) | Soft micro-F1 ~**0.41** at T0.7; exact-set ~**2 / 120** |
+| Shared failed rows on unified emits | **[FIXABLE]** | Repair job **56191** queued after **55670** |

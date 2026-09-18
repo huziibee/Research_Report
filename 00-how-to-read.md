@@ -11,7 +11,20 @@
 
 ## How to read this vault
 
-The report is written as an Obsidian vault. Read chapters in order. The intellectual centre is **compound ambiguity**: multi-slot underspecification in one robot-directed command. **Intent writing** is the primary outcome; routing and supporting metrics are diagnostics. Markers mean:
+Read chapters **1–6 in order**. The intellectual centre is **compound ambiguity**: multi-slot underspecification in one robot-directed command.
+
+| Layer | What it means in this report |
+|---|---|
+| Primary | Intent writing — does the system name the gold job? |
+| Secondary | Routing — execute / clarify / refuse |
+| Diagnostic | Ambiguity tags, wording, CPC, risk, capability bits |
+
+**Evidence hierarchy (do not mix these):**
+
+1. Official two-judge intent exists **only at temperature 0** (final-close) — that is H1.  
+2. Study-default system comparisons use **temperature 0.7** (unified fix-stack).  
+3. Mechanism digs (the **62**, CA-0007, most heatmaps) were measured on the **T0 matched set** and are labelled as such.  
+4. Temperature **1.0** is a hotter probe for H4, not a second default.
 
 | Marker | Meaning |
 |---|---|
@@ -32,7 +45,12 @@ The report is written as an Obsidian vault. Read chapters in order. The intellec
 | 6. Conclusion | [[07-conclusion]] |
 | References | [[08-references]] |
 | Glossary | [[glossary]] |
-| Cluster results status | [[10-cluster-results-status]] |
 | Rubric | [[rubric]] |
 
-Figures are stored under `figures/`. Companion implementation and data reside in the Research Project repository referenced in Chapter 4.
+## Appendix (not the scientific narrative)
+
+| Note | File |
+|---|---|
+| Cluster evidence inventory | [[10-cluster-results-status]] |
+
+Figures are under `figures/`. Implementation and data live in the Research Project repository referenced in Chapter 4.

@@ -2,9 +2,15 @@
 
 This chapter answers the research question with evidence and explains the mechanisms. The intellectual centre is **compound ambiguity**: can the system name the intended job when several unknowns co-occur, and — secondarily — does it select the gold handling path once that job is written?
 
-The study default temperature is **0.7**; primary manager comparisons use the unified fix-stack emit at that default (job **55670**). Official two-judge intent remains available only from the **temperature-0 final-close** protocol and is cited as T0 protocol evidence for H1 — not as a T0.7 two-judge result. Lower temperatures (**0.0, 0.3, 0.5**) are an ablation against 0.7; temperature **1.0** is filled for H4 routing (official intent at non-T0 temperatures remains **[Results Incoming]**). Mechanism deep-dives measured on the T0 matched set (the **62**, CA-0007, confusion heatmaps) are labelled as such. Every table keeps the locked system order.
+**How to read the numbers.** Three evidence layers are kept distinct throughout:
 
-**Field rule for this chapter.** Automatic overlap and two-judge intent are reported only on dedicated job boxes (`intent_summary`). An older lexical screen on free-form reasoning (68 / 60) was a temporary gauge before those boxes existed; it is **not** used in the scoreboard or figures below.
+| Layer | Temperature / pack | Used for |
+|---|---|---|
+| Official intent (H1) | T0 final-close two-judge | Primary intent verdict vs raw |
+| Study default scoreboard | **T0.7** unified fix-stack (job **55670**) | Manager routing and diagnostics |
+| Mechanism digs | T0 matched set | The **62**, CA-0007, most figures |
+
+Lower temperatures (**0.0, 0.3, 0.5**) are an ablation against 0.7 (H3). Temperature **1.0** is the hotter probe (H4). Automatic overlap is a screen on `intent_summary` only — never a substitute for two-judge. The old reasoning-field 68 / 60 gauge is not used.
 
 ---
 
@@ -126,17 +132,16 @@ Official two-judge remains **T0 final-close only**. Do **not** read this table a
 | Risk-sensitive (GF, 53) | — | 30 / 53 | **32 / 53** | — |
 | GF routing / 120 | **49** | **51** | **54** | **42** |
 
-### Comparability notes (from the records)
+### Comparability notes
 
-| Note | What the records show |
+| Note | Rule |
 |---|---|
-| Study default centre | Manager routing / screen / CPC / risk at **T0.7** first. |
-| Official primary intent | Two-judge column only (**T0 final-close**). Non-T0 two-judge = **[Results Incoming]**. |
-| Same-field automatic screen | Raw 120 / fine-tune 119 / goal-first 112 at T0; shared GF **117** at T0.5/T0.7. |
-| Historical 68 / 60 | Reasoning-field gauge. **Dropped.** |
-| Two counts of 113 | Disjoint miss lists. Goal-first: CA-0149, CA-0245, CA-0470, CA-0552, CA-0714, CA-0846, CA-0923. Raw: CA-0058, CA-0225, CA-0226, CA-0262, CA-0426, CA-0762, CA-0878. |
-| Routing 54 / 57 / 29 at T0.7 | Shared analysis; three Python routers (+ blind second generation). |
-| Mixing mega 0.3 with unified 0.5/0.7 | OK for provisional H3 trends; disclose stack mix. |
+| Study default | Cite **T0.7** unified first for manager routing and diagnostics |
+| Official primary intent | Two-judge column only at **T0 final-close**; non-T0 = **[Results Incoming]** |
+| Automatic screen | Same `intent_summary` field; raw 120 / FT 119 / GF 112 at T0; shared GF **117** at T0.5/T0.7 |
+| Disjoint two-judge misses | Both systems score 113 / 120 at T0, but on different rows (GF vs raw miss lists differ) |
+| Shared-analysis routing | At T0.7: **54 / 57 / 29** from one analysis + three Python routers (+ blind second generation) |
+| Mega vs unified mix | Disclose when H3 cites mega T0.3 beside unified 0.5/0.7 |
 ### Intent × routing heatmap (automatic-overlap screen on goal-first)
 
 ![Intent × routing contingency heatmap.](figures/intent-routing-heatmap-wide.png)
@@ -254,21 +259,27 @@ Counts below are from the **T0 matched set** (mechanism ablation). At study defa
 
 ### Clarification wording of 0 / 23 — **[FIXABLE]**
 
-Already scored on CPU. **Not** on mega 54259. Unified job **55670** carries generator **1.1.0** on re-emit (older fix-emit packaging **54774** / failed **54833** superseded).
+Wording is scored on the 23 gold-ask rows. On unified T0.5/T0.7 emits it remains **0 / 23**.
 
-| What happened on 23 gold-ask rows | Count | Wording credit |
+| What happened on 23 gold-ask rows (T0 autopsy) | Count | Wording credit |
 |---|---:|---|
 | Refused | 14 | 0 |
 | Executed instead of asking | 3 | 0 |
 | Asked (slot-name templates) | 6 | **still 0** |
 
-Empty `candidate_interpretations` on all 120 rows forced slot-name templates. Official score stays **0 / 23** until new questions are emitted.
+Empty `candidate_interpretations` forced slot-name templates. Official score stays **0 / 23** until real clarification candidates are emitted — a packaging failure, not evidence that the compound job was unnamed.
 
 ---
 
 ## 5.7 Slot binding (CPC) and risk — including low-stakes rows
 
-| System | CPC F1 *(micro-F1)* | Risk-sensitive decision **accuracy** (53 medium+high) |
+Secondary metrics ask whether the stack fills licensed parameters and whether higher-stakes rows are handled correctly. They do **not** replace the primary intent claim.
+
+### Six-system CPC and risk on the T0 matched set (mechanism baseline)
+
+The table below is the **T0 matched / frozen** comparison used for the six-system mechanism dig. It is **not** the T0.7 unified CPC number.
+
+| System | CPC F1 *(micro-F1, T0 frozen)* | Risk-sensitive decision **accuracy** (53 medium+high, T0) |
 |---|---:|---:|
 | Raw Qwen | — (no filled CPC cells) | **0.736** (39 / 53) |
 | Fine-tune | — | 0.755 (40 / 53) |
@@ -277,11 +288,24 @@ Empty `candidate_interpretations` on all 120 rows forced slot-name templates. Of
 | New timid | 0.045 | 0.245 (13 / 53) |
 | New context-blind | — | 0.377 (20 / 53) |
 
+### Study default T0.7 (goal-first, unified)
+
+At **T0.7**, goal-first CPC micro-F1 rises to **~0.113** (T0.5: **0.119**) after fix-stack coerce. Wording remains **0 / 23** (**[FIXABLE]**). Risk-sensitive accuracy on the 53 medium+high rows is **32 / 53**. Cluster `scores/` dirs were empty during parts of job **55670** (sidecar under `|| true`); cite local recompute until cluster sidecars land.
+
+| Quantity (historical T0 autopsy of why CPC was tiny) | Count |
+|---|---:|
+| Gold filled cells | 678 |
+| Pred cells with `status == filled` (T0 frozen) | 78 (only 6 / 120 rows) |
+| True / false / false-neg (T0 frozen) | 17 / 61 / 661 |
+| Official micro-F1 (T0 frozen) | **0.045** |
+
+Usable values stamped `unknown` / `not_applicable` are ignored by the official scorer. Unified emits include prompt + parse coerce (`unknown` + non-empty value → `filled`), which is why T0.7 improves on 0.045 without yet becoming strong.
+
 ### Why medium+high is a separate exam — and what happens on low
 
 Gold risk labels: **64** low, **34** medium, **19** high, **3** unknown, **0** none. The risk-sensitive accuracy uses only the **53 medium+high** rows so the headline risk number emphasises higher-stakes mistakes. That design choice is deliberate, but it is **not** a claim that low-stakes rows do not matter.
 
-Low-risk rows remain inside ordinary routing. On the **64 low** rows alone:
+Low-risk rows remain inside ordinary routing. On the **64 low** rows alone (T0 matched):
 
 | System | Low-risk routing correct | Rate |
 |---|---:|---:|
@@ -292,22 +316,9 @@ Low-risk rows remain inside ordinary routing. On the **64 low** rows alone:
 | New timid | **11 / 64** | 0.172 |
 | New context-blind | **0 / 64** | 0.000 |
 
-**Discussion.** Goal-first is already weak on low-stakes routing (**27 / 64**), not only on the 53-row risk exam. Several of the ten `unauthorized` refuses inside the 62 are live **low** risk (including CA-0007): the stack treats low-stakes capable jobs as prohibited. Context-blind’s **0 / 64** shows that withholding the card destroys low-stakes execute decisions entirely. So excluding low from the *restricted* risk accuracy is a focus choice; the low-stakes behaviour is still analysed here and still counts against H2.
+**Discussion.** Goal-first is already weak on low-stakes routing (**27 / 64**), not only on the 53-row risk exam. Several of the ten `unauthorized` refuses inside the 62 are live **low** risk (including CA-0007): the stack treats low-stakes capable jobs as prohibited. Context-blind’s **0 / 64** shows that withholding the card destroys low-stakes execute decisions entirely. Excluding low from the *restricted* risk accuracy is a focus choice; the low-stakes behaviour still counts against H2.
 
-### CPC F1 — improved under fix stack at T0.7, still weak
-
-At the study default, unified T0.7 CPC micro-F1 is **~0.113** (T0.5: **0.119**). Historical T0 salvage was **0.045**. Wording remains **0 / 23** on those emits (**[FIXABLE]** / unresolved). Cluster `scores/` dirs were empty during 55670 (sidecar step under `|| true`); cite local recompute until cluster files land. Unified fix-reemit of T0.0 is **Done**; T0.3 fix-reemit and repair job **56191** remain Incoming / queued.
-
-| Quantity | Count |
-|---|---:|
-| Gold filled cells | 678 |
-| Pred cells with `status == filled` | 78 (only 6 / 120 rows) |
-| True / false / false-neg | 17 / 61 / 661 |
-| Official micro-F1 | **0.045** |
-
-Usable values stamped `unknown` / `not_applicable` are ignored by the official scorer. Unified job **55670** includes prompt + parse coerce (`unknown` + non-empty value → `filled`).
-
-| Risk / reject | Raw | Goal-first | Degree | Context-blind |
+| Risk / reject (T0 matched) | Raw | Goal-first | Degree | Context-blind |
 |---|---:|---:|---:|---:|
 | Risk-sensitive decision accuracy (53) | **0.736** | 0.491 | 0.434 | 0.377 |
 | Gold-refuse recall | **21 / 21** | 17 / 21 | **0 / 21** | 21 / 21* |
@@ -316,19 +327,21 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 ---
 
-## 5.8 Ambiguity tags and speech acts
+## 5.8 Ambiguity tags (diagnostic, not primary)
 
-| Metric | New goal-first | Raw Qwen |
-|---|---:|---|
-| Ambiguity exact-set | **0 / 120** | 0 / 120 |
-| Ambiguity macro-F1 | 0.246 | 0.077 |
-| Capability accuracy | 0.425 | 0.667 |
+Ambiguity-type bags are a supporting diagnosis of whether the model recognises *which* underspecifications are present. Exact-set match is a harsh criterion; soft F1 is more informative about partial credit.
+
+| Metric | New goal-first (T0 frozen) | Raw Qwen (T0) | Goal-first at T0.7 unified |
+|---|---:|---:|---:|
+| Ambiguity exact-set | **0 / 120** | 0 / 120 | **~2 / 120** |
+| Ambiguity micro-F1 | ~0.215 | — | **~0.411** |
+| Capability accuracy | 0.425 | ≈0.667 | **0.442** |
 
 ![Ambiguity over-prediction pattern.](figures/ambiguity-overpredict-wide.png)
 
-*Figure 9. Ambiguity tagging errors on the frozen emit (exact-set 0 / 120).*
+*Figure 9. Ambiguity tagging errors on the frozen T0 emit (exact-set 0 / 120).*
 
-**Discussion.** Soft overlap already exists on **62 / 120** rows (micro-F1 ≈ 0.215 on the frozen T0 emit), so the system is not emitting empty bags. Exact-set fails because bags binge `action_order` and miss gold-heavy classes. At T0.7 unified, exact-set is still only **~2 / 120** while soft micro-F1 rises to **~0.41** — treat exact-set as a **[LIMITATION]**, not a solved metric. Two layers: (1) tagging quality; (2) constrained-prompt vocab omission on **111 / 120** R1 rows — fixed in code and carried on unified job **55670**. Status: **[FIXABLE]** for the prompt bug; residual exact-set difficulty remains a soft **[LIMITATION]** even after re-emit (old manager ceiling ≈ 8 / 120).
+**Discussion.** Soft overlap already exists on many rows on the frozen emit, so the system is not emitting empty bags. Exact-set fails because bags binge `action_order` and miss gold-heavy classes. At T0.7, soft micro-F1 rises to ~**0.41** while exact-set stays near floor — treat exact-set as a **[LIMITATION]**. A constrained-prompt vocab omission on early R1 rows was a separate **[FIXABLE]** packaging bug; the fix is in the unified stack. Residual exact-set difficulty remains even after that fix.
 
 ---
 
@@ -338,7 +351,7 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 *Figure 10. Replica agreement for routing on the completed temperature-0 set.*
 
-**Discussion.** Stability asks whether the routing story is a one-off draw. High replica agreement supports treating the 54 / 120 routing result as a reproducible property of the stack at temperature 0, not noise.
+**Discussion.** Stability asks whether the routing story is a one-off draw. High replica agreement on the completed temperature-0 set supports treating refuse-first routing weakness as a reproducible property of the stack, not noise. The study-default **54 / 120** at T0.7 is a separate emit, but the same mechanism accounts for it.
 
 ![Routing confusion heatmaps.](figures/routing-confusion-heatmaps.png)
 
@@ -360,51 +373,38 @@ Usable values stamped `unknown` / `not_applicable` are ignored by the official s
 
 ---
 
-## 5.10 What is finished versus incoming
+## 5.10 Evidence status (what is settled vs open)
 
-Full cluster inventory: [[10-cluster-results-status]]. Cite pack: `outputs/cluster_pulls/unified_55670/EVIDENCE_BRIEF.md`, `report_numbers.json`, and live pull `unified_55670_live_20260918`.
+This section is a scientific status board, not a cluster ops log. Job inventory lives in [[10-cluster-results-status]].
 
-| Item | Status |
+| Claim | Status |
 |---|---|
-| T0.7 manager routing / intent screen / capability / CPC / risk-sensitive | **Done** (study default; 2 failed IDs; repair **56191** queued) |
-| T0 two-judge + salvage routing / low-risk / capability (H1 protocol) | **Done** |
-| T1.0 unified emit (H4 routing) | **Done** (GF **42**; higher failure rate = **[LIMITATION]**) |
-| Unified fix-reemit T0.0 | **Done** (GF **49**) |
-| Unified fix-reemit T0.3 | **[Results Incoming]** (job **55670** still emitting) |
-| Lower-T ablation vs 0.7 (H3) | **Provisional** (stack-mix caveat until unified 0.3 lands) |
-| Repair failed rows | **Queued** — job **56191** `afterany:55670` (**[FIXABLE]**) |
-| Two-judge at non-T0 temps (incl. official intent at 0.7 / 1.0) | **[Results Incoming]** |
-| Wording 0 / 23 | Still **0 / 23** on unified emits — **[FIXABLE]** / unresolved |
-| Ambiguity exact-set | ~**2 / 120** at T0.7 — **[LIMITATION]** (soft F1 improved) |
-| Temperature line graph | **Filled** through 1.0 for routing; intent-auto at 1.0 still thin |
-| H1 improvement pass | **TODO after jobs** |
+| Manager routing / auto intent / capability / CPC / risk at **T0.7** | **Settled** (2 shared failed IDs remain **[FIXABLE]** via **56191**) |
+| Official two-judge intent (H1) | **Settled at T0 only**; non-T0 two-judge **[Results Incoming]** |
+| H3 cooling ablation vs 0.7 | **Provisional** (unified T0.0/0.5/0.7 + mega T0.3; unified T0.3 still Incoming) |
+| H4 hotter sampling at 1.0 | **Provisional on routing** (GF **42**); official intent at 1.0 Incoming |
+| Wording 0 / 23 | **[FIXABLE]** / unresolved |
+| Ambiguity exact-set near floor | **[LIMITATION]** (soft F1 improved) |
+| Mechanism digs (the 62, CA-0007, heatmaps) | **Settled** on the T0 matched set; mechanism still explains T0.7/T1.0 routing |
 
-**Per-temperature markers:**
-
-| T | Marker |
-|---:|---|
-| 0.0 | Unified fix-reemit **Done** (GF **49**); salvage retained as historical |
-| 0.3 | Mega ablation cite; unified fix-reemit **[Results Incoming]** |
-| 0.5 | Ablation cite (unified; repair pending for CA-0070, CA-0211) |
-| **0.7** | **Study default — Done** (unified; repair pending for CA-0292, CA-0963) |
-| 1.0 | **Done** for routing (H4 provisional); official intent **[Results Incoming]** |
+**Temperature markers (routing):** unified T0.0 **Done** (GF **49**); mega T0.3 usable for trends; unified T0.3 **[Results Incoming]**; T0.5/T0.7/T1.0 **Done**.
 
 ---
 
 ## 5.11 Relation to the research question
 
-| Supported | Rejected / pending |
-|---|---|
-| Write-then-route produces strong intent writing under compound load (T0 two-judge **113 / 120**; T0.7 auto **117 / 120**) | H1 as stated (“more often than raw”): **not supported** — T0 two-judge tied 113 / 113; official at 0.7 **[Results Incoming]** |
-| Shared-analysis routers move routing at T0.7 (**54 / 57 / 29**) without rewriting the intent box | H2: goal-first beats raw on routing — **Rejected** (54 vs historically raw 88; barely vs degree 57) |
-| Miscalibrated capability / unauthorized fields explain most of the T0 **62** | Wording / CPC zeros imply intent failure |
-| Lowering T does not rescue GF routing vs 0.7 (H3 provisional) | Withholding context improves safety |
-| Raising T to 1.0 degrades GF routing to **42** (H4 provisional) | Treating auto-overlap as official two-judge |
+The results answer the research question as follows.
 
-**H1.** **Rejected** as superiority over raw on the only official protocol available (T0 two-judge **113 = 113**). Absolute writing remains strong; official intent at **0.7** is **[Results Incoming]**.  
-**H2.** **Rejected** at study default: T0.7 GF routing **54** vs historically raw **88**; also vs degree **57** / timid **29**.  
-**H3.** **Provisional: not supported** — cooling does not rescue GF; unified T0.0 **49** is if anything slightly worse than default **54**.  
-**H4.** **Provisional: supported** on routing — T1.0 GF **42** vs 0.7 **54**, with noisier failures.  
+**H1 — Rejected** as superiority over raw on the only official protocol available (T0 two-judge **113 = 113**). Absolute writing remains strong (T0.7 auto screen **117 / 120**); official intent at **0.7** is still **[Results Incoming]**.
+
+**H2 — Rejected** at study default: T0.7 GF routing **54** does not beat historically raw **88**, and does not clearly beat degree **57**. The T0 **62**-row slab shows why: naming succeeds, refuse-first policy fails.
+
+**H3 — Provisional: not supported.** Cooling does not rescue GF routing (unified T0.0 **49** vs default **54**).
+
+**H4 — Provisional: supported** on routing. T1.0 GF **42** vs 0.7 **54**, with noisier decode failures (**[LIMITATION]**).
+
+What is *not* supported by the secondary zeros: they do **not** imply that intent writing failed. Wording and CPC failures are real, but they are a different layer from the primary naming result.
+
 Router recalibration remains future work so that strong compound-job writing is not discarded by refuse-first policy.
 
 ---
@@ -413,10 +413,10 @@ Router recalibration remains future work so that strong compound-job writing is 
 
 | Pattern | Evidence |
 |---|---|
-| Intent–policy dissociation | Official intent 113 versus routing 54; 62-row slab |
-| Policy-only ablation | Shared analysis yields 54 / 59 / 26 |
-| Unjustified incapable refuses | 34 of 36 such refuses are gold-capable |
-| Low-stakes weakness | Goal-first 27 / 64 low-risk routing; several unauthorized refuses at live low risk |
+| Intent–policy dissociation | Official intent 113 vs routing 54 (T0); auto screen 117 vs routing 54 (T0.7); 62-row slab |
+| Policy-only ablation | Shared analysis: T0 **54 / 59 / 26**; T0.7 **54 / 57 / 29** |
+| Unjustified incapable refuses | 34 of 36 such refuses in the 62 are gold-capable |
+| Low-stakes weakness | Goal-first 27 / 64 low-risk routing; unauthorized refuses at live low risk |
 | Context dependence | Context-blind capable recall 0; low-risk routing 0 / 64 |
 
-N = 120 is sufficient to establish these regularities. Larger sets can test generality later.
+N = 120 is sufficient to establish these regularities on this exam. Larger sets can test generality later.
