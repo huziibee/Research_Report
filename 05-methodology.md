@@ -2,7 +2,7 @@
 
 ## 4.1 Overview
 
-We compare six text systems on **Pilot-120**. No physical robot. The study default decoding temperature is **0.7**. A temperature study also runs **0.0, 0.3, and 1.0** with matched replicas (**[Results Incoming]** for the full 0.7-centred system tables). Completed system-comparison counts currently reported in Chapter 5 use the finished temperature-0 matched set and are labelled as such.
+We compare six text systems on **Pilot-120**, a fixed compound-ambiguity exam. No physical robot. The study default decoding temperature is **0.7**. A temperature study also runs **0.0, 0.3, 0.5, and 1.0**; primary system comparisons in Chapter 5 use the unified fix-stack emit at **0.7**, with lower temperatures as ablation and **1.0** as the higher-temperature probe. Mechanism deep-dives that were computed on the temperature-0 matched set (the **62**, CA-0007, confusion heatmaps) are labelled as such.
 
 ```mermaid
 flowchart TD
@@ -21,7 +21,7 @@ flowchart TD
 
 ## 4.2 Data: Pilot-120
 
-Pilot-120 is 120 compound commands with one gold job and one gold path each. That size is enough to compare systems and to expose the intent–policy pattern (Chapter 5).
+Pilot-120 is 120 **compound** commands: each item packages multi-slot underspecification with one gold job and one gold handling path. That size is enough to compare systems and to expose the intent–policy pattern that compound ambiguity produces (Chapter 5).
 
 | Gold route | Count |
 |---|---:|
@@ -96,12 +96,12 @@ flowchart TD
 
 *Figure F. Timid router — ask unless clean (simplified).*
 
-| Ablation | Routing on Pilot-120 |
+| Ablation (study default **T0.7**, unified) | Routing on Pilot-120 |
 |---|---:|
-| Goal-first | 54 / 120 |
-| Degree | 59 / 120 |
-| Timid | 26 / 120 |
-| Context-blind | 21 / 120 |
+| Goal-first | **54 / 120** |
+| Degree | **57 / 120** |
+| Timid | **29 / 120** |
+| Context-blind | **21 / 120** |
 
 | Examiner path | Location |
 |---|---|

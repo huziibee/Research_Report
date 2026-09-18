@@ -4,7 +4,9 @@
 
 What a sentence says is not always what a hearer should do (Austin, 1962; Searle, 1969, 1975; Grice, 1975). In robotics the gap is operational: natural language must be mapped to execution, clarification, or refusal. Zhang et al. (2025) document underspecified collaborative requests; their physical setting motivates the problem but is not replicated here. The present study is restricted to text-level understanding and routing on Pilot-120.
 
-## 2.2 Ambiguity and clarification
+## 2.2 Compound ambiguity and clarification
+
+**Compound ambiguity** is treated here as a distinct task class: several underspecified slots co-occur in one utterance, so local disambiguation of a single referring expression is not enough. The system must form a job hypothesis that covers the joint underspecification and then decide whether that joint state licenses execution, clarification, or refusal.
 
 Prior work supplies design requirements that were implemented on Pilot-120:
 
@@ -18,7 +20,7 @@ Prior work supplies design requirements that were implemented on Pilot-120:
 
 | Focus in much prior work | Focus in this report |
 |---|---|
-| Ambiguity typing or clarification quality alone | Intent writing as primary outcome; routing as secondary |
+| Ambiguity typing or clarification quality alone | **Naming the compound job** as primary; routing and tags as secondary diagnostics |
 | Embodied task success | Fixed Pilot-120 route mix: 76 execute, 23 clarify, 21 refuse |
 
 ## 2.3 Risk, capability, and rejection
@@ -40,4 +42,4 @@ The risk-sensitive metric follows the proposal’s evaluation plan on Pilot-120.
 | Clarification quality in isolation | Report intent correctness primarily and routing secondarily |
 | Structured-output fidelity alone | Add official risk, CPC, and wording sidecars |
 
-The purpose of the work is to determine whether a risk-aware write-then-route manager improves intent writing on compound commands, and to use routing and supporting metrics to explain the observed handling paths. Chapter 3 states the research question formally.
+The purpose of the work is to determine whether a risk-aware write-then-route manager improves **intent writing under compound ambiguity**, and to use routing and supporting metrics only as diagnostics of handling failure. Chapter 3 states the research question formally.
